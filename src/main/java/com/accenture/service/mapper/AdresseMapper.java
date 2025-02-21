@@ -1,15 +1,12 @@
 package com.accenture.service.mapper;
 
 import com.accenture.repository.entity.Utilisateurs.Adresse;
-import com.accenture.service.dto.AdresseRequestDTO;
-import com.accenture.service.dto.AdresseResponseDTO;
+import com.accenture.service.dto.AdresseDTO;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.springframework.stereotype.Component;
 
 @Mapper(componentModel = "spring")
 public interface AdresseMapper {
 
-    Adresse toAdresse(AdresseRequestDTO adresseRequestDTO);
-    AdresseResponseDTO toAdresseResponseDTO(Adresse adresse);
+    Adresse toAdresse(AdresseDTO adresseDTO);
+    AdresseDTO toAdresseDTO(Adresse adresse);
 }

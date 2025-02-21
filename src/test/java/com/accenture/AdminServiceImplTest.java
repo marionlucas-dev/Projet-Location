@@ -30,10 +30,6 @@ public class AdminServiceImplTest {
     @InjectMocks
     AdministrateurServiceImpl service;
 
-    @BeforeEach
-    void init() {
-    }
-
     @DisplayName("""
             Test de la méthode trouver (int id) qui doit renvoyer une exception lorsque l'admin n'existe pas en base
             """)
@@ -248,13 +244,11 @@ public class AdminServiceImplTest {
     }
 
     private static AdministrateurResponseDTO creerAdmin1ResponseDTO() {
-        return new AdministrateurResponseDTO(1L, "Lucas", "Marion", "moicmama@gmail.com",
-                "Azerty@96", "CEO");
+        return new AdministrateurResponseDTO( 1L,"Lucas", "Marion", "moicmama@gmail.com", "CEO");
     }
 
     private static AdministrateurResponseDTO creerAdmin2ResponseDTO() {
-        return new AdministrateurResponseDTO(2L, "Marigonez", "Mélodie", "melodie.marigonez@hotmail.com",
-                "Azerty@96", "Vice CEO ");
+        return new AdministrateurResponseDTO(1L,"Marigonez", "Mélodie", "melodie.marigonez@hotmail.com","Vice CEO ");
 
     }
 

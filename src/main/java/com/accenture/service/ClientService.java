@@ -13,4 +13,6 @@ public interface ClientService {
     ClientResponseDTO ajouter(ClientRequestDTO clientRequestDTO);
 
     void supprimer(long id) throws ClientException;
+
+    ClientResponseDTO infosCompte(String login, String password) throws EntityNotFoundException;
 }

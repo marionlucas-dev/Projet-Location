@@ -29,13 +29,13 @@ public class ClientController {
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<ClientResponseDTO> unClient(@PathVariable("id") long id) {
+    ResponseEntity<ClientResponseDTO> unClient(@PathVariable("id") Long id) {
         ClientResponseDTO trouver = clientService.trouver(id);
         return ResponseEntity.ok(trouver);
     }
 
     @PostMapping
-    ResponseEntity<Void> ajouter(@RequestBody ClientRequestDTO clientRequestDTO) {
+    ResponseEntity<Void> ajouter(@RequestBody @Valid ClientRequestDTO clientRequestDTO) {
         ClientResponseDTO clientEnreg = clientService.ajouter(clientRequestDTO);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -46,10 +46,15 @@ public class ClientController {
     }
 
     @DeleteMapping("/{id}")
-    ResponseEntity<ClientResponseDTO> suppr(@PathVariable("id") long id) {
+    ResponseEntity<ClientResponseDTO> suppr(@PathVariable("id") Long id) {
         clientService.supprimer(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+    @GetMapping("/informations")
+    ResponseEntity<ClientResponseDTO> infosClient(String login, String password){
+        ClientResponseDTO infosCompte = clientService.infosCompte(login, password);
+        return ResponseEntity.ok(infosCompte);
+    }
 
 }

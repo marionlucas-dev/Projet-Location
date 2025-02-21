@@ -8,6 +8,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Représente une adresse physique stockée dans la base de données.
+ */
 @Data
 @Entity
 @NoArgsConstructor

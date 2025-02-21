@@ -8,6 +8,11 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+/**
+ * Représente un admin, héritant de {@link UtilisateurConnecte}.
+ * Cette entité est mappé à la table "ADMIN" dans la base de données
+ */
+
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity

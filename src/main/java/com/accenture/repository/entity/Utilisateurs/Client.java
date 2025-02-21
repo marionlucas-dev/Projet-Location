@@ -7,6 +7,12 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 
+/**
+ * Représente un client, héritant de {@link UtilisateurConnecte}.
+ * Cette entité est mappé à la table "Clients" dans la base de données
+ */
+
+
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity

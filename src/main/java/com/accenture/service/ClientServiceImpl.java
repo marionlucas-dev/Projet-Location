@@ -58,10 +58,22 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public ClientResponseDTO trouver(long id) throws EntityNotFoundException {
-        Optional<Client> optTache = clientDAO.findById(id);
-        if (optTache.isEmpty())
+        Optional<Client> optClient = clientDAO.findById(id);
+        if (optClient.isEmpty())
             throw new EntityNotFoundException(ID_NON_PRESENT);
-        Client client = optTache.get();
+        Client client = optClient.get();
+        return clientMapper.toClientResponseDTO(client);
+    }
+
+
+    @Override
+    public ClientResponseDTO infosCompte(String login, String password) throws EntityNotFoundException {
+        Optional<Client> optClient = clientDAO.findByLogin(login);
+        if (optClient.isEmpty())
+         throw new EntityNotFoundException("Erreur dans l'email ou le mot de passe");
+        Client client = optClient.get();
+        if (!client.getPassword().equals(password))
+            throw new EntityNotFoundException("Erreur dans l'email ou le mot de passe ");
         return clientMapper.toClientResponseDTO(client);
     }
 
@@ -96,6 +108,7 @@ public class ClientServiceImpl implements ClientService {
             clientDAO.deleteById(id);
         else throw new EntityNotFoundException(ID_NON_PRESENT);
     }
+
 
 //************************************************************************************************************************
 //                                                      METHODES PRIVEES

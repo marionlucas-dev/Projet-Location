@@ -6,6 +6,7 @@ import com.accenture.service.dto.AdministrateurRequestDTO;
 import com.accenture.service.dto.AdministrateurResponseDTO;
 import com.accenture.service.dto.ClientRequestDTO;
 import com.accenture.service.dto.ClientResponseDTO;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,13 +29,13 @@ public class AdministrateurController {
         return adminService.trouverTous();
     }
  @GetMapping("/{id}")
-    ResponseEntity<AdministrateurResponseDTO> unAdmin(@PathVariable("id") long id){
+    ResponseEntity<AdministrateurResponseDTO> unAdmin(@PathVariable("id") Long id){
         AdministrateurResponseDTO trouver = adminService.trouver(id);
         return ResponseEntity.ok(trouver);
  }
 
     @PostMapping
-    ResponseEntity<Void> ajouter(@RequestBody AdministrateurRequestDTO adminRequestDTO) {
+    ResponseEntity<Void> ajouter(@RequestBody @Valid AdministrateurRequestDTO adminRequestDTO) {
         AdministrateurResponseDTO adminEnreg = adminService.ajouter(adminRequestDTO);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -45,7 +46,7 @@ public class AdministrateurController {
     }
 
     @DeleteMapping("/{id}")
-    ResponseEntity<ClientResponseDTO> suppr(@PathVariable("id") long id) {
+    ResponseEntity<ClientResponseDTO> suppr(@PathVariable("id") Long id) {
         adminService.supprimer(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
