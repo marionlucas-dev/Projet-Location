@@ -1,9 +1,7 @@
 package com.accenture.service.dto;
 
 import com.accenture.shared.Permis;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 
@@ -15,6 +13,7 @@ public record ClientRequestDTO(
         String prenom,
 
         @NotBlank(message = "L'email est obligatoire")
+        @Email
         String email,
 
         @NotBlank(message = "Le mot de passe est obligatoire")
