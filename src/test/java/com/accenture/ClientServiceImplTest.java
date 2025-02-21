@@ -1,0 +1,291 @@
+package com.accenture;
+import com.accenture.exception.ClientException;
+import com.accenture.repository.ClientDAO;
+import com.accenture.repository.entity.Utilisateurs.Adresse;
+import com.accenture.repository.entity.Utilisateurs.Client;
+import com.accenture.service.dto.AdresseRequestDTO;
+import com.accenture.service.dto.AdresseResponseDTO;
+import com.accenture.service.dto.ClientRequestDTO;
+import com.accenture.shared.Permis;
+import com.accenture.service.ClientServiceImpl;
+import com.accenture.service.dto.ClientResponseDTO;
+import com.accenture.service.mapper.ClientMapper;
+import jakarta.persistence.EntityNotFoundException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+import static org.junit.jupiter.api.Assertions.*;
+
+@ExtendWith(MockitoExtension.class)
+public class ClientServiceImplTest {
+
+    @Mock
+    ClientDAO daoMock;
+    @Mock
+    ClientMapper mapperMock;
+    @InjectMocks
+    ClientServiceImpl service;
+
+    @BeforeEach
+    void init(){
+    }
+
+///  TO DO : REVOIR AVEC EMMANUEL POURQUOI LES TESTS NE COUVRENT PAS TOUT, RELANCER JUSTE AVANT POUR VERIFIER QUE CE
+/// N'EST PAS UN BUG DE INTELLIJ
+
+
+
+
+
+@DisplayName("""
+        Test de la méthode trouver (int id) qui doit renvoyer une exception lorsque le client n'existe pas en base
+        """)
+    @Test
+    void testTrouverExistePas(){
+    Mockito.when(daoMock.findById(String.valueOf(50))).thenReturn(Optional.empty());
+    EntityNotFoundException ex = assertThrows(EntityNotFoundException.class, () -> service.trouver(50));
+    assertEquals("ID non présent", ex.getMessage());
+}
+
+@DisplayName("""
+        Test de la méthode trouver (int id) qui doit renvoyer une ClientResponseDTO lorsque le client existe  en base
+        """)
+    @Test
+    void testTrouverExiste(){
+    Client c = creeClient();
+    Optional<Client> optClient = Optional.of(c);
+    Mockito.when(daoMock.findById(String.valueOf(1))).thenReturn(optClient);
+    ClientResponseDTO dto = creerClient1ResponseDTO();
+    Mockito.when(mapperMock.toClientResponseDTO(c)).thenReturn(dto);
+    assertSame(dto, service.trouver(1));
+}
+
+
+@DisplayName("""
+        Test de la méthode trouverTous qui doit renvoyer une liste de clientsResponseDTO correspondant aux taches existants en base.
+        """)
+@Test
+void testTrouverTous(){
+     Client client1 = creeClient();
+     Client client2 = CreeClient2();
+
+     ClientResponseDTO client1ClientResponseDTO = creerClient1ResponseDTO();
+     ClientResponseDTO client2ClientResponseDTO = creerClient2ResponseDTO();
+
+     List<Client> clients= List.of(client1,client2);
+     List<ClientResponseDTO> clientsDTO = List.of(client1ClientResponseDTO,client2ClientResponseDTO);
+
+     Mockito.when(daoMock.findAll()).thenReturn(clients);
+     Mockito.when(mapperMock.toClientResponseDTO(client1)).thenReturn(client1ClientResponseDTO);
+     Mockito.when(mapperMock.toClientResponseDTO(client2)).thenReturn(client2ClientResponseDTO);
+     assertEquals(clientsDTO,service.trouverTous());
+}
+
+
+//***********************************************************************************************************************
+//                               TOUTES LES METHODES POUR TESTER AJOUTER
+//                                            + VERIFIERCLIENTS
+//***********************************************************************************************************************
+
+
+@DisplayName("Si ajouter(null), exception levée")
+@Test
+void testAjouter(){
+        assertThrows(ClientException.class, () -> service.ajouter(null));
+}
+
+@DisplayName("Si ajouter nom null, exception levée")
+@Test
+void testAjouterSansNom(){
+        ClientRequestDTO dto = new ClientRequestDTO(null, "Marion", "moicmama@gmail.com", "azerty",
+            new AdresseRequestDTO("75 rue du moulin Soline", "44115", "Basse Goulaine"),
+            LocalDate.of(1996,7,20), Permis.B1);
+    assertThrows(ClientException.class, () -> service.ajouter(dto));
+}
+
+    @DisplayName("Si ajouter nom vide, exception levée")
+    @Test
+    void testAjouterAvecNomVide(){
+        ClientRequestDTO dto = new ClientRequestDTO("\t", "Marion", "moicmama@gmail.com", "azerty",
+                new AdresseRequestDTO("75 rue du moulin Soline", "44115", "Basse Goulaine"),
+                LocalDate.of(1996,7,20), Permis.B1);
+        assertThrows(ClientException.class, () -> service.ajouter(dto));
+    }
+
+    @DisplayName("Si ajouter prenom null, exception levée")
+    @Test
+    void testAjouterSansPrenom(){
+        ClientRequestDTO dto = new ClientRequestDTO("Lucas", null, "moicmama@gmail.com", "azerty",
+                new AdresseRequestDTO("75 rue du moulin Soline", "44115", "Basse Goulaine"),
+                LocalDate.of(1996,7,20), Permis.B1);
+        assertThrows(ClientException.class, () -> service.ajouter(dto));
+    }
+
+    @DisplayName("Si ajouter prenom vide, exception levée")
+    @Test
+    void testAjouterAvecPrenomVide(){
+        ClientRequestDTO dto = new ClientRequestDTO("Lucas", "\n", "moicmama@gmail.com", "azerty",
+                new AdresseRequestDTO("75 rue du moulin Soline", "44115", "Basse Goulaine"),
+                LocalDate.of(1996,7,20), Permis.B1);
+        assertThrows(ClientException.class, () -> service.ajouter(dto));
+    }
+
+@DisplayName("Si ajouter dateNaissance null, exception levée")
+@Test
+    void testAjouterAvecDateNaissanceNull(){
+        ClientRequestDTO dto= new ClientRequestDTO("Lucas", "Marion", "moicmama@gmail.com", "azerty",
+                new AdresseRequestDTO("75 rue du moulin Soline", "44115", "Basse Goulaine"),
+                null, Permis.B1);
+        assertThrows(ClientException.class, () -> service.ajouter(dto));
+    }
+
+    @DisplayName("Si ajouter dateNaissance - 18 ans , exception levée")
+    @Test
+    void testAjouterAvecDateNaissanceMoins18ans(){
+        ClientRequestDTO dto= new ClientRequestDTO("Lucas", "Marion", "moicmama@gmail.com", "azerty",
+                new AdresseRequestDTO("75 rue du moulin Soline", "44115", "Basse Goulaine"),
+                LocalDate.of(2020, 7,20), Permis.B1);
+        assertThrows(ClientException.class, () -> service.ajouter(dto));
+    }
+
+    @DisplayName("Si ajouter password null, exception levée")
+    @Test
+    void testAjouterAvecPasswordNull(){
+        ClientRequestDTO dto= new ClientRequestDTO("Lucas", "Marion", "moicmama@gmail.com", null,
+                new AdresseRequestDTO("75 rue du moulin Soline", "44115", "Basse Goulaine"),
+                LocalDate.of(2020, 7,20), Permis.B1);
+        assertThrows(ClientException.class, () -> service.ajouter(dto));
+    }
+
+    @DisplayName("Si ajouter password vide, exception levée")
+    @Test
+    void testAjouterAvecPasswordVide(){
+        ClientRequestDTO dto= new ClientRequestDTO("Lucas", "Marion", "moicmama@gmail.com", "\t",
+                new AdresseRequestDTO("75 rue du moulin Soline", "44115", "Basse Goulaine"),
+                LocalDate.of(2020, 7,20), Permis.B1);
+        assertThrows(ClientException.class, () -> service.ajouter(dto));
+    }
+
+    @DisplayName("Si ajouter email null, exception levée")
+    @Test
+    void testAjouterAvecMailNull(){
+        ClientRequestDTO dto= new ClientRequestDTO("Lucas", "Marion", null, "azerty",
+                new AdresseRequestDTO("75 rue du moulin Soline", "44115", "Basse Goulaine"),
+                LocalDate.of(2020, 7,20), Permis.B1);
+        assertThrows(ClientException.class, () -> service.ajouter(dto));
+    }
+
+    @DisplayName("Si ajouter email vide, exception levée")
+    @Test
+    void testAjouterAvecMailVide(){
+        ClientRequestDTO dto= new ClientRequestDTO("Lucas", "Marion", "\t", "azerty",
+                new AdresseRequestDTO("75 rue du moulin Soline", "44115", "Basse Goulaine"),
+                LocalDate.of(2020, 7,20), Permis.B1);
+        assertThrows(ClientException.class, () -> service.ajouter(dto));
+    }
+
+    @DisplayName("Si ajouter Adresse null, exception levée")
+    @Test
+    void testAjouterAvecAdresseNull(){
+        ClientRequestDTO dto= new ClientRequestDTO("Lucas", "Marion", "moicmama@gmail.com", "azerty",
+               null, LocalDate.of(2020, 7,20), Permis.B1);
+        assertThrows(ClientException.class, () -> service.ajouter(dto));
+    }
+
+
+    @DisplayName("""
+            Si ajouter (ClientRequestDTO OK)
+                Alors save est appeler
+                 et ClientRequestDTO renvoyer
+            """)
+    @Test
+    void testAjouterOK() {
+        ClientRequestDTO requestDTO = creerClient1RequestDTO();
+        Client clientAvantEnreg = creeClient();
+       clientAvantEnreg.setId(0);
+        Client clientApresEnreg = creeClient();
+        ClientResponseDTO responseDTO = creerClient1ResponseDTO();
+
+        Mockito.when(mapperMock.toClient(requestDTO)).thenReturn(clientAvantEnreg);
+        Mockito.when(daoMock.save(clientAvantEnreg)).thenReturn(clientApresEnreg);
+        Mockito.when(mapperMock.toClientResponseDTO(clientApresEnreg)).thenReturn(responseDTO);
+
+        assertSame(responseDTO, service.ajouter(requestDTO));
+        Mockito.verify(daoMock, Mockito.times(1)).save(clientAvantEnreg);
+    }
+
+
+
+
+
+//***********************************************************************************************************************
+//                                                          METHODES PRIVEES
+//***********************************************************************************************************************
+
+    private static Client creeClient() {
+        Client client = new Client();
+        client.setId(1);
+        client.setPrenom("Marion");
+        client.setNom("Lucas");
+        client.setAdresse(new Adresse(1,"75 rue du moulin Soline", "44115", "Basse Goulaine"));
+        client.setLogin("moicmama@gmail.com");
+        client.setPassword("azerty");
+        client.setDateNaissance(LocalDate.of(1996,7,20));
+        client.setDateInscription(LocalDate.now());
+        client.setPermis(Permis.B1);
+        client.setDesactive(false);
+        return client;
+    }
+
+    private static Client CreeClient2() {
+        Client client = new Client();
+        client.setId(2);
+        client.setPrenom("Mélodie");
+        client.setNom("Marigonez");
+        client.setAdresse(new Adresse(1,"75 rue du moulin Soline", "44115", "Basse Goulaine"));
+        client.setLogin("melodie.marigonez@hotemail.com");
+        client.setPassword("azerty");
+        client.setDateNaissance(LocalDate.of(1999,7,27));
+        client.setDateInscription(LocalDate.now());
+        client.setPermis(Permis.B1);
+        client.setDesactive(false);
+        return client;
+    }
+
+private static ClientResponseDTO creerClient1ResponseDTO(){
+    return  new ClientResponseDTO(1, "Lucas", "Marion", "moicmama@gmail.com", "azerty",
+            new AdresseResponseDTO("75 rue du moulin Soline", "44115", "Basse Goulaine"),
+            LocalDate.of(1996,7,20),Permis.B1,LocalDate.now());
+}
+
+    private static ClientResponseDTO creerClient2ResponseDTO(){
+        return  new ClientResponseDTO(2, "Marigonez", "Mélodie", "melodie.marigonez@hotemail.com",
+                "azerty",
+                new AdresseResponseDTO("75 rue du moulin Soline", "44115", "Basse Goulaine"),
+                LocalDate.of(1999,7,27),Permis.B1,LocalDate.now());
+    }
+
+private static ClientRequestDTO creerClient1RequestDTO(){
+        return new ClientRequestDTO("Lucas", "Marion", "moicmama@gmail.com", "azerty",
+                new AdresseRequestDTO("75 rue du moulin Soline", "44115", "Basse Goulaine"),
+                LocalDate.of(1996,7,20), Permis.B1);
+    }
+
+    private static ClientRequestDTO creerClient2RequestDTO(){
+        return new ClientRequestDTO("Marigonez", "Mélodie", "melodie.marigonez@hotemail.com", "azerty",
+                new AdresseRequestDTO("75 rue du moulin Soline", "44115", "Basse Goulaine"),
+                LocalDate.of(1999,7,27), Permis.B1);
+    }
+
+
+
+
+}
