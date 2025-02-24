@@ -117,6 +117,17 @@ public class ClientServiceImpl implements ClientService {
         return clientMapper.toClientResponseDTO(clientEnreg);
     }
 
+    /**
+     * Modifie partiellement les informations d'un client en mettant à jour uniquement les champs non nuls fournis
+     * dans {@code clientRequestDTO}.
+     *
+     * @param login Le login du client à modifier.
+     * @param password Le mot de passe du client à modifier.
+     * @param clientRequestDTO L'objet contenant les nouvelles valeurs des champs à mettre à jour.
+     * @return Un {@code ClientResponseDTO} contenant les informations mises à jour du client.
+     * @throws EntityNotFoundException Si le login ou le mot de passe est incorrect.
+     * @throws ClientException Si une erreur spécifique liée au client survient.
+     */
     @Override
     public ClientResponseDTO modifPartielle(String login, String password, ClientRequestDTO clientRequestDTO) throws EntityNotFoundException, ClientException {
         Client clientExistant = verifClient(login, password);

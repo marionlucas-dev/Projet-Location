@@ -3,14 +3,10 @@ package com.accenture;
 import com.accenture.exception.AdministrateurException;
 import com.accenture.repository.AdministrateurDAO;
 import com.accenture.repository.entity.Utilisateurs.Administrateur;
-import com.accenture.repository.entity.Utilisateurs.Adresse;
-import com.accenture.repository.entity.Utilisateurs.Client;
 import com.accenture.service.AdministrateurServiceImpl;
 import com.accenture.service.dto.*;
 import com.accenture.service.mapper.AdministrateurMapper;
-import com.accenture.shared.Permis;
 import jakarta.persistence.EntityNotFoundException;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,8 +14,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
