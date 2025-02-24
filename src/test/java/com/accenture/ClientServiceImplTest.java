@@ -252,22 +252,74 @@ public class ClientServiceImplTest {
             """)
     @Test
     void testInfosClientsMail() {
-       Mockito.when(daoMock.findByLogin("moicmama@gmail.com")).thenReturn(Optional.empty());
-       EntityNotFoundException ex = assertThrows(EntityNotFoundException.class, () -> service.infosCompte("moicmama@gmail.com", "Azerty@96"));
-       assertEquals("Erreur dans l'email ou le mot de passe", ex.getMessage());
-       Mockito.verify(daoMock).findByLogin("moicmama@gmail.com");
+        Mockito.when(daoMock.findByLogin("moicmama@gmail.com")).thenReturn(Optional.empty());
+        EntityNotFoundException ex = assertThrows(EntityNotFoundException.class, () -> service.infosCompte("moicmama@gmail.com", "Azerty@96"));
+        assertEquals("Erreur dans l'email ou le mot de passe", ex.getMessage());
+        Mockito.verify(daoMock).findByLogin("moicmama@gmail.com");
     }
 
-//    @DisplayName("""
-//            Test qui vérifie que la méthode lève bien une exception lorsque le password fournis n'existe pas dans la basse de donnée
-//            """)
-//    @Test
-//    void testInfosClientsPassword() {
-//        Mockito.when(daoMock.get("moicmama@gmail.com")).thenReturn(Optional.empty());
-//        EntityNotFoundException ex = assertThrows(EntityNotFoundException.class, () -> service.infosCompte("moicmama@gmail.com", "Azerty@96"));
-//        assertEquals("Erreur dans l'email ou le mot de passe", ex.getMessage());
-//        Mockito.verify(daoMock).findByLogin("moicmama@gmail.com");
-//    }
+
+    @DisplayName("""
+            Test qui vérifie que la méthode fonctionne quand le mot de passe est en base.
+            """)
+    @Test
+    void testInfosClientsPasswordPareil() {
+        Client fakeClient = new Client();
+        fakeClient.setPassword("Azerty@96");
+        Mockito.when(daoMock.findByLogin("moicmama@gmail.com")).thenReturn(Optional.of(fakeClient));
+        assertDoesNotThrow(() -> service.infosCompte("moicmama@gmail.com", "Azerty@96"));
+
+    }
+
+    @DisplayName("""
+            Test qui vérifie que la méthode lève bien une exception lorsque le password fournis n'existe pas dans la basse de donnée
+            """)
+    @Test
+    void testInfosClientsPassword() {
+        Client fakeClient = new Client();
+        fakeClient.setPassword("AutreMDP");
+        Mockito.when(daoMock.findByLogin("moicmama@gmail.com")).thenReturn(Optional.of(fakeClient));
+        EntityNotFoundException ex = assertThrows(EntityNotFoundException.class, () -> service.infosCompte("moicmama@gmail.com", "Azerty@96"));
+        assertEquals("Erreur dans l'email ou le mot de passe", ex.getMessage());
+    }
+
+    @DisplayName("Test qui vérifie la totalité de la méthode infosCompte")
+    @Test
+    void testMethodeInfosCompte() {
+        Client client = new Client();
+        client.setPassword("Azerty@96");
+        Mockito.when(daoMock.findByLogin("moicmama@gmail.com")).thenReturn(Optional.of(client));
+
+        ClientResponseDTO responseDTO = creerClient1ResponseDTO();
+        Mockito.when(mapperMock.toClientResponseDTO(client)).thenReturn(responseDTO);
+
+        ClientResponseDTO resultat = service.infosCompte("moicmama@gmail.com", "Azerty@96");
+        assertNotNull(resultat);
+        Mockito.verify(mapperMock).toClientResponseDTO(client);
+
+    }
+
+
+//***********************************************************************************************************************
+//                                                 METHODES SUPP Compte
+//***********************************************************************************************************************
+
+    @DisplayName("Supression d'un compte lorsque les infos sont confirmés par le client ")
+    @Test
+    void testMethodeSuppCompte() {
+        Client client = new Client();
+        client.setLogin("moicmama@gmail.com");
+        client.setPassword("Azerty@96");
+        Mockito.when(daoMock.findByLogin("moicmama@gmail.com")).thenReturn(Optional.of(client));
+        ClientResponseDTO responseDTO = creerClient1ResponseDTO();
+        Mockito.when(mapperMock.toClientResponseDTO(client)).thenReturn(responseDTO);
+
+        ClientResponseDTO resultat = service.suppCompte("moicmama@gmail.com", "Azerty@96");
+        assertNotNull(resultat);
+        Mockito.verify(mapperMock).toClientResponseDTO(client);
+
+
+    }
 
 
 //***********************************************************************************************************************

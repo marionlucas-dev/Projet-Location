@@ -2,6 +2,7 @@ package com.accenture.service;
 
 import com.accenture.exception.ClientException;
 import com.accenture.repository.ClientDAO;
+import com.accenture.repository.entity.Utilisateurs.Adresse;
 import com.accenture.repository.entity.Utilisateurs.Client;
 import com.accenture.service.dto.ClientRequestDTO;
 import com.accenture.service.dto.ClientResponseDTO;
@@ -66,14 +67,34 @@ public class ClientServiceImpl implements ClientService {
     }
 
 
+    /**
+     * Récupère les informations du compte d'un client en vérifiant ses identifiants
+     *
+     * @param login    : adresse mail du client
+     * @param password : mot de passe du client
+     * @return un {@link ClientResponseDTO} contenant les informations du client si l'authentification réussit
+     * @throws EntityNotFoundException Si aucun client correspondant à l'email n'est trouvé ou si le mot de passe est incorrect.
+     */
+
     @Override
     public ClientResponseDTO infosCompte(String login, String password) throws EntityNotFoundException {
-        Optional<Client> optClient = clientDAO.findByLogin(login);
-        if (optClient.isEmpty())
-         throw new EntityNotFoundException("Erreur dans l'email ou le mot de passe");
-        Client client = optClient.get();
-        if (!client.getPassword().equals(password))
-            throw new EntityNotFoundException("Erreur dans l'email ou le mot de passe ");
+        Client client = verifClient(login, password);
+        return clientMapper.toClientResponseDTO(client);
+    }
+
+    /**
+     * Le client peut supprimer son compte si les informations sont correctes
+     *
+     * @param login    : mail du client
+     * @param password : mot de passe du client
+     * @return un {@link ClientResponseDTO} contenant les informations du client si l'authentification réussit
+     * @throws EntityNotFoundException si aucun client correspondant à l'email n'est trouvé ou si le mot de passe est incorrect.
+     */
+
+    @Override
+    public ClientResponseDTO suppCompte(String login, String password) throws EntityNotFoundException {
+        Client client = verifClient(login, password);
+        clientDAO.delete(client);
         return clientMapper.toClientResponseDTO(client);
     }
 
@@ -107,6 +128,16 @@ public class ClientServiceImpl implements ClientService {
         if (clientDAO.existsById(id))
             clientDAO.deleteById(id);
         else throw new EntityNotFoundException(ID_NON_PRESENT);
+    }
+
+
+    @Override
+    public ClientResponseDTO modifPartielle(String login, String password, ClientRequestDTO clientRequestDTO) {
+        Client clientExistant = verifClient(login, password);
+        Client nouveau = clientMapper.toClient(clientRequestDTO);
+        remplacerExistantParNouveau(clientExistant, nouveau);
+        Client clientEnr = clientDAO.save(clientExistant);
+        return clientMapper.toClientResponseDTO(clientEnr);
     }
 
 
@@ -147,6 +178,35 @@ public class ClientServiceImpl implements ClientService {
             throw new ClientException("Le mot de passe doit contenir entre 8 et 16 caractères, au minimum une minuscule et 1 majuscule" +
                     "un chiffre, et un caractère spécial");
     }
+
+
+    private Client verifClient(String login, String password) {
+        Optional<Client> optClient = clientDAO.findByLogin(login);
+        if (optClient.isEmpty())
+            throw new EntityNotFoundException("Erreur dans l'email ou le mot de passe");
+        Client client = optClient.get();
+        if (!client.getPassword().equals(password))
+            throw new EntityNotFoundException("Erreur dans l'email ou le mot de passe");
+        return client;
+    }
+
+    private static void remplacerExistantParNouveau(Client clientExistant, Client client) {
+        if (client.getPassword() != null)
+            clientExistant.setPassword(client.getPassword());
+        if (client.getNom() != null)
+            clientExistant.setNom(client.getNom());
+        if (client.getPrenom() != null)
+            clientExistant.setPrenom(client.getPrenom());
+        if (client.getDateNaissance() != null)
+            clientExistant.setDateNaissance(client.getDateNaissance());
+        if (client.getLogin() != null)
+            clientExistant.setLogin(client.getLogin());
+        if (client.getPermis() != null)
+            clientExistant.setPermis(client.getPermis());
+        if (client.getAdresse() != null)
+            clientExistant.setAdresse(client.getAdresse());
+    }
+
 
 
 }

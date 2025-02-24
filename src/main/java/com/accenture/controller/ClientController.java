@@ -45,16 +45,29 @@ public class ClientController {
         return ResponseEntity.created(location).build();
     }
 
-    @DeleteMapping("/{id}")
-    ResponseEntity<ClientResponseDTO> suppr(@PathVariable("id") Long id) {
-        clientService.supprimer(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
+//    @DeleteMapping("/{id}")
+//    ResponseEntity<ClientResponseDTO> suppr(@PathVariable("id") Long id) {
+//        clientService.supprimer(id);
+//        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+//    }
 
     @GetMapping("/informations")
     ResponseEntity<ClientResponseDTO> infosClient(String login, String password){
         ClientResponseDTO infosCompte = clientService.infosCompte(login, password);
         return ResponseEntity.ok(infosCompte);
+    }
+
+    @DeleteMapping("/{id}")
+    ResponseEntity<ClientResponseDTO> suppClient(@PathVariable("id") String login, String password){
+     ClientResponseDTO suppCompte=   clientService.suppCompte(login, password);
+        return ResponseEntity.ok(suppCompte);
+    }
+
+
+    @PatchMapping("/{id}")
+    ResponseEntity<ClientResponseDTO> modifPartiel(@PathVariable("id") String login, String password , @RequestBody ClientRequestDTO clientRequestDTO){
+     ClientResponseDTO reponse = clientService.modifPartielle(login, password, clientRequestDTO);
+     return ResponseEntity.ok(reponse);
     }
 
 }
