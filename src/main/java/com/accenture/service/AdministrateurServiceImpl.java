@@ -5,6 +5,7 @@ import com.accenture.repository.AdministrateurDAO;
 import com.accenture.repository.entity.Utilisateurs.Administrateur;
 import com.accenture.service.dto.AdministrateurRequestDTO;
 import com.accenture.service.dto.AdministrateurResponseDTO;
+import com.accenture.service.dto.ClientResponseDTO;
 import com.accenture.service.mapper.AdministrateurMapper;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,7 @@ public class AdministrateurServiceImpl implements AdministrateurService {
 
     /**
      * Recupère la liste de tous les admins et les convertit en object AdminRespondeDTO
+     *
      * @return une liste d'objet (@link AdminResponseDTO) représentant tous les clients
      */
 
@@ -46,6 +48,7 @@ public class AdministrateurServiceImpl implements AdministrateurService {
 
     /**
      * Rechercher un admin par son Id et le convertit en un objet AdminResponseDTO
+     *
      * @param id est l'identifiant du client à rechercher
      * @return un objet (@Link AdminResponseDTO) représentant le client trouvé.
      * @throws EntityNotFoundException si aucun admin n'a été trouver avec cet ID
@@ -62,6 +65,7 @@ public class AdministrateurServiceImpl implements AdministrateurService {
 
     /**
      * Ajoute un admin et le convertit en un objet AdminResponseDTO
+     *
      * @param adminRequestDTO : objet contenant les informations de l'admin à enregistrer.
      * @return un objet (@link AdministrateurResponseDTO) représentant l'admin ajouté
      */
@@ -74,17 +78,47 @@ public class AdministrateurServiceImpl implements AdministrateurService {
         return adminMapper.toAdminResponseDTO(adminEnreg);
     }
 
+
     /**
-     *  Supprime un admin en fonction de son identifiant
-     * @param id est l'identifiant de l'admin à rechercher
-     * @throws EntityNotFoundException si aucun admin correspondant à l'ID fourni n'est trouvé
+     * Récupère les informations du compte d'un client en vérifiant ses identifiants
+     *
+     * @param login    : adresse mail du client
+     * @param password : mot de passe du client
+     * @return un {@link ClientResponseDTO} contenant les informations du client si l'authentification réussit
+     * @throws EntityNotFoundException Si aucun client correspondant à l'email n'est trouvé ou si le mot de passe est incorrect.
      */
+
     @Override
-    public void supprimer(long id) throws EntityNotFoundException{
-        if (adminDAO.existsById(id))
-            adminDAO.deleteById(id);
-        else throw new EntityNotFoundException(ID_NON_PRESENT);
+    public AdministrateurResponseDTO infosCompte(String login, String password) throws EntityNotFoundException {
+        Administrateur admin = verifAdmin(login, password);
+        return adminMapper.toAdminResponseDTO(admin);
     }
+
+    /**
+     * Le client peut supprimer son compte si les informations sont correctes
+     *
+     * @param login    : mail du client
+     * @param password : mot de passe du client
+     * @return un {@link ClientResponseDTO} contenant les informations du client si l'authentification réussit
+     * @throws EntityNotFoundException si aucun client correspondant à l'email n'est trouvé ou si le mot de passe est incorrect.
+     */
+
+    @Override
+    public AdministrateurResponseDTO suppCompte(String login, String password) throws EntityNotFoundException {
+        Administrateur admin = verifAdmin(login, password);
+        adminDAO.delete(admin);
+        return adminMapper.toAdminResponseDTO(admin);
+    }
+
+    @Override
+    public AdministrateurResponseDTO modifPartielle(String login, String password, AdministrateurRequestDTO adminRequestDTO) {
+        Administrateur adminExistant = verifAdmin(login, password);
+        Administrateur nouveau = adminMapper.toAdministrateur(adminRequestDTO);
+        remplacerExistantParNouveau(adminExistant, nouveau);
+        Administrateur adminEnre = adminDAO.save(adminExistant);
+        return adminMapper.toAdminResponseDTO(adminEnre);
+    }
+
 
 //**********************************************************************************************************************
 //                                                      METHODES PRIVEES
@@ -92,8 +126,9 @@ public class AdministrateurServiceImpl implements AdministrateurService {
 
     /**
      * Vérifie la validité des informations d'un admin avant son enregistrement.
-     *  Cette méthode s'assure que toutes les informations requises sont bien renseignées
-     *  et que le client respecte certaines règles (ex : mot de passe sécurisé).
+     * Cette méthode s'assure que toutes les informations requises sont bien renseignées
+     * et que le client respecte certaines règles (ex : mot de passe sécurisé).
+     *
      * @param adminRequestDTO Les informations de l'admin à valider
      */
 
@@ -118,6 +153,31 @@ public class AdministrateurServiceImpl implements AdministrateurService {
         if (!adminRequestDTO.email().matches(emailRegex)) {
             throw new AdministrateurException("L'email doit contenir un @ et un nom de domaine valide");
         }
+    }
+
+
+    private Administrateur verifAdmin(String login, String password) {
+        Optional<Administrateur> optAdmin = adminDAO.findByLogin(login);
+        if (optAdmin.isEmpty())
+            throw new EntityNotFoundException("Erreur dans l'email ou le mot de passe");
+        Administrateur admin = optAdmin.get();
+        if (!admin.getPassword().equals(password))
+            throw new EntityNotFoundException("Erreur dans l'email ou le mot de passe");
+        return admin;
+    }
+
+    private static void remplacerExistantParNouveau(Administrateur adminExistant, Administrateur admin) {
+        if (admin.getPassword() != null)
+            adminExistant.setPassword(admin.getPassword());
+        if (admin.getNom() != null)
+            adminExistant.setNom(admin.getNom());
+        if (admin.getPrenom() != null)
+            adminExistant.setPrenom(admin.getPrenom());
+        if (admin.getFonction() != null)
+            adminExistant.setFonction(admin.getFonction());
+        if (admin.getLogin() != null)
+            adminExistant.setLogin(admin.getLogin());
+
     }
 
 

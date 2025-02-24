@@ -117,22 +117,8 @@ public class ClientServiceImpl implements ClientService {
         return clientMapper.toClientResponseDTO(clientEnreg);
     }
 
-    /**
-     * Supprime un client en fonction de son identifiant
-     *
-     * @param id est l'identifiant du client à rechercher
-     * @throws EntityNotFoundException si aucun client correspondant à l'ID fourni n'est trouvé
-     */
     @Override
-    public void supprimer(long id) throws EntityNotFoundException {
-        if (clientDAO.existsById(id))
-            clientDAO.deleteById(id);
-        else throw new EntityNotFoundException(ID_NON_PRESENT);
-    }
-
-
-    @Override
-    public ClientResponseDTO modifPartielle(String login, String password, ClientRequestDTO clientRequestDTO) {
+    public ClientResponseDTO modifPartielle(String login, String password, ClientRequestDTO clientRequestDTO) throws EntityNotFoundException, ClientException {
         Client clientExistant = verifClient(login, password);
         Client nouveau = clientMapper.toClient(clientRequestDTO);
         remplacerExistantParNouveau(clientExistant, nouveau);

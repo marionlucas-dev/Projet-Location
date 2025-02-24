@@ -3,9 +3,12 @@ package com.accenture;
 import com.accenture.exception.AdministrateurException;
 import com.accenture.repository.AdministrateurDAO;
 import com.accenture.repository.entity.Utilisateurs.Administrateur;
+import com.accenture.repository.entity.Utilisateurs.Adresse;
+import com.accenture.repository.entity.Utilisateurs.Client;
 import com.accenture.service.AdministrateurServiceImpl;
 import com.accenture.service.dto.*;
 import com.accenture.service.mapper.AdministrateurMapper;
+import com.accenture.shared.Permis;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,6 +18,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -196,25 +201,222 @@ public class AdminServiceImplTest {
     }
 
 
+
+//***********************************************************************************************************************
+//                               TOUTES LES METHODES POUR TESTER InfosComptes
+//***********************************************************************************************************************
+
+    @DisplayName("""
+            Test qui vérifie que la méthode lève bien une exception lorsque le login fournis n'existe pas dans la basse de donnée
+            """)
+    @Test
+    void testInfosClientsMail() {
+        Mockito.when(daoMock.findByLogin("moicmama@gmail.com")).thenReturn(Optional.empty());
+        EntityNotFoundException ex = assertThrows(EntityNotFoundException.class, () -> service.infosCompte("moicmama@gmail.com", "Azerty@96"));
+        assertEquals("Erreur dans l'email ou le mot de passe", ex.getMessage());
+        Mockito.verify(daoMock).findByLogin("moicmama@gmail.com");
+    }
+
+
+    @DisplayName("""
+            Test qui vérifie que la méthode fonctionne quand le mot de passe est en base.
+            """)
+    @Test
+    void testInfosClientsPasswordPareil() {
+        Administrateur fakeAdmin = new Administrateur();
+        fakeAdmin.setPassword("Azerty@96");
+        Mockito.when(daoMock.findByLogin("moicmama@gmail.com")).thenReturn(Optional.of(fakeAdmin));
+        assertDoesNotThrow(() -> service.infosCompte("moicmama@gmail.com", "Azerty@96"));
+
+    }
+
+    @DisplayName("""
+            Test qui vérifie que la méthode lève bien une exception lorsque le password fournis n'existe pas dans la basse de donnée
+            """)
+    @Test
+    void testInfosClientsPassword() {
+        Administrateur fakeAdmin = new Administrateur();
+        fakeAdmin.setPassword("AutreMDP");
+        Mockito.when(daoMock.findByLogin("moicmama@gmail.com")).thenReturn(Optional.of(fakeAdmin));
+        EntityNotFoundException ex = assertThrows(EntityNotFoundException.class, () -> service.infosCompte("moicmama@gmail.com", "Azerty@96"));
+        assertEquals("Erreur dans l'email ou le mot de passe", ex.getMessage());
+    }
+
+    @DisplayName("Test qui vérifie la totalité de la méthode infosCompte")
+    @Test
+    void testMethodeInfosCompte() {
+        Administrateur fakeAdmin = new Administrateur();
+        fakeAdmin.setPassword("Azerty@96");
+        Mockito.when(daoMock.findByLogin("moicmama@gmail.com")).thenReturn(Optional.of(fakeAdmin));
+
+        AdministrateurResponseDTO responseDTO = creerAdmin1ResponseDTO();
+        Mockito.when(mapperMock.toAdminResponseDTO(fakeAdmin)).thenReturn(responseDTO);
+
+        AdministrateurResponseDTO resultat = service.infosCompte("moicmama@gmail.com", "Azerty@96");
+        assertNotNull(resultat);
+        Mockito.verify(mapperMock).toAdminResponseDTO(fakeAdmin);
+
+    }
+
+
+//***********************************************************************************************************************
+//                                                 METHODES SUPP Compte
+//***********************************************************************************************************************
+
+    @DisplayName("Supression d'un compte lorsque les infos sont confirmés par le client ")
+    @Test
+    void testMethodeSuppCompte() {
+        Administrateur admin = new Administrateur();
+        admin.setLogin("moicmama@gmail.com");
+        admin.setPassword("Azerty@96");
+        Mockito.when(daoMock.findByLogin("moicmama@gmail.com")).thenReturn(Optional.of(admin));
+        AdministrateurResponseDTO responseDTO = creerAdmin1ResponseDTO();
+        Mockito.when(mapperMock.toAdminResponseDTO(admin)).thenReturn(responseDTO);
+
+        AdministrateurResponseDTO resultat = service.suppCompte("moicmama@gmail.com", "Azerty@96");
+        assertNotNull(resultat);
+        Mockito.verify(mapperMock).toAdminResponseDTO(admin);
+
+
+    }
+
+
+
+
+//***********************************************************************************************************************
+//                                               METHODE MODIF PARTIEL
+//***********************************************************************************************************************
+
+    @DisplayName("""
+            Id qui n'existe sinon renvoyer une exception
+            """)
+    @Test
+    void modifierSiIdNonPresent() {
+        //  Mockito.when(daoMock.existsByLogin("moicmama@gmail.com")).thenReturn(false);
+        EntityNotFoundException ex = assertThrows(EntityNotFoundException.class, () ->
+                service.modifPartielle("moicmama@gmail.com", "Azerty@96", creerAdmin1RequestDTO()));
+        assertEquals("Erreur dans l'email ou le mot de passe", ex.getMessage());
+    }
+
+
+    @DisplayName("Modification réussie d'un client existant")
+    @Test
+    void modifierClientExistant() {
+        // GIVEN
+        String login = "moicmama@gmail.com";
+        String password = "Azerty@96";
+        Administrateur adminExistant = new Administrateur();
+        adminExistant.setLogin(login);
+        adminExistant.setPassword(password);
+
+        AdministrateurRequestDTO adminRequestDTO = creerAdmin1RequestDTO();
+
+        Administrateur adminModifie = new Administrateur();
+        adminModifie.setLogin(login);
+        adminModifie.setPassword(password);
+        adminModifie.setNom("Lucas");
+        adminModifie.setPrenom("Mélodie");
+        adminModifie.setLogin("melodie.marigonez@hotmail.com");
+        adminModifie.setFonction("Vice CEO ");
+
+
+        AdministrateurResponseDTO responseDTO = creerAdmin2ResponseDTO();
+
+        // WHEN
+        Mockito.when(daoMock.findByLogin(login)).thenReturn(Optional.of(adminExistant));
+        Mockito.when(mapperMock.toAdministrateur(adminRequestDTO)).thenReturn(adminModifie);
+        Mockito.when(daoMock.save(adminExistant)).thenReturn(adminExistant);
+        Mockito.when(mapperMock.toAdminResponseDTO(adminExistant)).thenReturn(responseDTO);
+
+        // THEN
+       AdministrateurResponseDTO result = service.modifPartielle(login, password, adminRequestDTO);
+
+        assertNotNull(result);
+        assertEquals("Marigonez", result.nom());
+    }
+
+
+
+
+    @DisplayName("Modification réussie d'un client existant")
+    @Test
+    void modifierClientNull() {
+        // GIVEN
+        String login = "moicmama@gmail.com";
+        String password = "Azerty@96";
+        Administrateur adminExistant = new Administrateur();
+        adminExistant.setLogin(login);
+        adminExistant.setPassword(password);
+
+        AdministrateurRequestDTO adminRequestDTO = creerAdmin1RequestDTO();
+
+        Administrateur adminModifie = new Administrateur();
+        adminModifie.setLogin(login);
+        adminModifie.setPassword(null);
+        adminModifie.setNom(null);
+        adminModifie.setPrenom(null);
+        adminModifie.setLogin(null);
+        adminModifie.setFonction(null);
+
+
+
+        AdministrateurResponseDTO responseDTO = creerAdmin2ResponseDTO();
+
+        // WHEN
+        Mockito.when(daoMock.findByLogin(login)).thenReturn(Optional.of( adminExistant));
+        Mockito.when(mapperMock.toAdministrateur(adminRequestDTO)).thenReturn(adminModifie);
+        Mockito.when(daoMock.save( adminExistant)).thenReturn( adminExistant);
+        Mockito.when(mapperMock.toAdminResponseDTO(adminExistant)).thenReturn(responseDTO);
+
+        // THEN
+        AdministrateurResponseDTO result = service.modifPartielle(login, password,adminRequestDTO);
+
+        assertThrows(EntityNotFoundException.class, () -> service.modifPartielle("melodie.marigonez@hotmail.com", "Erreur dans l'email ou le mot de passe", adminRequestDTO));
+        assertEquals("Marigonez", result.nom());
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //***********************************************************************************************************************
 //                               TOUTES LES METHODES POUR TESTER SUPPRIMER
 //***********************************************************************************************************************
 
-    @DisplayName("Verification de l'existence de l'ID ")
-    @Test
-    void testIdPresent() {
-        Mockito.when(daoMock.existsById(1L)).thenReturn(false);
-        EntityNotFoundException ex = assertThrows(EntityNotFoundException.class, () -> service.supprimer(1L));
-        assertEquals("ID non présent", ex.getMessage());
-    }
-
-    @DisplayName("Test pour supprimer un client ")
-    @Test
-    void testMethodeSupprimer() {
-        Mockito.when(daoMock.existsById(1L)).thenReturn(true);
-        assertDoesNotThrow(() -> service.supprimer(1L));
-        Mockito.verify(daoMock, Mockito.times(1)).deleteById(1L);
-    }
+//    @DisplayName("Verification de l'existence de l'ID ")
+//    @Test
+//    void testIdPresent() {
+//        Mockito.when(daoMock.existsById(1L)).thenReturn(false);
+//        EntityNotFoundException ex = assertThrows(EntityNotFoundException.class, () -> service.supprimer(1L));
+//        assertEquals("ID non présent", ex.getMessage());
+//    }
+//
+//    @DisplayName("Test pour supprimer un client ")
+//    @Test
+//    void testMethodeSupprimer() {
+//        Mockito.when(daoMock.existsById(1L)).thenReturn(true);
+//        assertDoesNotThrow(() -> service.supprimer(1L));
+//        Mockito.verify(daoMock, Mockito.times(1)).deleteById(1L);
+//    }
 
 
 //***********************************************************************************************************************

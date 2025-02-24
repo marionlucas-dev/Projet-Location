@@ -20,19 +20,21 @@ import java.util.List;
 public class AdministrateurController {
 
     private final AdministrateurService adminService;
+
     public AdministrateurController(AdministrateurService adminService) {
         this.adminService = adminService;
     }
 
     @GetMapping
-    List<AdministrateurResponseDTO> admin(){
+    List<AdministrateurResponseDTO> admin() {
         return adminService.trouverTous();
     }
- @GetMapping("/{id}")
-    ResponseEntity<AdministrateurResponseDTO> unAdmin(@PathVariable("id") Long id){
+
+    @GetMapping("/{id}")
+    ResponseEntity<AdministrateurResponseDTO> unAdmin(@PathVariable("id") Long id) {
         AdministrateurResponseDTO trouver = adminService.trouver(id);
         return ResponseEntity.ok(trouver);
- }
+    }
 
     @PostMapping
     ResponseEntity<Void> ajouter(@RequestBody @Valid AdministrateurRequestDTO adminRequestDTO) {
@@ -45,10 +47,23 @@ public class AdministrateurController {
         return ResponseEntity.created(location).build();
     }
 
+    @GetMapping("/informations")
+    ResponseEntity<AdministrateurResponseDTO> infosClient(String login, String password) {
+        AdministrateurResponseDTO infosCompte = adminService.infosCompte(login, password);
+        return ResponseEntity.ok(infosCompte);
+    }
+
     @DeleteMapping("/{id}")
-    ResponseEntity<ClientResponseDTO> suppr(@PathVariable("id") Long id) {
-        adminService.supprimer(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    ResponseEntity<AdministrateurResponseDTO> suppClient(@PathVariable("id") String login, String password) {
+        AdministrateurResponseDTO suppCompte = adminService.suppCompte(login, password);
+        return ResponseEntity.ok(suppCompte);
+    }
+
+
+    @PatchMapping("/{id}")
+    ResponseEntity<AdministrateurResponseDTO> modifPartiel(@PathVariable("id") String login, String password, @RequestBody AdministrateurRequestDTO adminRequestDTO) {
+       AdministrateurResponseDTO reponse = adminService.modifPartielle(login, password, adminRequestDTO);
+        return ResponseEntity.ok(reponse);
     }
 
 

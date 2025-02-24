@@ -223,27 +223,6 @@ public class ClientServiceImplTest {
 
 
 //***********************************************************************************************************************
-//                               TOUTES LES METHODES POUR TESTER SUPPRIMER
-//***********************************************************************************************************************
-
-    @DisplayName("Verification de l'existence de l'ID ")
-    @Test
-    void testIdPresent() {
-        Mockito.when(daoMock.existsById(1L)).thenReturn(false);
-        EntityNotFoundException ex = assertThrows(EntityNotFoundException.class, () -> service.supprimer(1L));
-        assertEquals("ID non présent", ex.getMessage());
-    }
-
-    @DisplayName("Test pour supprimer un client ")
-    @Test
-    void testMethodeSupprimer() {
-        Mockito.when(daoMock.existsById(1L)).thenReturn(true);
-        assertDoesNotThrow(() -> service.supprimer(1L));
-        Mockito.verify(daoMock, Mockito.times(1)).deleteById(1L);
-    }
-
-
-//***********************************************************************************************************************
 //                               TOUTES LES METHODES POUR TESTER InfosComptes
 //***********************************************************************************************************************
 
@@ -321,6 +300,115 @@ public class ClientServiceImplTest {
 
     }
 
+//***********************************************************************************************************************
+//                                                 METHODES ModiffPartielle
+//***********************************************************************************************************************
+
+    @DisplayName("""
+            Id qui n'existe sinon renvoyer une exception
+            """)
+    @Test
+    void modifierSiIdNonPresent() {
+        //  Mockito.when(daoMock.existsByLogin("moicmama@gmail.com")).thenReturn(false);
+        EntityNotFoundException ex = assertThrows(EntityNotFoundException.class, () ->
+                service.modifPartielle("moicmama@gmail.com", "Azerty@96", creerClient1RequestDTO()));
+        assertEquals("Erreur dans l'email ou le mot de passe", ex.getMessage());
+    }
+
+
+    @DisplayName("Modification réussie d'un client existant")
+    @Test
+    void modifierClientExistant() {
+        // GIVEN
+        String login = "moicmama@gmail.com";
+        String password = "Azerty@96";
+        Client clientExistant = new Client();
+        clientExistant.setLogin(login);
+        clientExistant.setPassword(password);
+
+        ClientRequestDTO clientRequestDTO = creerClient1RequestDTO();
+
+        Client clientModifie = new Client();
+        clientModifie.setLogin(login);
+        clientModifie.setPassword(password);
+        clientModifie.setNom("Lucas");
+        clientModifie.setPrenom("Mélodie");
+        clientModifie.setLogin("melodie.marigonez@hotmail.com");
+        clientModifie.setAdresse(new Adresse(1,"75 rue du moulin Soline", "44115", "Basse Goulaine"));
+        clientModifie.setDateNaissance(LocalDate.of(1999, 7, 27));
+        clientModifie.setPermis(Permis.B1);
+        clientModifie.setDateInscription(LocalDate.now());
+
+
+        ClientResponseDTO responseDTO = creerClient2ResponseDTO();
+
+        // WHEN
+        Mockito.when(daoMock.findByLogin(login)).thenReturn(Optional.of(clientExistant));
+        Mockito.when(mapperMock.toClient(clientRequestDTO)).thenReturn(clientModifie);
+        Mockito.when(daoMock.save(clientExistant)).thenReturn(clientExistant);
+        Mockito.when(mapperMock.toClientResponseDTO(clientExistant)).thenReturn(responseDTO);
+
+        // THEN
+        ClientResponseDTO result = service.modifPartielle(login, password, clientRequestDTO);
+
+        assertNotNull(result);
+        assertEquals("Marigonez", result.nom());
+    }
+
+
+
+
+    @DisplayName("Modification réussie d'un client existant")
+    @Test
+    void modifierClientNull() {
+        // GIVEN
+        String login = "moicmama@gmail.com";
+        String password = "Azerty@96";
+        Client clientExistant = new Client();
+        clientExistant.setLogin(login);
+        clientExistant.setPassword(password);
+
+        ClientRequestDTO clientRequestDTO = creerClient1RequestDTO();
+
+        Client clientModifie = new Client();
+        clientModifie.setLogin(login);
+        clientModifie.setPassword(null);
+        clientModifie.setNom(null);
+        clientModifie.setPrenom(null);
+        clientModifie.setLogin(null);
+        clientModifie.setAdresse(null);
+        clientModifie.setDateNaissance(null);
+        clientModifie.setPermis(null);
+        clientModifie.setDateInscription(null);
+
+
+        ClientResponseDTO responseDTO = creerClient2ResponseDTO();
+
+        // WHEN
+        Mockito.when(daoMock.findByLogin(login)).thenReturn(Optional.of(clientExistant));
+        Mockito.when(mapperMock.toClient(clientRequestDTO)).thenReturn(clientModifie);
+        Mockito.when(daoMock.save(clientExistant)).thenReturn(clientExistant);
+        Mockito.when(mapperMock.toClientResponseDTO(clientExistant)).thenReturn(responseDTO);
+
+        // THEN
+        ClientResponseDTO result = service.modifPartielle(login, password, clientRequestDTO);
+
+        assertThrows(EntityNotFoundException.class, () -> service.modifPartielle("melodie.marigonez@hotmail.com", "Erreur dans l'email ou le mot de passe", clientRequestDTO));
+        assertEquals("Marigonez", result.nom());
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //***********************************************************************************************************************
 //                                                          METHODES PRIVEES
@@ -371,7 +459,7 @@ public class ClientServiceImplTest {
     }
 
     private static ClientResponseDTO creerClient2ResponseDTO() {
-        return new ClientResponseDTO(2, "Marigonez", "Mélodie", "melodie.marigonez@hotemail.com",
+        return new ClientResponseDTO(2, "Marigonez", "Mélodie", "melodie.marigonez@hotmail.com",
                 new AdresseDTO("75 rue du moulin Soline", "44115", "Basse Goulaine"),
                 LocalDate.of(1999, 7, 27), Permis.B1, LocalDate.now());
     }
@@ -383,7 +471,7 @@ public class ClientServiceImplTest {
     }
 
     private static ClientRequestDTO creerClient2RequestDTO() {
-        return new ClientRequestDTO("Marigonez", "Mélodie", "melodie.marigonez@hotemail.com", "Azerty@44",
+        return new ClientRequestDTO("Marigonez", "Mélodie", "melodie.marigonez@hotmail.com", "Azerty@44",
                 new AdresseDTO("75 rue du moulin Soline", "44115", "Basse Goulaine"),
                 LocalDate.of(1999, 7, 27), Permis.B1);
     }
