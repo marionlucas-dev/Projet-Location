@@ -1,9 +1,8 @@
 package com.accenture.controller;
 import com.accenture.service.VoitureService;
-import com.accenture.service.dto.Utilisateurs.ClientRequestDTO;
-import com.accenture.service.dto.Utilisateurs.ClientResponseDTO;
 import com.accenture.service.dto.Vehicules.VoitureRequestDTO;
 import com.accenture.service.dto.Vehicules.VoitureResponseDTO;
+import com.accenture.shared.Filtre;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +32,12 @@ public class VoitureController {
     ResponseEntity<VoitureResponseDTO> uneVoiture(@PathVariable("id") String modele){
         VoitureResponseDTO trouver = voitureService.trouver(modele);
         return ResponseEntity.ok(trouver);
+    }
+    
+    @GetMapping("/filtre")
+    ResponseEntity<List<VoitureResponseDTO>> filtrer(@RequestParam Filtre filtre){
+        List<VoitureResponseDTO> voitures = voitureService.filtrer(filtre);
+        return ResponseEntity.ok(voitures);
     }
 
     @PostMapping

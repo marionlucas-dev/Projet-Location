@@ -6,10 +6,12 @@ import com.accenture.repository.entity.Vehicules.Voiture;
 import com.accenture.service.dto.Vehicules.VoitureRequestDTO;
 import com.accenture.service.dto.Vehicules.VoitureResponseDTO;
 import com.accenture.service.mapper.VoitureMapper;
+import com.accenture.shared.Filtre;
 import com.accenture.shared.NombrePortes;
 import com.accenture.shared.Permis;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -76,6 +78,7 @@ public class VoitureServiceImpl implements VoitureService {
 
     /**
      * Une voiture peut être supprimée si les informations sont correctes
+     *
      * @param id : identifiant de la voiture
      * @return un {@Link VoitureResponseDTO} contenannt les infos du client si l'authentification réussit.
      * @throws EntityNotFoundException: si aucune voiture ne correspond aux informations demandées.
@@ -89,14 +92,50 @@ public class VoitureServiceImpl implements VoitureService {
         return voitureMapper.toVoitureResponseDTO(voiture);
     }
 
-@Override
-public VoitureResponseDTO modifier(long id, VoitureRequestDTO voitureRequestDTO) throws EntityNotFoundException{
-       Voiture voitureExistant = verifVoiture(id);
+    @Override
+    public VoitureResponseDTO modifier(long id, VoitureRequestDTO voitureRequestDTO) throws EntityNotFoundException, VoitureException {
+        Voiture voitureExistant = verifVoiture(id);
         Voiture nouveau = voitureMapper.toVoiture(voitureRequestDTO);
+        if (voitureExistant.getRetireDuParc())
+            throw new VoitureException("Une voiture retirée du parc ne peut pas être modifier");
         remplacerExistantParNouveau(voitureExistant, nouveau);
-       Voiture voitureEnr = voitureDAO.save(voitureExistant);
+        VoitureRequestDTO dto = voitureMapper.toVoitureRequestDTO(voitureExistant);
+        verifierVoiture(dto);
+        Voiture voitureEnr = voitureDAO.save(voitureExistant);
         return voitureMapper.toVoitureResponseDTO(voitureEnr);
     }
+
+    @Override
+    public List<VoitureResponseDTO> filtrer(Filtre filtre){
+    List<Voiture> listeVoitures = voitureDAO.findAll();
+    List<VoitureResponseDTO> result =
+            switch (filtre){
+                case ACTIF ->
+                    listeVoitures.stream()
+                            .filter(Voiture::getActif)
+                            .map(voitureMapper::toVoitureResponseDTO)
+                            .toList();
+                case INACTIF ->
+                    listeVoitures.stream()
+                            .filter(voiture -> !voiture.getActif() )
+                            .map(voitureMapper::toVoitureResponseDTO)
+                            .toList();
+                case HORSPARC ->
+                        listeVoitures.stream()
+                                .filter(Voiture::getRetireDuParc)
+                                .map(voitureMapper::toVoitureResponseDTO)
+                                .toList();
+                case DANSLEPARC ->
+                        listeVoitures.stream()
+                                .filter(voiture -> !voiture.getRetireDuParc())
+                                .map(voitureMapper::toVoitureResponseDTO)
+                                .toList();
+                default ->
+                    throw new IllegalArgumentException(STR."Le filtre n'est pas disponible\{filtre}");
+            };
+        return result;
+    }
+
 
 
 

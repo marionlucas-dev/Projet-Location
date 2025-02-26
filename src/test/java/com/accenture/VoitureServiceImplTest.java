@@ -20,8 +20,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -90,7 +93,7 @@ public class VoitureServiceImplTest {
     @Test
     void testAjouterMarqueNull() {
         VoitureRequestDTO dto = new VoitureRequestDTO(null, "Arona", "rouge", Type.SUV,
-                5, Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, 5, "50","1400", true, false);
+                5, Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, 5, "50", "1400", true, false);
         assertThrows(VoitureException.class, () -> service.ajouter(dto));
     }
 
@@ -98,7 +101,7 @@ public class VoitureServiceImplTest {
     @Test
     void testAjouterMarqueVide() {
         VoitureRequestDTO dto = new VoitureRequestDTO("\t", "Arona", "rouge", Type.SUV,
-                5, Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, 5,"50","1400", true, false);
+                5, Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, 5, "50", "1400", true, false);
         assertThrows(VoitureException.class, () -> service.ajouter(dto));
     }
 
@@ -106,7 +109,7 @@ public class VoitureServiceImplTest {
     @Test
     void testAjouterModeleNull() {
         VoitureRequestDTO dto = new VoitureRequestDTO("Seat", null, "rouge", Type.SUV,
-                5, Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, 5,"50","1400", true, false);
+                5, Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, 5, "50", "1400", true, false);
         assertThrows(VoitureException.class, () -> service.ajouter(dto));
     }
 
@@ -114,7 +117,7 @@ public class VoitureServiceImplTest {
     @Test
     void testAjouterModeleVide() {
         VoitureRequestDTO dto = new VoitureRequestDTO("Seat", "\n", "rouge", Type.SUV,
-                5, Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, 5,"50","1400", true, false);
+                5, Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, 5, "50", "1400", true, false);
         assertThrows(VoitureException.class, () -> service.ajouter(dto));
     }
 
@@ -122,7 +125,7 @@ public class VoitureServiceImplTest {
     @Test
     void testAjouterCouleurNull() {
         VoitureRequestDTO dto = new VoitureRequestDTO("Seat", "Arona", null, Type.SUV,
-                5, Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, 5,"50","1400", true, false);
+                5, Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, 5, "50", "1400", true, false);
         assertThrows(VoitureException.class, () -> service.ajouter(dto));
     }
 
@@ -130,7 +133,7 @@ public class VoitureServiceImplTest {
     @Test
     void testAjouterCouleurVide() {
         VoitureRequestDTO dto = new VoitureRequestDTO("Seat", "Arona", "\n", Type.SUV,
-                5, Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, 5,"50","1400", true, false);
+                5, Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, 5, "50", "1400", true, false);
         assertThrows(VoitureException.class, () -> service.ajouter(dto));
     }
 
@@ -138,11 +141,11 @@ public class VoitureServiceImplTest {
     @Test
     void testAjouterNombreDePlaces() {
         VoitureRequestDTO dto = new VoitureRequestDTO("Seat", "Arona", "rouge", Type.SUV,
-                12, Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, 5,"50","1400", true, false);
-        VoitureResponseDTO voiture  = new VoitureResponseDTO(1, "Seat", "Arona", "rouge", Type.SUV,
-                12, Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, 5, Permis.D1,"50","1400", true, false);
+                12, Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, 5, "50", "1400", true, false);
+        VoitureResponseDTO voiture = new VoitureResponseDTO(1, "Seat", "Arona", "rouge", Type.SUV,
+                12, Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, 5, Permis.D1, "50", "1400", true, false);
 //               service.ajouter(dto);
-      assertEquals(Permis.D1, voiture.permis());
+        assertEquals(Permis.D1, voiture.permis());
 
     }
 
@@ -150,7 +153,7 @@ public class VoitureServiceImplTest {
     @Test
     void testAjouterCarburantNull() {
         VoitureRequestDTO dto = new VoitureRequestDTO("Seat", "Arona", "rouge", Type.SUV,
-                5, null, NombrePortes.Cinq, true, Transmission.MANUEL, 5,"50","1400", true, false);
+                5, null, NombrePortes.Cinq, true, Transmission.MANUEL, 5, "50", "1400", true, false);
         assertThrows(VoitureException.class, () -> service.ajouter(dto));
     }
 
@@ -158,7 +161,7 @@ public class VoitureServiceImplTest {
     @Test
     void testAjouterNombreDePorteNull() {
         VoitureRequestDTO dto = new VoitureRequestDTO("Seat", "Arona", "rouge", Type.SUV,
-                7, Carburant.Essence, null, true, Transmission.MANUEL, 5,"50","1400", true, false);
+                7, Carburant.Essence, null, true, Transmission.MANUEL, 5, "50", "1400", true, false);
         assertThrows(VoitureException.class, () -> service.ajouter(dto));
     }
 
@@ -166,7 +169,7 @@ public class VoitureServiceImplTest {
     @Test
     void testAjouterTransmissionNull() {
         VoitureRequestDTO dto = new VoitureRequestDTO("Seat", "Arona", "Rouge", Type.SUV,
-                5, Carburant.Essence, NombrePortes.Cinq, true, null, 5,"50","1400", true, false);
+                5, Carburant.Essence, NombrePortes.Cinq, true, null, 5, "50", "1400", true, false);
         assertThrows(VoitureException.class, () -> service.ajouter(dto));
     }
 
@@ -175,7 +178,7 @@ public class VoitureServiceImplTest {
     @Test
     void testAjouterClimNull() {
         VoitureRequestDTO dto = new VoitureRequestDTO("Seat", "Arona", "Rouge", Type.SUV,
-                5, Carburant.Essence, NombrePortes.Cinq, null, Transmission.MANUEL, 5,"50","1400", true, false);
+                5, Carburant.Essence, NombrePortes.Cinq, null, Transmission.MANUEL, 5, "50", "1400", true, false);
         assertThrows(VoitureException.class, () -> service.ajouter(dto));
     }
 
@@ -183,7 +186,7 @@ public class VoitureServiceImplTest {
     @Test
     void testAjouterNombreBagageInf0() {
         VoitureRequestDTO dto = new VoitureRequestDTO("Seat", "Arona", "Rouge", Type.SUV,
-                5, Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, -5,"50","1400", true, false);
+                5, Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, -5, "50", "1400", true, false);
         assertThrows(VoitureException.class, () -> service.ajouter(dto));
     }
 
@@ -191,7 +194,7 @@ public class VoitureServiceImplTest {
     @Test
     void testAjouterNombreBagageEgale0() {
         VoitureRequestDTO dto = new VoitureRequestDTO("Seat", "Arona", "Rouge", Type.SUV,
-                0, Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, 0,"50","1400", true, false);
+                0, Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, 0, "50", "1400", true, false);
         assertThrows(VoitureException.class, () -> service.ajouter(dto));
     }
 
@@ -199,7 +202,7 @@ public class VoitureServiceImplTest {
     @Test
     void testAjouterNombreBagageSup17() {
         VoitureRequestDTO dto = new VoitureRequestDTO("Seat", "Arona", "Rouge", Type.SUV,
-                20, Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, 0,"50","1400", true, false);
+                20, Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, 0, "50", "1400", true, false);
         assertThrows(VoitureException.class, () -> service.ajouter(dto));
     }
 
@@ -207,7 +210,7 @@ public class VoitureServiceImplTest {
     @Test
     void testAjouterTypeNull() {
         VoitureRequestDTO dto = new VoitureRequestDTO("Seat", "Arona", "Rouge", null,
-                5, Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, -5,"50","1400", true, false);
+                5, Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, -5, "50", "1400", true, false);
         assertThrows(VoitureException.class, () -> service.ajouter(dto));
     }
 
@@ -271,17 +274,17 @@ public class VoitureServiceImplTest {
             Test pour reussir à supprimer une tache.
             """)
     @Test
-    void testMethodeSupprimer(){
-            Voiture voiture = new Voiture();
-            voiture.setMarque("Seat");
-            voiture.setModele("Arona");
-            Mockito.when(daoMock.findById(1L)).thenReturn(Optional.of(voiture));
-            VoitureResponseDTO responseDTO = voitureResponseDTO();
-            Mockito.when(mapperMock.toVoitureResponseDTO(voiture)).thenReturn(responseDTO);
+    void testMethodeSupprimer() {
+        Voiture voiture = new Voiture();
+        voiture.setMarque("Seat");
+        voiture.setModele("Arona");
+        Mockito.when(daoMock.findById(1L)).thenReturn(Optional.of(voiture));
+        VoitureResponseDTO responseDTO = voitureResponseDTO();
+        Mockito.when(mapperMock.toVoitureResponseDTO(voiture)).thenReturn(responseDTO);
 
-            VoitureResponseDTO resultat = service.supprimer(1L);
-            assertNotNull(resultat);
-            Mockito.verify(mapperMock).toVoitureResponseDTO(voiture);
+        VoitureResponseDTO resultat = service.supprimer(1L);
+        assertNotNull(resultat);
+        Mockito.verify(mapperMock).toVoitureResponseDTO(voiture);
 
 
     }
@@ -308,9 +311,9 @@ public class VoitureServiceImplTest {
     void modifierVoitureExistant() {
         Voiture voitureExistant = new Voiture();
         voitureExistant.setId(1);
+        voitureExistant.setRetireDuParc(false);
 
-
-       VoitureRequestDTO voitureRequestDTO = voitureRequestDTO();
+        VoitureRequestDTO voitureRequestDTO = voitureRequestDTO();
 
         Voiture voitureModifie = new Voiture();
         voitureModifie.setId(2);
@@ -318,94 +321,241 @@ public class VoitureServiceImplTest {
         voitureModifie.setType(Type.Luxe);
 
 
-       VoitureResponseDTO responseDTO = voiture2ResponseDTO();
+        VoitureResponseDTO responseDTO = voiture2ResponseDTO();
 
 
         Mockito.when(daoMock.findById(1L)).thenReturn(Optional.of(voitureExistant));
         Mockito.when(mapperMock.toVoiture(voitureRequestDTO)).thenReturn(voitureModifie);
         Mockito.when(daoMock.save(voitureExistant)).thenReturn(voitureExistant);
+        Mockito.when(mapperMock.toVoitureRequestDTO(voitureExistant)).thenReturn(voitureRequestDTO);
         Mockito.when(mapperMock.toVoitureResponseDTO(voitureExistant)).thenReturn(responseDTO);
 
         VoitureResponseDTO result = service.modifier(1, voitureRequestDTO);
 
         assertNotNull(result);
-        assertEquals("Clio", result.modele());
+        assertEquals("208", result.modele());
     }
 
-//
-//    @DisplayName("Modification réussie d'un client null")
-//    @Test
-//    void modifierClientNull() {
-//
-//        String login = "moicmama@gmail.com";
-//        String password = "Azerty@96";
-//        Client clientExistant = new Client();
-//        clientExistant.setLogin(login);
-//        clientExistant.setPassword(password);
-//
-//        ClientRequestDTO clientRequestDTO = creerClient1RequestDTO();
-//
-//        Client clientModifie = new Client();
-//        clientModifie.setLogin(login);
-//        clientModifie.setPassword(null);
-//        clientModifie.setNom(null);
-//        clientModifie.setPrenom(null);
-//        clientModifie.setLogin(null);
-//        clientModifie.setAdresse(null);
-//        clientModifie.setDateNaissance(null);
-//        clientModifie.setPermis(null);
-//        clientModifie.setDateInscription(null);
-//
-//
-//        ClientResponseDTO responseDTO = creerClient2ResponseDTO();
-//
-//        Mockito.when(daoMock.findByLogin(login)).thenReturn(Optional.of(clientExistant));
-//        Mockito.when(mapperMock.toClient(clientRequestDTO)).thenReturn(clientModifie);
-//        Mockito.when(daoMock.save(clientExistant)).thenReturn(clientExistant);
-//        Mockito.when(mapperMock.toClientResponseDTO(clientExistant)).thenReturn(responseDTO);
-//
-//
-//        ClientResponseDTO result = service.modifPartielle(login, password, clientRequestDTO);
-//
-//        assertThrows(EntityNotFoundException.class, () -> service.modifPartielle("melodie.marigonez@hotmail.com", "Erreur dans l'email ou le mot de passe", clientRequestDTO));
-//        assertEquals("Marigonez", result.nom());
-//    }
-//
-//
-//    @DisplayName("Modification réussie d'un client existant avec quelques paramètres ")
-//    @Test
-//    void modifierClientExistantQuelquesParametres() {
-//        String login = "moicmama@gmail.com";
-//        String password = "Azerty@96";
-//        Client clientExistant = new Client();
-//        clientExistant.setLogin(login);
-//        clientExistant.setPassword(password);
-//
-//        ClientRequestDTO clientRequestDTO = creerClient1RequestDTO();
-//
-//        Client clientModifie = new Client();
-//        clientModifie.setLogin(login);
-//        clientModifie.setPassword(password);
-//        clientModifie.setLogin("melodie.marigonez@hotmail.com");
-//        clientModifie.setAdresse(new Adresse(1, "75 rue du moulin Soline", "44115", "Basse Goulaine"));
-//        clientModifie.setDateInscription(LocalDate.now());
-//
-//
-//        ClientResponseDTO responseDTO = creerClient2ResponseDTO();
-//
-//
-//        Mockito.when(daoMock.findByLogin(login)).thenReturn(Optional.of(clientExistant));
-//        Mockito.when(mapperMock.toClient(clientRequestDTO)).thenReturn(clientModifie);
-//        Mockito.when(daoMock.save(clientExistant)).thenReturn(clientExistant);
-//        Mockito.when(mapperMock.toClientResponseDTO(clientExistant)).thenReturn(responseDTO);
-//
-//        ClientResponseDTO result = service.modifPartielle(login, password, clientRequestDTO);
-//
-//        assertNotNull(result);
-//        assertEquals("Marigonez", result.nom());
-//    }
-//
+    @DisplayName("Échec de la modification d'une voiture avec un modèle null")
+    @Test
+    void modifierClientNull() {
 
+        // Création d'une voiture existante
+        Voiture voitureExistant = new Voiture();
+        voitureExistant.setId(1); // Ajout de l'ID
+        voitureExistant.setModele("Arona");
+        voitureExistant.setRetireDuParc(false);
+
+        // DTO de modification (avec un modèle null)
+        VoitureRequestDTO voitureRequestDTO = voitureRequestDTO();
+
+        // Création d'une voiture modifiée avec des valeurs nulles
+        Voiture voitureModifie = new Voiture();
+        voitureModifie.setId(1); // Assurez-vous que l'ID correspond
+        voitureModifie.setModele(null);
+        voitureModifie.setMarque(null);
+        voitureModifie.setType(null);
+        voitureModifie.setTransmission(null);
+        voitureModifie.setClim(null);
+        voitureModifie.setCarburant(null);
+        voitureModifie.setCouleur(null);
+
+        // DTO de réponse
+        VoitureResponseDTO responseDTO = voitureResponseDTO();
+
+        // Simulation du comportement des mocks
+        //Mockito.when(daoMock.findByModele("Arona")).thenReturn(Optional.of(voitureExistant));
+        Mockito.when(daoMock.findById(1L)).thenReturn(Optional.of(voitureModifie));
+        Mockito.when(mapperMock.toVoiture(voitureRequestDTO)).thenReturn(voitureModifie);
+        // Mockito.when(daoMock.save(voitureExistant)).thenThrow(new EntityNotFoundException("Impossible de modifier avec des valeurs nulles"));
+
+        // Vérification que l'exception est bien levée
+        assertThrows(NullPointerException.class, () -> service.modifier(1L, voitureRequestDTO));
+
+        // Vérification que la modification n’a pas eu lieu
+        assertEquals("Arona", voitureExistant.getModele());
+    }
+
+    @DisplayName("Ajouter avec Marque null, exception levée ")
+    @Test
+    void testModifierMarqueNull() {
+        VoitureRequestDTO dto = new VoitureRequestDTO(null, "Arona", "rouge", Type.SUV,
+                5, Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, 5, "50", "1400", true, false);
+        assertThrows(EntityNotFoundException.class, () -> service.modifier(1L, dto));
+    }
+
+
+    @DisplayName("Ajouter avec Modèle null, exception levée ")
+    @Test
+    void testModifierModeleNull() {
+        VoitureRequestDTO dto = new VoitureRequestDTO("Seat", null, "rouge", Type.SUV,
+                5, Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, 5, "50", "1400", true, false);
+        assertThrows(EntityNotFoundException.class, () -> service.modifier(1L,dto));
+    }
+    @DisplayName("Ajouter avec Couleur null, exception levée ")
+    @Test
+    void testModifierCouleurNull() {
+        VoitureRequestDTO dto = new VoitureRequestDTO("Seat", "Arona", null, Type.SUV,
+                5, Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, 5, "50", "1400", true, false);
+        assertThrows(EntityNotFoundException.class, () -> service.modifier(1L,dto));
+    }
+    @DisplayName("Ajouter avec Carburant null, exception levée ")
+    @Test
+    void testModifierCarburantNull() {
+        VoitureRequestDTO dto = new VoitureRequestDTO("Seat", "Arona", "rouge", Type.SUV,
+                5, null, NombrePortes.Cinq, true, Transmission.MANUEL, 5, "50", "1400", true, false);
+        assertThrows(EntityNotFoundException.class, () -> service.modifier(1L, dto));
+    }
+
+    @DisplayName("Ajouter avec Nombre de porte différent de 3 ou 5, exception levée ")
+    @Test
+    void testModifierNombreDePorteNull() {
+        VoitureRequestDTO dto = new VoitureRequestDTO("Seat", "Arona", "rouge", Type.SUV,
+                7, Carburant.Essence, null, true, Transmission.MANUEL, 5, "50", "1400", true, false);
+        assertThrows(EntityNotFoundException.class, () -> service.modifier(1L, dto));
+    }
+    @DisplayName("Ajouter avec Transmission null, exception levée ")
+    @Test
+    void testModifierTransmissionNull() {
+        VoitureRequestDTO dto = new VoitureRequestDTO("Seat", "Arona", "Rouge", Type.SUV,
+                5, Carburant.Essence, NombrePortes.Cinq, true, null, 5, "50", "1400", true, false);
+        assertThrows(EntityNotFoundException.class, () -> service.modifier(1L,dto));
+    }
+
+
+    @DisplayName("Ajouter avec Clim null, exception levée ")
+    @Test
+    void testModifierClimNull() {
+        VoitureRequestDTO dto = new VoitureRequestDTO("Seat", "Arona", "Rouge", Type.SUV,
+                5, Carburant.Essence, NombrePortes.Cinq, null, Transmission.MANUEL, 5, "50", "1400", true, false);
+        assertThrows(EntityNotFoundException.class, () -> service.modifier(1L, dto));
+    }
+    @DisplayName("Ajouter avec type null, exception levée ")
+    @Test
+    void testModifierTypeNull() {
+        VoitureRequestDTO dto = new VoitureRequestDTO("Seat", "Arona", "Rouge", null,
+                5, Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, -5, "50", "1400", true, false);
+        assertThrows(EntityNotFoundException.class, () -> service.modifier(1L, dto));
+    }
+
+
+
+
+
+
+//************************************************************************************************************************
+//                                                  METHODE Filtre
+//************************************************************************************************************************
+
+    @DisplayName("""
+            Test pour trouver si actif true
+            """)
+    @Test
+    void testfiltreActifFonctionne() {
+        Voiture v1 = creeVoiture();
+        Voiture v2 = creeVoiture2();
+
+        List<Voiture> voitures = List.of(v1, v2);
+
+
+        VoitureResponseDTO dto = new VoitureResponseDTO(1, "Seat", "Arona", "Rouge", Type.SUV, 5,
+                Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, 5, Permis.B, "50", "1400", true, false);
+
+        Mockito.when(daoMock.findAll()).thenReturn(voitures);
+        Mockito.when(mapperMock.toVoitureResponseDTO(v1)).thenReturn(dto);
+
+
+        List<VoitureResponseDTO> result = service.filtrer(Filtre.ACTIF);
+        assertEquals(1, result.size());
+        assertTrue(result.stream().allMatch(VoitureResponseDTO::actif));
+    }
+
+    @DisplayName("""
+            Test pour trouver si actif false
+            """)
+    @Test
+    void testfiltreActifInactif() {
+        Voiture v1 = creeVoiture();
+        Voiture v2 = creeVoiture2();
+
+        List<Voiture> voitures = List.of(v1, v2);
+
+
+        VoitureResponseDTO dto = new VoitureResponseDTO(1, "Seat", "Arona", "Rouge", Type.SUV, 5,
+                Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, 5, Permis.B, "50", "1400", true, false);
+        VoitureResponseDTO dto2 = new VoitureResponseDTO(2, "Peugeot", "208", "Jaune", Type.Citadine, 11,
+                Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, 3, Permis.B, "50", "1400", false, false);
+
+        Mockito.when(daoMock.findAll()).thenReturn(voitures);
+        // Mockito.when(mapperMock.toVoitureResponseDTO(v1)).thenReturn(dto);
+        Mockito.when(mapperMock.toVoitureResponseDTO(v2)).thenReturn(dto2);
+
+
+        List<VoitureResponseDTO> result = service.filtrer(Filtre.INACTIF);
+        assertEquals(1, result.size());
+        assertTrue(result.stream().noneMatch(VoitureResponseDTO::actif));
+    }
+
+    /// //
+
+    @DisplayName("""
+            Test pour trouver si Hors du parc true
+            """)
+    @Test
+    void testfiltreHorsDuParcFonctionne() {
+        Voiture v1 = creeVoiture();
+        v1.setActif(false);
+        v1.setRetireDuParc(false);
+        Voiture v2 = creeVoiture2();
+        v2.setActif(false);
+        v2.setRetireDuParc(false);
+
+        List<Voiture> voitures = List.of(v1, v2);
+
+
+        VoitureResponseDTO dto = new VoitureResponseDTO(1, "Seat", "Arona", "Rouge", Type.SUV, 5,
+                Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, 5, Permis.B, "50", "1400", true, true);
+        VoitureResponseDTO dto2 = new VoitureResponseDTO(2, "Peugeot", "208", "Jaune", Type.Citadine, 11,
+                Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, 3, Permis.B, "50", "1400", false, true);
+
+        Mockito.when(daoMock.findAll()).thenReturn(voitures);
+//        Mockito.when(mapperMock.toVoitureResponseDTO(v1)).thenReturn(dto);
+//        Mockito.when(mapperMock.toVoitureResponseDTO(v2)).thenReturn(dto2);
+
+
+        List<VoitureResponseDTO> result = service.filtrer(Filtre.HORSPARC);
+        assertEquals(0, result.size());
+        assertTrue(result.stream().allMatch(VoitureResponseDTO::retireDuParc));
+    }
+
+    @DisplayName("""
+            Test pour trouver si actif false
+            """)
+    @Test
+    void testfiltreDansLeParc() {
+        Voiture v1 = creeVoiture();
+        v1.setActif(false);
+        v1.setRetireDuParc(false);
+        Voiture v2 = creeVoiture2();
+        v2.setActif(false);
+        v2.setRetireDuParc(false);
+
+        List<Voiture> voitures = List.of(v1, v2);
+
+        VoitureResponseDTO dto = new VoitureResponseDTO(1, "Seat", "Arona", "Rouge", Type.SUV, 5,
+                Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, 5, Permis.B, "50", "1400", false, false);
+        VoitureResponseDTO dto2 = new VoitureResponseDTO(2, "Peugeot", "208", "Jaune", Type.Citadine, 11,
+                Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, 3, Permis.B, "50", "1400", false, false);
+
+        Mockito.when(daoMock.findAll()).thenReturn(voitures);
+        Mockito.when(mapperMock.toVoitureResponseDTO(v1)).thenReturn(dto);
+        Mockito.when(mapperMock.toVoitureResponseDTO(v2)).thenReturn(dto2);
+
+
+        List<VoitureResponseDTO> result = service.filtrer(Filtre.DANSLEPARC);
+        assertEquals(2, result.size());
+        assertFalse(result.stream().allMatch(VoitureResponseDTO::retireDuParc));
+    }
 
 
 //************************************************************************************************************************
@@ -425,12 +575,13 @@ public class VoitureServiceImplTest {
         v.setBagages(5);
         v.setType(Type.SUV);
         v.setPermis(Permis.B);
+        v.setActif(true);
         return v;
     }
 
     private static VoitureResponseDTO voitureResponseDTO() {
         return new VoitureResponseDTO(1, "Seat", "Arona", "Rouge", Type.SUV, 5,
-                Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, 5, Permis.B,"50","1400", true, false);
+                Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, 5, Permis.B, "50", "1400", true, false);
     }
 
     private static Voiture creeVoiture2() {
@@ -446,23 +597,24 @@ public class VoitureServiceImplTest {
         v.setBagages(3);
         v.setType(Type.Citadine);
         v.setPermis(Permis.D1);
+        v.setActif(false);
         return v;
     }
 
     private static VoitureResponseDTO voiture2ResponseDTO() {
         return new VoitureResponseDTO(2, "Peugeot", "208", "Jaune", Type.Citadine, 11,
-                Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, 3, Permis.D1,"50","1400", true, false);
+                Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, 3, Permis.D1, "50", "1400", false, false);
     }
 
 
     private static VoitureRequestDTO voitureRequestDTO() {
         return new VoitureRequestDTO("Seat", "Arona", "Rouge", Type.SUV, 5,
-                Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, 5,"50","1400", true, false);
+                Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, 5, "50", "1400", true, false);
     }
 
     private static VoitureRequestDTO voiture2RequestDTO() {
         return new VoitureRequestDTO("Peugeot", "208", "Jaune", Type.Citadine, 11,
-                Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, 3,"50","1400", true, false);
+                Carburant.Essence, NombrePortes.Cinq, true, Transmission.MANUEL, 3, "50", "1400", false, false);
     }
 
 
