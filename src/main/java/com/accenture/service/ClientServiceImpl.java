@@ -1,11 +1,11 @@
 package com.accenture.service;
 
+import com.accenture.exception.AdministrateurException;
 import com.accenture.exception.ClientException;
 import com.accenture.repository.ClientDAO;
-import com.accenture.repository.entity.Utilisateurs.Adresse;
 import com.accenture.repository.entity.Utilisateurs.Client;
-import com.accenture.service.dto.ClientRequestDTO;
-import com.accenture.service.dto.ClientResponseDTO;
+import com.accenture.service.dto.Utilisateurs.ClientRequestDTO;
+import com.accenture.service.dto.Utilisateurs.ClientResponseDTO;
 import com.accenture.service.mapper.ClientMapper;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
@@ -133,6 +133,8 @@ public class ClientServiceImpl implements ClientService {
         Client clientExistant = verifClient(login, password);
         Client nouveau = clientMapper.toClient(clientRequestDTO);
         remplacerExistantParNouveau(clientExistant, nouveau);
+        ClientRequestDTO dto = clientMapper.toClientRequestDTO(clientExistant);
+        verifierClient(dto);
         Client clientEnr = clientDAO.save(clientExistant);
         return clientMapper.toClientResponseDTO(clientEnr);
     }
@@ -174,6 +176,10 @@ public class ClientServiceImpl implements ClientService {
         if (!clientRequestDTO.password().matches(passwordRegex))
             throw new ClientException("Le mot de passe doit contenir entre 8 et 16 caractères, au minimum une minuscule et 1 majuscule" +
                     "un chiffre, et un caractère spécial");
+        String emailRegex = "^[\\w.%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
+        if (!clientRequestDTO.email().matches(emailRegex)) {
+            throw new ClientException("L'email doit contenir un @ et un nom de domaine valide");
+        }
     }
 
 

@@ -4,7 +4,8 @@ import com.accenture.exception.AdministrateurException;
 import com.accenture.repository.AdministrateurDAO;
 import com.accenture.repository.entity.Utilisateurs.Administrateur;
 import com.accenture.service.AdministrateurServiceImpl;
-import com.accenture.service.dto.*;
+import com.accenture.service.dto.Utilisateurs.AdministrateurRequestDTO;
+import com.accenture.service.dto.Utilisateurs.AdministrateurResponseDTO;
 import com.accenture.service.mapper.AdministrateurMapper;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.DisplayName;
@@ -274,9 +275,6 @@ public class AdminServiceImplTest {
 
     }
 
-
-
-
 //***********************************************************************************************************************
 //                                               METHODE MODIF PARTIEL
 //***********************************************************************************************************************
@@ -320,6 +318,7 @@ public class AdminServiceImplTest {
         Mockito.when(daoMock.findByLogin(login)).thenReturn(Optional.of(adminExistant));
         Mockito.when(mapperMock.toAdministrateur(adminRequestDTO)).thenReturn(adminModifie);
         Mockito.when(daoMock.save(adminExistant)).thenReturn(adminExistant);
+        Mockito.when(mapperMock.toAdminRequestDTO(adminExistant)).thenReturn(adminRequestDTO);
         Mockito.when(mapperMock.toAdminResponseDTO(adminExistant)).thenReturn(responseDTO);
 
         // THEN
@@ -328,9 +327,6 @@ public class AdminServiceImplTest {
         assertNotNull(result);
         assertEquals("Marigonez", result.nom());
     }
-
-
-
 
     @DisplayName("Modification réussie d'un client existant")
     @Test
@@ -352,14 +348,13 @@ public class AdminServiceImplTest {
         adminModifie.setLogin(null);
         adminModifie.setFonction(null);
 
-
-
         AdministrateurResponseDTO responseDTO = creerAdmin2ResponseDTO();
 
         // WHEN
         Mockito.when(daoMock.findByLogin(login)).thenReturn(Optional.of( adminExistant));
         Mockito.when(mapperMock.toAdministrateur(adminRequestDTO)).thenReturn(adminModifie);
         Mockito.when(daoMock.save( adminExistant)).thenReturn( adminExistant);
+        Mockito.when(mapperMock.toAdminRequestDTO(adminExistant)).thenReturn(adminRequestDTO);
         Mockito.when(mapperMock.toAdminResponseDTO(adminExistant)).thenReturn(responseDTO);
 
         // THEN
@@ -368,28 +363,6 @@ public class AdminServiceImplTest {
         assertThrows(EntityNotFoundException.class, () -> service.modifPartielle("melodie.marigonez@hotmail.com", "Erreur dans l'email ou le mot de passe", adminRequestDTO));
         assertEquals("Marigonez", result.nom());
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //***********************************************************************************************************************

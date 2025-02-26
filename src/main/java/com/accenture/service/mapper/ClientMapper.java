@@ -1,8 +1,8 @@
 package com.accenture.service.mapper;
 
 import com.accenture.repository.entity.Utilisateurs.Client;
-import com.accenture.service.dto.ClientRequestDTO;
-import com.accenture.service.dto.ClientResponseDTO;
+import com.accenture.service.dto.Utilisateurs.ClientRequestDTO;
+import com.accenture.service.dto.Utilisateurs.ClientResponseDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -14,4 +14,7 @@ public interface ClientMapper {
 
     @Mapping(source = "login", target = "email")
     ClientResponseDTO toClientResponseDTO(Client client);
+
+    @Mapping(source = "login", target = "email")
+    ClientRequestDTO toClientRequestDTO (Client client);
 }

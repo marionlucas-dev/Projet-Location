@@ -1,14 +1,13 @@
 package com.accenture.controller;
-
 import com.accenture.service.VoitureService;
-import com.accenture.service.dto.ClientResponseDTO;
-import com.accenture.service.dto.VoitureRequestDTO;
-import com.accenture.service.dto.VoitureResponseDTO;
+import com.accenture.service.dto.Utilisateurs.ClientRequestDTO;
+import com.accenture.service.dto.Utilisateurs.ClientResponseDTO;
+import com.accenture.service.dto.Vehicules.VoitureRequestDTO;
+import com.accenture.service.dto.Vehicules.VoitureResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import java.net.URI;
 import java.util.List;
 
@@ -47,8 +46,16 @@ public class VoitureController {
         return ResponseEntity.created(location).build();
     }
 
+@DeleteMapping("/{id}")
+    ResponseEntity<VoitureResponseDTO> suppVoiture(@PathVariable("id") Long id){
+        VoitureResponseDTO suppVoiture = voitureService.supprimer(id);
+        return ResponseEntity.ok(suppVoiture);
+}
 
-
-
+    @PatchMapping("/{id}")
+    ResponseEntity<VoitureResponseDTO> modifPartiel(@PathVariable("id") Long id , @RequestBody VoitureRequestDTO voitureRequestDTO){
+        VoitureResponseDTO reponse = voitureService.modifier(id, voitureRequestDTO);
+        return ResponseEntity.ok(reponse);
+    }
 
 }

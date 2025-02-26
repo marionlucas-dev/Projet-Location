@@ -1,4 +1,4 @@
-package com.accenture.service.dto;
+package com.accenture.service.dto.Utilisateurs;
 
 /**
  * Représente la réponse contenant les informations d'un admin.

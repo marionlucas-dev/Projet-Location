@@ -1,10 +1,9 @@
 package com.accenture.controller;
 
 import com.accenture.service.ClientService;
-import com.accenture.service.dto.ClientRequestDTO;
-import com.accenture.service.dto.ClientResponseDTO;
+import com.accenture.service.dto.Utilisateurs.ClientRequestDTO;
+import com.accenture.service.dto.Utilisateurs.ClientResponseDTO;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;

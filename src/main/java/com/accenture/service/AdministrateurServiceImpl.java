@@ -1,15 +1,13 @@
 package com.accenture.service;
-
 import com.accenture.exception.AdministrateurException;
 import com.accenture.repository.AdministrateurDAO;
 import com.accenture.repository.entity.Utilisateurs.Administrateur;
-import com.accenture.service.dto.AdministrateurRequestDTO;
-import com.accenture.service.dto.AdministrateurResponseDTO;
-import com.accenture.service.dto.ClientResponseDTO;
+import com.accenture.service.dto.Utilisateurs.AdministrateurRequestDTO;
+import com.accenture.service.dto.Utilisateurs.AdministrateurResponseDTO;
+import com.accenture.service.dto.Utilisateurs.ClientResponseDTO;
 import com.accenture.service.mapper.AdministrateurMapper;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -126,6 +124,8 @@ public class AdministrateurServiceImpl implements AdministrateurService {
         Administrateur adminExistant = verifAdmin(login, password);
         Administrateur nouveau = adminMapper.toAdministrateur(adminRequestDTO);
         remplacerExistantParNouveau(adminExistant, nouveau);
+        AdministrateurRequestDTO dto = adminMapper.toAdminRequestDTO(adminExistant);
+        verifierAdmin(dto);
         Administrateur adminEnre = adminDAO.save(adminExistant);
         return adminMapper.toAdminResponseDTO(adminEnre);
     }

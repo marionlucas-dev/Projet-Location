@@ -1,4 +1,4 @@
-package com.accenture.service.dto;
+package com.accenture.service.dto.Utilisateurs;
 
 /**
  * Représente une adresse avec ses principales composantes.

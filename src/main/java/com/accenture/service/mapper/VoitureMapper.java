@@ -1,8 +1,8 @@
 package com.accenture.service.mapper;
 
-import com.accenture.repository.entity.Voiture.Voiture;
-import com.accenture.service.dto.VoitureRequestDTO;
-import com.accenture.service.dto.VoitureResponseDTO;
+import com.accenture.repository.entity.Vehicules.Voiture;
+import com.accenture.service.dto.Vehicules.VoitureRequestDTO;
+import com.accenture.service.dto.Vehicules.VoitureResponseDTO;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

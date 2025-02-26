@@ -1,4 +1,4 @@
-package com.accenture.repository.entity.Voiture;
+package com.accenture.repository.entity.Vehicules;
 
 import com.accenture.shared.Carburant;
 import com.accenture.shared.NombrePortes;

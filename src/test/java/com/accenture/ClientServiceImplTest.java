@@ -4,11 +4,11 @@ import com.accenture.exception.ClientException;
 import com.accenture.repository.ClientDAO;
 import com.accenture.repository.entity.Utilisateurs.Adresse;
 import com.accenture.repository.entity.Utilisateurs.Client;
-import com.accenture.service.dto.AdresseDTO;
-import com.accenture.service.dto.ClientRequestDTO;
+import com.accenture.service.dto.Utilisateurs.AdresseDTO;
+import com.accenture.service.dto.Utilisateurs.ClientRequestDTO;
 import com.accenture.shared.Permis;
 import com.accenture.service.ClientServiceImpl;
-import com.accenture.service.dto.ClientResponseDTO;
+import com.accenture.service.dto.Utilisateurs.ClientResponseDTO;
 import com.accenture.service.mapper.ClientMapper;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.DisplayName;
@@ -191,6 +191,15 @@ public class ClientServiceImplTest {
         assertThrows(ClientException.class, () -> service.ajouter(dto));
     }
 
+    @DisplayName("Si ajouter email erroné, exception levée")
+    @Test
+    void testAjouterAvecMailErreur() {
+        ClientRequestDTO dto = new ClientRequestDTO("Lucas", "Marion", "moicm.com", "Azerty@44",
+                new AdresseDTO("75 rue du moulin Soline", "44115", "Basse Goulaine"),
+                LocalDate.of(1996, 7, 20), Permis.B1);
+        assertThrows(ClientException.class, () -> service.ajouter(dto));
+    }
+
     @DisplayName("Si ajouter Adresse null, exception levée")
     @Test
     void testAjouterAvecAdresseNull() {
@@ -319,7 +328,6 @@ public class ClientServiceImplTest {
     @DisplayName("Modification réussie d'un client existant")
     @Test
     void modifierClientExistant() {
-        // GIVEN
         String login = "moicmama@gmail.com";
         String password = "Azerty@96";
         Client clientExistant = new Client();
@@ -334,7 +342,7 @@ public class ClientServiceImplTest {
         clientModifie.setNom("Lucas");
         clientModifie.setPrenom("Mélodie");
         clientModifie.setLogin("melodie.marigonez@hotmail.com");
-        clientModifie.setAdresse(new Adresse(1,"75 rue du moulin Soline", "44115", "Basse Goulaine"));
+        clientModifie.setAdresse(new Adresse(1, "75 rue du moulin Soline", "44115", "Basse Goulaine"));
         clientModifie.setDateNaissance(LocalDate.of(1999, 7, 27));
         clientModifie.setPermis(Permis.B1);
         clientModifie.setDateInscription(LocalDate.now());
@@ -342,13 +350,13 @@ public class ClientServiceImplTest {
 
         ClientResponseDTO responseDTO = creerClient2ResponseDTO();
 
-        // WHEN
+
         Mockito.when(daoMock.findByLogin(login)).thenReturn(Optional.of(clientExistant));
         Mockito.when(mapperMock.toClient(clientRequestDTO)).thenReturn(clientModifie);
         Mockito.when(daoMock.save(clientExistant)).thenReturn(clientExistant);
+        Mockito.when(mapperMock.toClientRequestDTO(clientExistant)).thenReturn(clientRequestDTO);
         Mockito.when(mapperMock.toClientResponseDTO(clientExistant)).thenReturn(responseDTO);
 
-        // THEN
         ClientResponseDTO result = service.modifPartielle(login, password, clientRequestDTO);
 
         assertNotNull(result);
@@ -356,12 +364,10 @@ public class ClientServiceImplTest {
     }
 
 
-
-
-    @DisplayName("Modification réussie d'un client existant")
+    @DisplayName("Modification réussie d'un client null")
     @Test
     void modifierClientNull() {
-        // GIVEN
+
         String login = "moicmama@gmail.com";
         String password = "Azerty@96";
         Client clientExistant = new Client();
@@ -384,13 +390,13 @@ public class ClientServiceImplTest {
 
         ClientResponseDTO responseDTO = creerClient2ResponseDTO();
 
-        // WHEN
         Mockito.when(daoMock.findByLogin(login)).thenReturn(Optional.of(clientExistant));
         Mockito.when(mapperMock.toClient(clientRequestDTO)).thenReturn(clientModifie);
         Mockito.when(daoMock.save(clientExistant)).thenReturn(clientExistant);
+        Mockito.when(mapperMock.toClientRequestDTO(clientExistant)).thenReturn(clientRequestDTO);
         Mockito.when(mapperMock.toClientResponseDTO(clientExistant)).thenReturn(responseDTO);
 
-        // THEN
+
         ClientResponseDTO result = service.modifPartielle(login, password, clientRequestDTO);
 
         assertThrows(EntityNotFoundException.class, () -> service.modifPartielle("melodie.marigonez@hotmail.com", "Erreur dans l'email ou le mot de passe", clientRequestDTO));
@@ -398,16 +404,38 @@ public class ClientServiceImplTest {
     }
 
 
+    @DisplayName("Modification réussie d'un client existant avec quelques paramètres ")
+    @Test
+    void modifierClientExistantQuelquesParametres() {
+        String login = "moicmama@gmail.com";
+        String password = "Azerty@96";
+        Client clientExistant = new Client();
+        clientExistant.setLogin(login);
+        clientExistant.setPassword(password);
+
+        ClientRequestDTO clientRequestDTO = creerClient1RequestDTO();
+
+        Client clientModifie = new Client();
+        clientModifie.setLogin(login);
+        clientModifie.setPassword(password);
+        clientModifie.setLogin("melodie.marigonez@hotmail.com");
+        clientModifie.setAdresse(new Adresse(1, "75 rue du moulin Soline", "44115", "Basse Goulaine"));
+        clientModifie.setDateInscription(LocalDate.now());
 
 
+        ClientResponseDTO responseDTO = creerClient2ResponseDTO();
 
+        Mockito.when(daoMock.findByLogin(login)).thenReturn(Optional.of(clientExistant));
+        Mockito.when(mapperMock.toClient(clientRequestDTO)).thenReturn(clientModifie);
+        Mockito.when(daoMock.save(clientExistant)).thenReturn(clientExistant);
+        Mockito.when(mapperMock.toClientRequestDTO(clientExistant)).thenReturn(clientRequestDTO);
+        Mockito.when(mapperMock.toClientResponseDTO(clientExistant)).thenReturn(responseDTO);
 
+        ClientResponseDTO result = service.modifPartielle(login, password, clientRequestDTO);
 
-
-
-
-
-
+        assertNotNull(result);
+        assertEquals("Marigonez", result.nom());
+    }
 
 
 //***********************************************************************************************************************
