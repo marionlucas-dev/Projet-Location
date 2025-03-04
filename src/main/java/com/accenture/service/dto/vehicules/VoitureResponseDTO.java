@@ -1,4 +1,4 @@
-package com.accenture.service.dto.Vehicules;
+package com.accenture.service.dto.vehicules;
 
 import com.accenture.shared.*;
 

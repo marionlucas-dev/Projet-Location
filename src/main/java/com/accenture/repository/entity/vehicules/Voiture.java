@@ -1,4 +1,4 @@
-package com.accenture.repository.entity.Vehicules;
+package com.accenture.repository.entity.vehicules;
 
 import com.accenture.shared.Carburant;
 import com.accenture.shared.NombrePortes;
@@ -12,10 +12,10 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 
- /**
-  * Représente une voiture, héritant de {@link Vehicule}.
-  * Cette entité est mappé à la table "VOITURES" dans la base de données
-  */
+/**
+ * Représente une voiture, héritant de {@link Vehicule}.
+ * Cette entité est mappé à la table "VOITURES" dans la base de données
+ */
 
 
 @EqualsAndHashCode(callSuper = true)
@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "VOITURES")
-public class Voiture extends Vehicule{
+public class Voiture extends Vehicule {
 
     private int nbrPlaces;
     private Carburant carburant;
@@ -33,10 +33,7 @@ public class Voiture extends Vehicule{
     private Transmission transmission;
     private int bagages;
     private Permis permis;
-    private String tarifJournee;
-    private String kilometrage;
-    private Boolean actif;
-    private Boolean retireDuParc;
+
 
 
 }

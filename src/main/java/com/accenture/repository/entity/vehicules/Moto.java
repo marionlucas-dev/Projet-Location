@@ -1,7 +1,8 @@
-package com.accenture.repository.entity.Vehicules;
+package com.accenture.repository.entity.vehicules;
 
 import com.accenture.shared.Permis;
 import com.accenture.shared.Transmission;
+import com.accenture.shared.Type;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -14,10 +15,6 @@ import lombok.NoArgsConstructor;
  * Représente une moto, héritant de {@link Vehicule}.
  * Cette entité est mappé à la table "MOTOS" dans la base de données
  */
-
-
-
-
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
@@ -33,6 +30,7 @@ public class Moto extends Vehicule{
     private double hauteurSelle;
     private Transmission transmission;
     private Permis permis;
+
 
 
 

@@ -1,8 +1,8 @@
 package com.accenture.service.mapper;
 
-import com.accenture.repository.entity.Utilisateurs.Client;
-import com.accenture.service.dto.Utilisateurs.ClientRequestDTO;
-import com.accenture.service.dto.Utilisateurs.ClientResponseDTO;
+import com.accenture.repository.entity.utilisateurs.Client;
+import com.accenture.service.dto.utilisateurs.ClientRequestDTO;
+import com.accenture.service.dto.utilisateurs.ClientResponseDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

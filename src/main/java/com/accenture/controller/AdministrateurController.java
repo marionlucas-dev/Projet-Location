@@ -1,9 +1,12 @@
 package com.accenture.controller;
 
 import com.accenture.service.AdministrateurService;
-import com.accenture.service.dto.Utilisateurs.AdministrateurRequestDTO;
-import com.accenture.service.dto.Utilisateurs.AdministrateurResponseDTO;
+import com.accenture.service.dto.utilisateurs.AdministrateurRequestDTO;
+import com.accenture.service.dto.utilisateurs.AdministrateurResponseDTO;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -13,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/administrateurs")
+@Slf4j
 public class AdministrateurController {
 
     private final AdministrateurService adminService;
@@ -52,7 +56,7 @@ public class AdministrateurController {
     @DeleteMapping("/{id}")
     ResponseEntity<AdministrateurResponseDTO> suppClient(@PathVariable("id") String login, String password) {
         AdministrateurResponseDTO suppCompte = adminService.suppCompte(login, password);
-        return ResponseEntity.ok(suppCompte);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 

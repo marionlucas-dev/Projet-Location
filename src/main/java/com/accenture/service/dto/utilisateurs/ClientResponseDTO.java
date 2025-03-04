@@ -1,4 +1,4 @@
-package com.accenture.service.dto.Utilisateurs;
+package com.accenture.service.dto.utilisateurs;
 
 import com.accenture.shared.Permis;
 

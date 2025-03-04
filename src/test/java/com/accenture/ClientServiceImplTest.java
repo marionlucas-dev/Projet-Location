@@ -2,13 +2,13 @@ package com.accenture;
 
 import com.accenture.exception.ClientException;
 import com.accenture.repository.ClientDAO;
-import com.accenture.repository.entity.Utilisateurs.Adresse;
-import com.accenture.repository.entity.Utilisateurs.Client;
-import com.accenture.service.dto.Utilisateurs.AdresseDTO;
-import com.accenture.service.dto.Utilisateurs.ClientRequestDTO;
+import com.accenture.repository.entity.utilisateurs.Adresse;
+import com.accenture.repository.entity.utilisateurs.Client;
+import com.accenture.service.dto.utilisateurs.AdresseDTO;
+import com.accenture.service.dto.utilisateurs.ClientRequestDTO;
 import com.accenture.shared.Permis;
 import com.accenture.service.ClientServiceImpl;
-import com.accenture.service.dto.Utilisateurs.ClientResponseDTO;
+import com.accenture.service.dto.utilisateurs.ClientResponseDTO;
 import com.accenture.service.mapper.ClientMapper;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.DisplayName;

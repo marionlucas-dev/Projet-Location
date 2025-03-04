@@ -1,7 +1,7 @@
 package com.accenture.service.mapper;
 
-import com.accenture.repository.entity.Utilisateurs.Adresse;
-import com.accenture.service.dto.Utilisateurs.AdresseDTO;
+import com.accenture.repository.entity.utilisateurs.Adresse;
+import com.accenture.service.dto.utilisateurs.AdresseDTO;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

@@ -1,10 +1,10 @@
 package com.accenture.service;
 import com.accenture.exception.AdministrateurException;
 import com.accenture.repository.AdministrateurDAO;
-import com.accenture.repository.entity.Utilisateurs.Administrateur;
-import com.accenture.service.dto.Utilisateurs.AdministrateurRequestDTO;
-import com.accenture.service.dto.Utilisateurs.AdministrateurResponseDTO;
-import com.accenture.service.dto.Utilisateurs.ClientResponseDTO;
+import com.accenture.repository.entity.utilisateurs.Administrateur;
+import com.accenture.service.dto.utilisateurs.AdministrateurRequestDTO;
+import com.accenture.service.dto.utilisateurs.AdministrateurResponseDTO;
+import com.accenture.service.dto.utilisateurs.ClientResponseDTO;
 import com.accenture.service.mapper.AdministrateurMapper;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;

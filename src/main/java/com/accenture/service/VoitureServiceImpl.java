@@ -2,9 +2,9 @@ package com.accenture.service;
 
 import com.accenture.exception.VoitureException;
 import com.accenture.repository.VoitureDAO;
-import com.accenture.repository.entity.Vehicules.Voiture;
-import com.accenture.service.dto.Vehicules.VoitureRequestDTO;
-import com.accenture.service.dto.Vehicules.VoitureResponseDTO;
+import com.accenture.repository.entity.vehicules.Voiture;
+import com.accenture.service.dto.vehicules.VoitureRequestDTO;
+import com.accenture.service.dto.vehicules.VoitureResponseDTO;
 import com.accenture.service.mapper.VoitureMapper;
 import com.accenture.shared.Filtre;
 import com.accenture.shared.NombrePortes;
@@ -45,7 +45,7 @@ public class VoitureServiceImpl implements VoitureService {
      * Rechercher une voiture par son modèle et le convertit en objet VoitureResponseDTO
      *
      * @param modele : le modèle de la voiture
-     * @return un objet (@link VoitureResponseDTO) représentant le client trouvé
+     * @return un objet (@link VoitureResponseDTO) représentant la voiture trouvé
      * @throws EntityNotFoundException: si aucune voiture n'a été trouvée avec cet ID
      */
 
@@ -63,7 +63,7 @@ public class VoitureServiceImpl implements VoitureService {
      * Ajoute une voiture et le converti en un objet VoitureResponseDTO en respectant les paramètres
      *
      * @param voitureRequestDTO : objet contenant les informations de la voiture à enregistrer
-     * @return : un objet (@link VoitureResponseDTO) représentant le client ajouté
+     * @return : un objet (@link VoitureResponseDTO) représentant la moto ajouté
      * @throws VoitureException : si un des paramètres n'es pas correct.
      */
 
@@ -80,7 +80,7 @@ public class VoitureServiceImpl implements VoitureService {
      * Une voiture peut être supprimée si les informations sont correctes
      *
      * @param id : identifiant de la voiture
-     * @return un {@Link VoitureResponseDTO} contenannt les infos du client si l'authentification réussit.
+     * @return un {@Link VoitureResponseDTO} contenannt les infos de la voiture si l'authentification réussit.
      * @throws EntityNotFoundException: si aucune voiture ne correspond aux informations demandées.
      */
 

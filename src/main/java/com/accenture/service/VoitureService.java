@@ -1,8 +1,8 @@
 package com.accenture.service;
 
 import com.accenture.exception.VoitureException;
-import com.accenture.service.dto.Vehicules.VoitureRequestDTO;
-import com.accenture.service.dto.Vehicules.VoitureResponseDTO;
+import com.accenture.service.dto.vehicules.VoitureRequestDTO;
+import com.accenture.service.dto.vehicules.VoitureResponseDTO;
 import com.accenture.shared.Filtre;
 import jakarta.persistence.EntityNotFoundException;
 

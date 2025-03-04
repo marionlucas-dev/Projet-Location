@@ -1,9 +1,11 @@
 package com.accenture.controller;
 
 import com.accenture.service.ClientService;
-import com.accenture.service.dto.Utilisateurs.ClientRequestDTO;
-import com.accenture.service.dto.Utilisateurs.ClientResponseDTO;
+import com.accenture.service.dto.utilisateurs.ClientRequestDTO;
+import com.accenture.service.dto.utilisateurs.ClientResponseDTO;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -13,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/clients")
+@Slf4j
 public class ClientController {
 
     private final ClientService clientService;
@@ -59,7 +62,8 @@ public class ClientController {
     @DeleteMapping("/{id}")
     ResponseEntity<ClientResponseDTO> suppClient(@PathVariable("id") String login, String password){
      ClientResponseDTO suppCompte=   clientService.suppCompte(login, password);
-        return ResponseEntity.ok(suppCompte);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+
     }
 
 

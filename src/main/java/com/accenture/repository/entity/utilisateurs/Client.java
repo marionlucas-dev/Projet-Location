@@ -1,4 +1,4 @@
-package com.accenture.repository.entity.Utilisateurs;
+package com.accenture.repository.entity.utilisateurs;
 import com.accenture.shared.Permis;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

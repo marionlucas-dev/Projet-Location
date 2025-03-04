@@ -2,14 +2,10 @@ package com.accenture;
 
 import com.accenture.exception.VoitureException;
 import com.accenture.repository.VoitureDAO;
-import com.accenture.repository.entity.Utilisateurs.Adresse;
-import com.accenture.repository.entity.Utilisateurs.Client;
-import com.accenture.repository.entity.Vehicules.Voiture;
+import com.accenture.repository.entity.vehicules.Voiture;
 import com.accenture.service.VoitureServiceImpl;
-import com.accenture.service.dto.Utilisateurs.ClientRequestDTO;
-import com.accenture.service.dto.Utilisateurs.ClientResponseDTO;
-import com.accenture.service.dto.Vehicules.VoitureRequestDTO;
-import com.accenture.service.dto.Vehicules.VoitureResponseDTO;
+import com.accenture.service.dto.vehicules.VoitureRequestDTO;
+import com.accenture.service.dto.vehicules.VoitureResponseDTO;
 import com.accenture.service.mapper.VoitureMapper;
 import com.accenture.shared.*;
 import jakarta.persistence.EntityNotFoundException;
@@ -21,7 +17,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

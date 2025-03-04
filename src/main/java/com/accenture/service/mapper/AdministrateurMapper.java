@@ -1,11 +1,10 @@
 package com.accenture.service.mapper;
 
-import com.accenture.repository.entity.Utilisateurs.Administrateur;
-import com.accenture.service.dto.Utilisateurs.AdministrateurRequestDTO;
-import com.accenture.service.dto.Utilisateurs.AdministrateurResponseDTO;
+import com.accenture.repository.entity.utilisateurs.Administrateur;
+import com.accenture.service.dto.utilisateurs.AdministrateurRequestDTO;
+import com.accenture.service.dto.utilisateurs.AdministrateurResponseDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 
 /**
  * Mapper permettant la conversion entre les objets {@link Administrateur}, {@link AdministrateurRequestDTO}

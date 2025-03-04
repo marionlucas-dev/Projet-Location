@@ -1,4 +1,4 @@
-package com.accenture.repository.entity.Utilisateurs;
+package com.accenture.repository.entity.utilisateurs;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;

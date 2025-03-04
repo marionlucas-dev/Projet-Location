@@ -1,7 +1,7 @@
 package com.accenture.service;
 
-import com.accenture.service.dto.Utilisateurs.ClientRequestDTO;
-import com.accenture.service.dto.Utilisateurs.ClientResponseDTO;
+import com.accenture.service.dto.utilisateurs.ClientRequestDTO;
+import com.accenture.service.dto.utilisateurs.ClientResponseDTO;
 import jakarta.persistence.EntityNotFoundException;
 
 import java.util.List;

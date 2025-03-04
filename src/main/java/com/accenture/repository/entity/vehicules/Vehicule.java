@@ -1,4 +1,4 @@
-package com.accenture.repository.entity.Vehicules;
+package com.accenture.repository.entity.vehicules;
 
 import com.accenture.shared.Type;
 import jakarta.persistence.*;
@@ -29,6 +29,8 @@ public abstract class Vehicule {
     private String couleur;
     @Enumerated(EnumType.STRING)
     private Type type;
-
-
+    private String tarifJournee;
+    private String kilometrage;
+    private Boolean actif;
+    private Boolean retireDuParc;
 }

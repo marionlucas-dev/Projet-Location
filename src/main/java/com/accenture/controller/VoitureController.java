@@ -1,9 +1,11 @@
 package com.accenture.controller;
 import com.accenture.service.VoitureService;
-import com.accenture.service.dto.Vehicules.VoitureRequestDTO;
-import com.accenture.service.dto.Vehicules.VoitureResponseDTO;
+import com.accenture.service.dto.vehicules.VoitureRequestDTO;
+import com.accenture.service.dto.vehicules.VoitureResponseDTO;
 import com.accenture.shared.Filtre;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -12,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/voitures")
+@Slf4j
 public class VoitureController {
 
 
@@ -24,7 +27,7 @@ public class VoitureController {
 
 
     @GetMapping
-    List<VoitureResponseDTO> voiture (){
+    List<VoitureResponseDTO> voitures (){
        return voitureService.trouverTous();
     }
 
@@ -54,7 +57,8 @@ public class VoitureController {
 @DeleteMapping("/{id}")
     ResponseEntity<VoitureResponseDTO> suppVoiture(@PathVariable("id") Long id){
         VoitureResponseDTO suppVoiture = voitureService.supprimer(id);
-        return ResponseEntity.ok(suppVoiture);
+    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+
 }
 
     @PatchMapping("/{id}")

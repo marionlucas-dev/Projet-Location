@@ -1,4 +1,4 @@
-package com.accenture.service.dto.Utilisateurs;
+package com.accenture.service.dto.utilisateurs;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
