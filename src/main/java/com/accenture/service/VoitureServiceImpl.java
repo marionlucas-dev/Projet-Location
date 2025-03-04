@@ -131,7 +131,7 @@ public class VoitureServiceImpl implements VoitureService {
                                 .map(voitureMapper::toVoitureResponseDTO)
                                 .toList();
                 default ->
-                    throw new IllegalArgumentException(STR."Le filtre n'est pas disponible\{filtre}");
+                        throw new IllegalArgumentException(STR."Le filtre n'est pas disponible\{filtre}");
             };
         return result;
     }

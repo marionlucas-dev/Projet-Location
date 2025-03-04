@@ -3,6 +3,10 @@ package com.accenture.controller;
 import com.accenture.service.ClientService;
 import com.accenture.service.dto.utilisateurs.ClientRequestDTO;
 import com.accenture.service.dto.utilisateurs.ClientResponseDTO;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -16,6 +20,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/clients")
 @Slf4j
+@Schema
+@Tag(name = "Gestion des clients", description = "API pour la gestion des clients")
 public class ClientController {
 
     private final ClientService clientService;
@@ -26,17 +32,26 @@ public class ClientController {
     }
 
     @GetMapping
+    @Operation(summary = "Trouve les clients", description = "Trouve les clients dans le parc.")
+    @ApiResponse(responseCode = "201", description = "Clients trouvées avec succès")
+    @ApiResponse(responseCode = "400", description = "Données invalides")
     List<ClientResponseDTO> clients() {
         return clientService.trouverTous();
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Trouve un client", description = "Trouve un client dans le parc.")
+    @ApiResponse(responseCode = "201", description = "Client trouvé avec succès")
+    @ApiResponse(responseCode = "400", description = "Données invalides")
     ResponseEntity<ClientResponseDTO> unClient(@PathVariable("id") Long id) {
         ClientResponseDTO trouver = clientService.trouver(id);
         return ResponseEntity.ok(trouver);
     }
 
     @PostMapping
+    @Operation(summary = "Ajouter un client ", description = "Ajoute un client dans la base.")
+    @ApiResponse(responseCode = "201", description = "Client ajouter avec succès")
+    @ApiResponse(responseCode = "400", description = "Données invalides")
     ResponseEntity<Void> ajouter(@RequestBody @Valid ClientRequestDTO clientRequestDTO) {
         ClientResponseDTO clientEnreg = clientService.ajouter(clientRequestDTO);
         URI location = ServletUriComponentsBuilder
@@ -47,19 +62,19 @@ public class ClientController {
         return ResponseEntity.created(location).build();
     }
 
-//    @DeleteMapping("/{id}")
-//    ResponseEntity<ClientResponseDTO> suppr(@PathVariable("id") Long id) {
-//        clientService.supprimer(id);
-//        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-//    }
-
     @GetMapping("/informations")
+    @Operation(summary = "Informations clients", description = "Donne les informations d'un client.")
+    @ApiResponse(responseCode = "201", description = "Client trouvé avec succès")
+    @ApiResponse(responseCode = "400", description = "Données invalides")
     ResponseEntity<ClientResponseDTO> infosClient(String login, String password){
         ClientResponseDTO infosCompte = clientService.infosCompte(login, password);
         return ResponseEntity.ok(infosCompte);
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Supprimer un client", description = "Supprime un client de la base.")
+    @ApiResponse(responseCode = "201", description = "Client supprimé avec succès")
+    @ApiResponse(responseCode = "400", description = "Données invalides")
     ResponseEntity<ClientResponseDTO> suppClient(@PathVariable("id") String login, String password){
      ClientResponseDTO suppCompte=   clientService.suppCompte(login, password);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
@@ -68,6 +83,9 @@ public class ClientController {
 
 
     @PatchMapping("/{id}")
+    @Operation(summary = "Modifier complètement ou partiellement un client", description = "Modifie un client dans la base.")
+    @ApiResponse(responseCode = "201", description = "Client modifier avec succès")
+    @ApiResponse(responseCode = "400", description = "Données invalides")
     ResponseEntity<ClientResponseDTO> modifPartiel(@PathVariable("id") String login, String password , @RequestBody ClientRequestDTO clientRequestDTO){
      ClientResponseDTO reponse = clientService.modifPartielle(login, password, clientRequestDTO);
      return ResponseEntity.ok(reponse);

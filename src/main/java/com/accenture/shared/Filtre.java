@@ -1,9 +1,9 @@
 package com.accenture.shared;
 
-public enum Filtre  {
+public enum Filtre {
 
     ACTIF,
     INACTIF,
-  HORSPARC,
+    HORSPARC,
     DANSLEPARC
 }

@@ -153,7 +153,7 @@ public class MotoServiceImpl implements MotoService {
             throw new MotoException("La couleur est obligatoire");
         if (motoRequestDTO.nbrCylindres() <= 0 || motoRequestDTO.nbrCylindres() > 7)
             throw new MotoException("Le nombre de cylindres doit être compris entre 1 et 6 ");
-        if (motoRequestDTO.cylindree() <= 0)
+        if (motoRequestDTO.cylindree() <= 50)
             throw new MotoException("Les cylindrées sont obligatoires. Ex: 50/125/250/300 etc");
         if (motoRequestDTO.poids() <= 0)
             throw new MotoException("Le poids de la moto est obligatoire");

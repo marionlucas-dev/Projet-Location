@@ -2,3 +2,91 @@
 2025-03-04 09:38:23 [restartedMain] DEBUG c.a.ProjetConcessionApplication - Running with Spring Boot v3.4.2, Spring v6.2.2
 2025-03-04 09:38:23 [restartedMain] INFO  c.a.ProjetConcessionApplication - No active profile set, falling back to 1 default profile: "default"
 2025-03-04 09:38:37 [restartedMain] INFO  c.a.ProjetConcessionApplication - Started ProjetConcessionApplication in 14.759 seconds (process running for 18.064)
+2025-03-04 09:53:49 [restartedMain] INFO  c.a.ProjetConcessionApplication - Starting ProjetConcessionApplication using Java 21.0.6 with PID 25804 (C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession\target\classes started by marion.lucas in C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession)
+2025-03-04 09:53:49 [restartedMain] DEBUG c.a.ProjetConcessionApplication - Running with Spring Boot v3.4.2, Spring v6.2.2
+2025-03-04 09:53:49 [restartedMain] INFO  c.a.ProjetConcessionApplication - No active profile set, falling back to 1 default profile: "default"
+2025-03-04 09:54:02 [restartedMain] INFO  c.a.ProjetConcessionApplication - Started ProjetConcessionApplication in 13.068 seconds (process running for 16.331)
+2025-03-04 10:05:42 [restartedMain] INFO  c.a.ProjetConcessionApplication - Starting ProjetConcessionApplication using Java 21.0.6 with PID 18984 (C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession\target\classes started by marion.lucas in C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession)
+2025-03-04 10:05:42 [restartedMain] DEBUG c.a.ProjetConcessionApplication - Running with Spring Boot v3.4.2, Spring v6.2.2
+2025-03-04 10:05:42 [restartedMain] INFO  c.a.ProjetConcessionApplication - No active profile set, falling back to 1 default profile: "default"
+2025-03-04 10:05:53 [restartedMain] INFO  c.a.ProjetConcessionApplication - Started ProjetConcessionApplication in 11.609 seconds (process running for 14.674)
+2025-03-04 10:07:16 [restartedMain] INFO  c.a.ProjetConcessionApplication - Starting ProjetConcessionApplication using Java 21.0.6 with PID 17516 (C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession\target\classes started by marion.lucas in C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession)
+2025-03-04 10:07:16 [restartedMain] DEBUG c.a.ProjetConcessionApplication - Running with Spring Boot v3.4.2, Spring v6.2.2
+2025-03-04 10:07:16 [restartedMain] INFO  c.a.ProjetConcessionApplication - No active profile set, falling back to 1 default profile: "default"
+2025-03-04 10:07:28 [restartedMain] INFO  c.a.ProjetConcessionApplication - Started ProjetConcessionApplication in 12.407 seconds (process running for 13.716)
+2025-03-04 10:10:24 [restartedMain] INFO  c.a.ProjetConcessionApplication - Starting ProjetConcessionApplication using Java 21.0.6 with PID 11928 (C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession\target\classes started by marion.lucas in C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession)
+2025-03-04 10:10:24 [restartedMain] DEBUG c.a.ProjetConcessionApplication - Running with Spring Boot v3.4.2, Spring v6.2.2
+2025-03-04 10:10:24 [restartedMain] INFO  c.a.ProjetConcessionApplication - No active profile set, falling back to 1 default profile: "default"
+2025-03-04 10:10:34 [restartedMain] INFO  c.a.ProjetConcessionApplication - Started ProjetConcessionApplication in 10.835 seconds (process running for 11.952)
+2025-03-04 10:10:50 [restartedMain] INFO  c.a.ProjetConcessionApplication - Starting ProjetConcessionApplication using Java 21.0.6 with PID 26540 (C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession\target\classes started by marion.lucas in C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession)
+2025-03-04 10:10:50 [restartedMain] DEBUG c.a.ProjetConcessionApplication - Running with Spring Boot v3.4.2, Spring v6.2.2
+2025-03-04 10:10:50 [restartedMain] INFO  c.a.ProjetConcessionApplication - No active profile set, falling back to 1 default profile: "default"
+2025-03-04 10:10:59 [restartedMain] INFO  c.a.ProjetConcessionApplication - Started ProjetConcessionApplication in 9.748 seconds (process running for 11.466)
+2025-03-04 10:14:40 [restartedMain] INFO  c.a.ProjetConcessionApplication - Starting ProjetConcessionApplication using Java 21.0.6 with PID 9432 (C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession\target\classes started by marion.lucas in C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession)
+2025-03-04 10:14:40 [restartedMain] DEBUG c.a.ProjetConcessionApplication - Running with Spring Boot v3.4.2, Spring v6.2.2
+2025-03-04 10:14:40 [restartedMain] INFO  c.a.ProjetConcessionApplication - No active profile set, falling back to 1 default profile: "default"
+2025-03-04 10:14:49 [restartedMain] INFO  c.a.ProjetConcessionApplication - Started ProjetConcessionApplication in 10.338 seconds (process running for 11.768)
+2025-03-04 10:46:24 [restartedMain] INFO  c.a.ProjetConcessionApplication - Starting ProjetConcessionApplication using Java 21.0.6 with PID 9432 (C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession\target\classes started by marion.lucas in C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession)
+2025-03-04 10:46:24 [restartedMain] DEBUG c.a.ProjetConcessionApplication - Running with Spring Boot v3.4.2, Spring v6.2.2
+2025-03-04 10:46:24 [restartedMain] INFO  c.a.ProjetConcessionApplication - No active profile set, falling back to 1 default profile: "default"
+2025-03-04 10:46:39 [restartedMain] INFO  c.a.ProjetConcessionApplication - Starting ProjetConcessionApplication using Java 21.0.6 with PID 9432 (C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession\target\classes started by marion.lucas in C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession)
+2025-03-04 10:46:39 [restartedMain] DEBUG c.a.ProjetConcessionApplication - Running with Spring Boot v3.4.2, Spring v6.2.2
+2025-03-04 10:46:39 [restartedMain] INFO  c.a.ProjetConcessionApplication - No active profile set, falling back to 1 default profile: "default"
+2025-03-04 10:46:41 [restartedMain] INFO  c.a.ProjetConcessionApplication - Started ProjetConcessionApplication in 2.342 seconds (process running for 1923.936)
+2025-03-04 11:00:15 [restartedMain] INFO  c.a.ProjetConcessionApplication - Starting ProjetConcessionApplication using Java 21.0.6 with PID 24996 (C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession\target\classes started by marion.lucas in C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession)
+2025-03-04 11:00:15 [restartedMain] DEBUG c.a.ProjetConcessionApplication - Running with Spring Boot v3.4.2, Spring v6.2.2
+2025-03-04 11:00:15 [restartedMain] INFO  c.a.ProjetConcessionApplication - No active profile set, falling back to 1 default profile: "default"
+2025-03-04 11:00:25 [restartedMain] INFO  c.a.ProjetConcessionApplication - Started ProjetConcessionApplication in 10.355 seconds (process running for 25.018)
+2025-03-04 14:25:52 [restartedMain] INFO  c.a.ProjetConcessionApplication - Starting ProjetConcessionApplication using Java 21.0.6 with PID 21980 (C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession\target\classes started by marion.lucas in C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession)
+2025-03-04 14:25:53 [restartedMain] DEBUG c.a.ProjetConcessionApplication - Running with Spring Boot v3.4.2, Spring v6.2.2
+2025-03-04 14:25:53 [restartedMain] INFO  c.a.ProjetConcessionApplication - No active profile set, falling back to 1 default profile: "default"
+2025-03-04 14:26:32 [restartedMain] INFO  c.a.ProjetConcessionApplication - Starting ProjetConcessionApplication using Java 21.0.6 with PID 18564 (C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession\target\classes started by marion.lucas in C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession)
+2025-03-04 14:26:32 [restartedMain] DEBUG c.a.ProjetConcessionApplication - Running with Spring Boot v3.4.2, Spring v6.2.2
+2025-03-04 14:26:32 [restartedMain] INFO  c.a.ProjetConcessionApplication - No active profile set, falling back to 1 default profile: "default"
+2025-03-04 14:27:11 [restartedMain] INFO  c.a.ProjetConcessionApplication - Starting ProjetConcessionApplication using Java 21.0.6 with PID 23804 (C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession\target\classes started by marion.lucas in C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession)
+2025-03-04 14:27:11 [restartedMain] DEBUG c.a.ProjetConcessionApplication - Running with Spring Boot v3.4.2, Spring v6.2.2
+2025-03-04 14:27:11 [restartedMain] INFO  c.a.ProjetConcessionApplication - No active profile set, falling back to 1 default profile: "default"
+2025-03-04 14:28:44 [restartedMain] INFO  c.a.ProjetConcessionApplication - Starting ProjetConcessionApplication using Java 21.0.6 with PID 29316 (C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession\target\classes started by marion.lucas in C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession)
+2025-03-04 14:28:44 [restartedMain] DEBUG c.a.ProjetConcessionApplication - Running with Spring Boot v3.4.2, Spring v6.2.2
+2025-03-04 14:28:44 [restartedMain] INFO  c.a.ProjetConcessionApplication - No active profile set, falling back to 1 default profile: "default"
+2025-03-04 14:29:16 [restartedMain] INFO  c.a.ProjetConcessionApplication - Starting ProjetConcessionApplication using Java 21.0.6 with PID 28472 (C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession\target\classes started by marion.lucas in C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession)
+2025-03-04 14:29:17 [restartedMain] DEBUG c.a.ProjetConcessionApplication - Running with Spring Boot v3.4.2, Spring v6.2.2
+2025-03-04 14:29:17 [restartedMain] INFO  c.a.ProjetConcessionApplication - No active profile set, falling back to 1 default profile: "default"
+2025-03-04 14:30:38 [restartedMain] INFO  c.a.ProjetConcessionApplication - Starting ProjetConcessionApplication using Java 21.0.6 with PID 5620 (C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession\target\classes started by marion.lucas in C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession)
+2025-03-04 14:30:38 [restartedMain] DEBUG c.a.ProjetConcessionApplication - Running with Spring Boot v3.4.2, Spring v6.2.2
+2025-03-04 14:30:38 [restartedMain] INFO  c.a.ProjetConcessionApplication - No active profile set, falling back to 1 default profile: "default"
+2025-03-04 14:30:58 [restartedMain] INFO  c.a.ProjetConcessionApplication - Starting ProjetConcessionApplication using Java 21.0.6 with PID 6800 (C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession\target\classes started by marion.lucas in C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession)
+2025-03-04 14:30:58 [restartedMain] DEBUG c.a.ProjetConcessionApplication - Running with Spring Boot v3.4.2, Spring v6.2.2
+2025-03-04 14:30:58 [restartedMain] INFO  c.a.ProjetConcessionApplication - No active profile set, falling back to 1 default profile: "default"
+2025-03-04 14:32:18 [restartedMain] INFO  c.a.ProjetConcessionApplication - Starting ProjetConcessionApplication using Java 21.0.6 with PID 30224 (C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession\target\classes started by marion.lucas in C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession)
+2025-03-04 14:32:18 [restartedMain] DEBUG c.a.ProjetConcessionApplication - Running with Spring Boot v3.4.2, Spring v6.2.2
+2025-03-04 14:32:18 [restartedMain] INFO  c.a.ProjetConcessionApplication - No active profile set, falling back to 1 default profile: "default"
+2025-03-04 14:35:02 [restartedMain] INFO  c.a.ProjetConcessionApplication - Starting ProjetConcessionApplication using Java 21.0.6 with PID 1116 (C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession\target\classes started by marion.lucas in C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession)
+2025-03-04 14:35:02 [restartedMain] DEBUG c.a.ProjetConcessionApplication - Running with Spring Boot v3.4.2, Spring v6.2.2
+2025-03-04 14:35:02 [restartedMain] INFO  c.a.ProjetConcessionApplication - No active profile set, falling back to 1 default profile: "default"
+2025-03-04 14:35:34 [restartedMain] INFO  c.a.ProjetConcessionApplication - Starting ProjetConcessionApplication using Java 21.0.6 with PID 15728 (C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession\target\classes started by marion.lucas in C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession)
+2025-03-04 14:35:34 [restartedMain] DEBUG c.a.ProjetConcessionApplication - Running with Spring Boot v3.4.2, Spring v6.2.2
+2025-03-04 14:35:34 [restartedMain] INFO  c.a.ProjetConcessionApplication - No active profile set, falling back to 1 default profile: "default"
+2025-03-04 14:40:01 [restartedMain] INFO  c.a.ProjetConcessionApplication - Starting ProjetConcessionApplication using Java 21.0.6 with PID 30560 (C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession\target\classes started by marion.lucas in C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession)
+2025-03-04 14:40:01 [restartedMain] DEBUG c.a.ProjetConcessionApplication - Running with Spring Boot v3.4.2, Spring v6.2.2
+2025-03-04 14:40:01 [restartedMain] INFO  c.a.ProjetConcessionApplication - No active profile set, falling back to 1 default profile: "default"
+2025-03-04 14:41:34 [restartedMain] INFO  c.a.ProjetConcessionApplication - Starting ProjetConcessionApplication using Java 21.0.6 with PID 29084 (C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession\target\classes started by marion.lucas in C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession)
+2025-03-04 14:41:34 [restartedMain] DEBUG c.a.ProjetConcessionApplication - Running with Spring Boot v3.4.2, Spring v6.2.2
+2025-03-04 14:41:34 [restartedMain] INFO  c.a.ProjetConcessionApplication - No active profile set, falling back to 1 default profile: "default"
+2025-03-04 14:53:12 [restartedMain] INFO  c.a.ProjetConcessionApplication - Starting ProjetConcessionApplication using Java 21.0.6 with PID 21540 (C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession\target\classes started by marion.lucas in C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession)
+2025-03-04 14:53:12 [restartedMain] DEBUG c.a.ProjetConcessionApplication - Running with Spring Boot v3.4.2, Spring v6.2.2
+2025-03-04 14:53:12 [restartedMain] INFO  c.a.ProjetConcessionApplication - No active profile set, falling back to 1 default profile: "default"
+2025-03-04 14:54:47 [restartedMain] INFO  c.a.ProjetConcessionApplication - Starting ProjetConcessionApplication using Java 21.0.6 with PID 20948 (C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession\target\classes started by marion.lucas in C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession)
+2025-03-04 14:54:47 [restartedMain] DEBUG c.a.ProjetConcessionApplication - Running with Spring Boot v3.4.2, Spring v6.2.2
+2025-03-04 14:54:47 [restartedMain] INFO  c.a.ProjetConcessionApplication - No active profile set, falling back to 1 default profile: "default"
+2025-03-04 14:54:57 [restartedMain] INFO  c.a.ProjetConcessionApplication - Started ProjetConcessionApplication in 11.206 seconds (process running for 14.432)
+2025-03-04 17:02:44 [restartedMain] INFO  c.a.ProjetConcessionApplication - Starting ProjetConcessionApplication using Java 21.0.6 with PID 15776 (C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession\target\classes started by marion.lucas in C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession)
+2025-03-04 17:02:44 [restartedMain] DEBUG c.a.ProjetConcessionApplication - Running with Spring Boot v3.4.2, Spring v6.2.2
+2025-03-04 17:02:44 [restartedMain] INFO  c.a.ProjetConcessionApplication - No active profile set, falling back to 1 default profile: "default"
+2025-03-04 17:03:45 [restartedMain] INFO  c.a.ProjetConcessionApplication - Starting ProjetConcessionApplication using Java 21.0.6 with PID 6996 (C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession\target\classes started by marion.lucas in C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession)
+2025-03-04 17:03:45 [restartedMain] DEBUG c.a.ProjetConcessionApplication - Running with Spring Boot v3.4.2, Spring v6.2.2
+2025-03-04 17:03:45 [restartedMain] INFO  c.a.ProjetConcessionApplication - No active profile set, falling back to 1 default profile: "default"
+2025-03-04 17:05:00 [restartedMain] INFO  c.a.ProjetConcessionApplication - Starting ProjetConcessionApplication using Java 21.0.6 with PID 30536 (C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession\target\classes started by marion.lucas in C:\Users\marion.lucas\OneDrive - Accenture\Bureau\Cours\Projet\projet-concession)
+2025-03-04 17:05:00 [restartedMain] DEBUG c.a.ProjetConcessionApplication - Running with Spring Boot v3.4.2, Spring v6.2.2
+2025-03-04 17:05:00 [restartedMain] INFO  c.a.ProjetConcessionApplication - No active profile set, falling back to 1 default profile: "default"
+2025-03-04 17:05:10 [restartedMain] INFO  c.a.ProjetConcessionApplication - Started ProjetConcessionApplication in 10.788 seconds (process running for 12.183)
