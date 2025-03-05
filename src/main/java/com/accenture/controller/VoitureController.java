@@ -1,6 +1,7 @@
 package com.accenture.controller;
 
 import com.accenture.service.VoitureService;
+import com.accenture.service.dto.vehicules.VehiculeDTO;
 import com.accenture.service.dto.vehicules.VoitureRequestDTO;
 import com.accenture.service.dto.vehicules.VoitureResponseDTO;
 import com.accenture.shared.Filtre;
@@ -39,8 +40,9 @@ public class VoitureController {
     @ApiResponse(responseCode = "201", description = "Voitures trouvées avec succès")
     @ApiResponse(responseCode = "400", description = "Données invalides")
     List<VoitureResponseDTO> voitures() {
-        log.info("Afficher une liste de voitures : {}" , voitures());
-        return voitureService.trouverTous();
+        List<VoitureResponseDTO> dto = voitureService.trouverTous();
+        log.info("Afficher liste de véhicules : {} ", dto);
+        return dto;
     }
 
     @GetMapping("/{id}")

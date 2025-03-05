@@ -1,10 +1,7 @@
 package com.accenture.controller;
 
 import com.accenture.service.MotoService;
-import com.accenture.service.dto.vehicules.MotoRequestDTO;
-import com.accenture.service.dto.vehicules.MotoResponseDTO;
-import com.accenture.service.dto.vehicules.VoitureRequestDTO;
-import com.accenture.service.dto.vehicules.VoitureResponseDTO;
+import com.accenture.service.dto.vehicules.*;
 import com.accenture.shared.Filtre;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -39,8 +36,9 @@ public class MotoController {
     @ApiResponse(responseCode = "201", description = "Motos trouvées avec succès")
     @ApiResponse(responseCode = "400", description = "Données invalides")
     List<MotoResponseDTO> motos (){
-        log.info("Afficher une liste de motos : {}" , motos());
-        return motoService.trouverTous();
+        List<MotoResponseDTO> dto = motoService.trouverTous();
+        log.info("Afficher liste de véhicules : {} ", dto);
+        return dto;
     }
 
     @GetMapping("/{id}")

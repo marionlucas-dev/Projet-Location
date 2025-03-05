@@ -37,8 +37,9 @@ public class VehiculesController {
     @ApiResponse(responseCode = "201", description = "Voitures filtrer avec succès")
     @ApiResponse(responseCode = "400", description = "Données invalides")
     VehiculeDTO vehicules() {
-        log.info("Afficher liste de véhicules : {} ", vehicules());
-        return vehiculeService.trouverTous();
+       VehiculeDTO dto = vehiculeService.trouverTous();
+        log.info("Afficher liste de véhicules : {} ", dto);
+        return dto;
     }
 
     @GetMapping("/{id}")
