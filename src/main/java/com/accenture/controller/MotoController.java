@@ -39,6 +39,7 @@ public class MotoController {
     @ApiResponse(responseCode = "201", description = "Motos trouvées avec succès")
     @ApiResponse(responseCode = "400", description = "Données invalides")
     List<MotoResponseDTO> motos (){
+        log.info("Afficher une liste de motos : {}" , motos());
         return motoService.trouverTous();
     }
 
@@ -48,6 +49,7 @@ public class MotoController {
     @ApiResponse(responseCode = "400", description = "Données invalides")
     ResponseEntity<MotoResponseDTO> uneMoto(@PathVariable("id") String modele){
         MotoResponseDTO trouver = motoService.trouver(modele);
+        log.info("Afficher une moto : {}" , trouver);
         return ResponseEntity.ok(trouver);
     }
 
@@ -58,6 +60,7 @@ public class MotoController {
     @ApiResponse(responseCode = "400", description = "Données invalides")
     ResponseEntity<List<MotoResponseDTO>> filtrer(@RequestParam Filtre filtre){
         List<MotoResponseDTO> motos = motoService.filtrer(filtre);
+        log.info("Filtrer les motos  : {}" , motos);
         return ResponseEntity.ok(motos);
     }
 
@@ -72,6 +75,7 @@ public class MotoController {
                 .path("/{id}")
                 .buildAndExpand(motoEnreg.id())
                 .toUri();
+        log.info("Ajouter une moto : {}" , motoEnreg);
         return ResponseEntity.created(location).build();
     }
 
@@ -81,6 +85,7 @@ public class MotoController {
     @ApiResponse(responseCode = "400", description = "Données invalides")
     ResponseEntity<MotoResponseDTO> suppMoto(@PathVariable("id") Long id){
         MotoResponseDTO suppMoto = motoService.supprimer(id);
+        log.info("Supprimer une moto : {}" , suppMoto);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
     }
@@ -91,6 +96,7 @@ public class MotoController {
     @ApiResponse(responseCode = "400", description = "Données invalides")
     ResponseEntity<MotoResponseDTO> modifPartiel(@PathVariable("id") Long id , @RequestBody MotoRequestDTO motoRequestDTO){
         MotoResponseDTO reponse = motoService.modifier(id,motoRequestDTO);
+        log.info("Modifier une moto : {}" , reponse);
         return ResponseEntity.ok(reponse);
     }
 

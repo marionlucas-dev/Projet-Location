@@ -67,7 +67,6 @@ public class VehiculeServiceImpl implements VehiculeService {
         return dto;
     }
 
-
     @Override
     public VehiculeDTO trouver(String modele) throws EntityNotFoundException {
         List<MotoResponseDTO> listeMotos = new ArrayList<>();
@@ -77,8 +76,6 @@ public class VehiculeServiceImpl implements VehiculeService {
         VehiculeDTO dto = new VehiculeDTO(listeMotos, listeVoitures);
         return dto;
     }
-
-
 
 
     @Override
@@ -144,6 +141,36 @@ public class VehiculeServiceImpl implements VehiculeService {
         toVehiculeDTO(listeTousLesVehicules, listeMotos, listeVoitures);
         VehiculeDTO dto = new VehiculeDTO(listeMotos, listeVoitures);
         return dto;
+    }
+
+
+     @Override
+     public VehiculeDTO rechercherParDateEtType(LocalDate dateDebut, LocalDate dateFin, boolean inclureMotos, boolean inclureVoitures) {
+        List<Location> listeLocations = locationDAO.findAll();
+
+        // Filtrer les véhicules indisponibles sur la période donnée
+        List<Vehicule> listeVehiculeIndispo = listeLocations.stream()
+                .filter(location -> location.getDateDebut().isBefore(dateFin) && location.getDateFin().isAfter(dateDebut))
+                .map(Location::getVehicule)
+                .toList();
+
+        // Récupérer tous les véhicules disponibles
+        List<Vehicule> listeTousLesVehicules = vehiculeDAO.findAll();
+        listeTousLesVehicules.removeAll(listeVehiculeIndispo);
+
+        // Séparer les véhicules disponibles en motos et voitures
+        List<MotoResponseDTO> listeMotos = new ArrayList<>();
+        List<VoitureResponseDTO> listeVoitures = new ArrayList<>();
+
+        for (Vehicule vehicule : listeTousLesVehicules) {
+            if (inclureMotos && vehicule instanceof Moto moto) {
+                listeMotos.add(motoMapper.toMotoResponseDTO(moto)); // Adapter selon ton DTO
+            } else if (inclureVoitures && vehicule instanceof Voiture voiture) {
+                listeVoitures.add(voitureMapper.toVoitureResponseDTO(voiture)); // Adapter selon ton DTO
+            }
+        }
+
+        return new VehiculeDTO(listeMotos, listeVoitures);
     }
 
 

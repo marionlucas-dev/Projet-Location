@@ -36,6 +36,7 @@ public class ClientController {
     @ApiResponse(responseCode = "201", description = "Clients trouvées avec succès")
     @ApiResponse(responseCode = "400", description = "Données invalides")
     List<ClientResponseDTO> clients() {
+        log.info("Afficher une liste de clients : {}" , clients());
         return clientService.trouverTous();
     }
 
@@ -45,6 +46,7 @@ public class ClientController {
     @ApiResponse(responseCode = "400", description = "Données invalides")
     ResponseEntity<ClientResponseDTO> unClient(@PathVariable("id") Long id) {
         ClientResponseDTO trouver = clientService.trouver(id);
+        log.info("Afficher un client : {}" , trouver);
         return ResponseEntity.ok(trouver);
     }
 
@@ -59,6 +61,7 @@ public class ClientController {
                 .path("/{id}")
                 .buildAndExpand(clientEnreg.prenom())
                 .toUri();
+        log.info("Ajouter un client  : {}" , clientEnreg);
         return ResponseEntity.created(location).build();
     }
 
@@ -68,6 +71,7 @@ public class ClientController {
     @ApiResponse(responseCode = "400", description = "Données invalides")
     ResponseEntity<ClientResponseDTO> infosClient(String login, String password){
         ClientResponseDTO infosCompte = clientService.infosCompte(login, password);
+        log.info("Obtenir les infos d'un client : {}" , infosCompte);
         return ResponseEntity.ok(infosCompte);
     }
 
@@ -77,6 +81,7 @@ public class ClientController {
     @ApiResponse(responseCode = "400", description = "Données invalides")
     ResponseEntity<ClientResponseDTO> suppClient(@PathVariable("id") String login, String password){
      ClientResponseDTO suppCompte=   clientService.suppCompte(login, password);
+        log.info("Supprimer un compte : {}" , suppCompte);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
     }
@@ -88,6 +93,7 @@ public class ClientController {
     @ApiResponse(responseCode = "400", description = "Données invalides")
     ResponseEntity<ClientResponseDTO> modifPartiel(@PathVariable("id") String login, String password , @RequestBody ClientRequestDTO clientRequestDTO){
      ClientResponseDTO reponse = clientService.modifPartielle(login, password, clientRequestDTO);
+        log.info("Modifier un compte : {}" , reponse);
      return ResponseEntity.ok(reponse);
     }
 

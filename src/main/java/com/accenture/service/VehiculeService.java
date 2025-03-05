@@ -15,4 +15,6 @@ public interface VehiculeService {
     VehiculeDTO filtrer(Filtre filtre);
 
     VehiculeDTO rechercher(LocalDate dateDebut, LocalDate dateFin);
+
+    VehiculeDTO rechercherParDateEtType(LocalDate dateDebut, LocalDate dateFin, boolean inclureMotos, boolean inclureVoitures);
 }

@@ -36,6 +36,7 @@ public class AdministrateurController {
     @ApiResponse(responseCode = "201", description = "Administrateurs trouvées avec succès")
     @ApiResponse(responseCode = "400", description = "Données invalides")
     List<AdministrateurResponseDTO> admin() {
+        log.info("Afficher une liste d'administrateurs : {}" , admin());
         return adminService.trouverTous();
     }
 
@@ -45,6 +46,7 @@ public class AdministrateurController {
     @ApiResponse(responseCode = "400", description = "Données invalides")
     ResponseEntity<AdministrateurResponseDTO> unAdmin(@PathVariable("id") Long id) {
         AdministrateurResponseDTO trouver = adminService.trouver(id);
+        log.info("Afficher un administrateur : {}" , trouver);
         return ResponseEntity.ok(trouver);
     }
 
@@ -59,6 +61,7 @@ public class AdministrateurController {
                 .path("/{id}")
                 .buildAndExpand(adminEnreg.prenom())
                 .toUri();
+        log.info("Ajouter un administrateur : {}" , adminEnreg);
         return ResponseEntity.created(location).build();
     }
 
@@ -68,6 +71,7 @@ public class AdministrateurController {
     @ApiResponse(responseCode = "400", description = "Données invalides")
     ResponseEntity<AdministrateurResponseDTO> infosClient(String login, String password) {
         AdministrateurResponseDTO infosCompte = adminService.infosCompte(login, password);
+        log.info("Afficher les informations d'un administrateur : {}" , infosCompte);
         return ResponseEntity.ok(infosCompte);
     }
 
@@ -77,6 +81,7 @@ public class AdministrateurController {
     @ApiResponse(responseCode = "400", description = "Données invalides")
     ResponseEntity<AdministrateurResponseDTO> suppClient(@PathVariable("id") String login, String password) {
         AdministrateurResponseDTO suppCompte = adminService.suppCompte(login, password);
+        log.info("Supprimer un administrateur : {}" , suppCompte);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
@@ -87,7 +92,8 @@ public class AdministrateurController {
     @ApiResponse(responseCode = "400", description = "Données invalides")
     ResponseEntity<AdministrateurResponseDTO> modifPartiel(@PathVariable("id") String login, String password, @RequestBody AdministrateurRequestDTO adminRequestDTO) {
        AdministrateurResponseDTO reponse = adminService.modifPartielle(login, password, adminRequestDTO);
-        return ResponseEntity.ok(reponse);
+        log.info("Modifier un compte administrateur : {}" , reponse);
+       return ResponseEntity.ok(reponse);
     }
 
 

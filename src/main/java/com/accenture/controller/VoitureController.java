@@ -39,6 +39,7 @@ public class VoitureController {
     @ApiResponse(responseCode = "201", description = "Voitures trouvées avec succès")
     @ApiResponse(responseCode = "400", description = "Données invalides")
     List<VoitureResponseDTO> voitures() {
+        log.info("Afficher une liste de voitures : {}" , voitures());
         return voitureService.trouverTous();
     }
 
@@ -48,6 +49,7 @@ public class VoitureController {
     @ApiResponse(responseCode = "400", description = "Données invalides")
     ResponseEntity<VoitureResponseDTO> uneVoiture(@PathVariable("id") String modele) {
         VoitureResponseDTO trouver = voitureService.trouver(modele);
+        log.info("Afficher une voiture : {}" , trouver);
         return ResponseEntity.ok(trouver);
     }
 
@@ -58,6 +60,7 @@ public class VoitureController {
     @ApiResponse(responseCode = "400", description = "Données invalides")
     ResponseEntity<List<VoitureResponseDTO>> filtrer(@RequestParam Filtre filtre) {
         List<VoitureResponseDTO> voitures = voitureService.filtrer(filtre);
+        log.info("Filtrer les voitures  : {}" , voitures);
         return ResponseEntity.ok(voitures);
     }
 
@@ -72,6 +75,7 @@ public class VoitureController {
                 .path("/{id}")
                 .buildAndExpand(voitureEnreg.modele())
                 .toUri();
+        log.info("Ajouter une voiture : {}" , voitureEnreg);
         return ResponseEntity.created(location).build();
     }
 
@@ -81,6 +85,7 @@ public class VoitureController {
     @ApiResponse(responseCode = "400", description = "Données invalides")
     ResponseEntity<VoitureResponseDTO> suppVoiture(@PathVariable("id") Long id) {
         VoitureResponseDTO suppVoiture = voitureService.supprimer(id);
+        log.info("Supprimer une voiture : {}" , suppVoiture);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
     }
@@ -91,6 +96,7 @@ public class VoitureController {
     @ApiResponse(responseCode = "400", description = "Données invalides")
     ResponseEntity<VoitureResponseDTO> modifPartiel(@PathVariable("id") Long id, @RequestBody VoitureRequestDTO voitureRequestDTO) {
         VoitureResponseDTO reponse = voitureService.modifier(id, voitureRequestDTO);
+        log.info("Modifier une voiture : {}" , reponse);
         return ResponseEntity.ok(reponse);
     }
 
