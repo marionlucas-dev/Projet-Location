@@ -16,6 +16,7 @@ import com.accenture.service.mapper.MotoMapper;
 import com.accenture.service.mapper.VehiculeMapper;
 import com.accenture.service.mapper.VoitureMapper;
 import com.accenture.shared.Filtre;
+import com.accenture.shared.Type;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -127,25 +128,46 @@ public class VehiculeServiceImpl implements VehiculeService {
         return dto;
     }
 
-    @Override
-    public VehiculeDTO rechercher(LocalDate dateDebut, LocalDate dateFin) {
-        List<Location> listeLocations = locationDAO.findAll();
-        List<Vehicule> listeVehiculeIndispo = listeLocations.stream()
-                .filter(location -> location.getDateDebut().isBefore(dateFin) && location.getDateFin().isAfter(dateDebut))
-                .map(Location::getVehicule)
-                .toList();
-        List<Vehicule> listeTousLesVehicules = vehiculeDAO.findAll();
-        listeTousLesVehicules.removeAll(listeVehiculeIndispo);
-        List<MotoResponseDTO> listeMotos = new ArrayList<>();
-        List<VoitureResponseDTO> listeVoitures = new ArrayList<>();
-        toVehiculeDTO(listeTousLesVehicules, listeMotos, listeVoitures);
-        VehiculeDTO dto = new VehiculeDTO(listeMotos, listeVoitures);
-        return dto;
-    }
+//    @Override
+//    public VehiculeDTO rechercher(LocalDate dateDebut, LocalDate dateFin) {
+//        List<Location> listeLocations = locationDAO.findAll();
+//        List<Vehicule> listeVehiculeIndispo = listeLocations.stream()
+//                .filter(location -> location.getDateDebut().isBefore(dateFin) && location.getDateFin().isAfter(dateDebut))
+//                .map(Location::getVehicule)
+//                .toList();
+//        List<Vehicule> listeTousLesVehicules = vehiculeDAO.findAll();
+//        listeTousLesVehicules.removeAll(listeVehiculeIndispo);
+//        List<MotoResponseDTO> listeMotos = new ArrayList<>();
+//        List<VoitureResponseDTO> listeVoitures = new ArrayList<>();
+//        toVehiculeDTO(listeTousLesVehicules, listeMotos, listeVoitures);
+//        VehiculeDTO dto = new VehiculeDTO(listeMotos, listeVoitures);
+//        return dto;
+//    }
 
 
-     @Override
-     public VehiculeDTO rechercherParDateEtType(LocalDate dateDebut, LocalDate dateFin, boolean inclureMotos, boolean inclureVoitures) {
+//    @Override
+//    public VehiculeDTO rechercherParDateEtType(LocalDate dateDebut, LocalDate dateFin, boolean inclureMotos, boolean inclureVoitures) {
+//        List<Location> listeLocations = locationDAO.findAll();
+//        List<Vehicule> listeVehiculeIndispo = listeLocations.stream()
+//                .filter(location -> location.getDateDebut().isBefore(dateFin) && location.getDateFin().isAfter(dateDebut))
+//                .map(Location::getVehicule)
+//                .toList();
+//        List<Vehicule> listeTousLesVehicules = vehiculeDAO.findAll();
+//        listeTousLesVehicules.removeAll(listeVehiculeIndispo);
+//        List<MotoResponseDTO> listeMotos = new ArrayList<>();
+//        List<VoitureResponseDTO> listeVoitures = new ArrayList<>();
+//        for (Vehicule vehicule : listeTousLesVehicules) {
+//            if (inclureMotos && vehicule instanceof Moto moto) {
+//                listeMotos.add(motoMapper.toMotoResponseDTO(moto));
+//            } else if (inclureVoitures && vehicule instanceof Voiture voiture) {
+//                listeVoitures.add(voitureMapper.toVoitureResponseDTO(voiture));
+//            }
+//        }
+//        return new VehiculeDTO(listeMotos, listeVoitures);
+//    }
+
+@Override
+public VehiculeDTO rechercherParDateEtTypeEtCategorie(LocalDate dateDebut, LocalDate dateFin, boolean inclureMotos, boolean inclureVoitures, Type type) {
         List<Location> listeLocations = locationDAO.findAll();
         List<Vehicule> listeVehiculeIndispo = listeLocations.stream()
                 .filter(location -> location.getDateDebut().isBefore(dateFin) && location.getDateFin().isAfter(dateDebut))
@@ -162,6 +184,10 @@ public class VehiculeServiceImpl implements VehiculeService {
                 listeVoitures.add(voitureMapper.toVoitureResponseDTO(voiture));
             }
         }
+
+        listeTousLesVehicules = listeTousLesVehicules.stream()
+                .filter(vehicule -> vehicule.getType().equals(type))
+                .toList();
         return new VehiculeDTO(listeMotos, listeVoitures);
     }
 

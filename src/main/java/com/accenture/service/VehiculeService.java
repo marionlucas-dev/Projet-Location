@@ -2,6 +2,7 @@ package com.accenture.service;
 
 import com.accenture.service.dto.vehicules.VehiculeDTO;
 import com.accenture.shared.Filtre;
+import com.accenture.shared.Type;
 import jakarta.persistence.EntityNotFoundException;
 
 import java.time.LocalDate;
@@ -14,7 +15,9 @@ public interface VehiculeService {
 
     VehiculeDTO filtrer(Filtre filtre);
 
-    VehiculeDTO rechercher(LocalDate dateDebut, LocalDate dateFin);
+    //  VehiculeDTO rechercher(LocalDate dateDebut, LocalDate dateFin);
 
-    VehiculeDTO rechercherParDateEtType(LocalDate dateDebut, LocalDate dateFin, boolean inclureMotos, boolean inclureVoitures);
+    // VehiculeDTO rechercherParDateEtType(LocalDate dateDebut, LocalDate dateFin, boolean inclureMotos, boolean inclureVoitures);
+
+    VehiculeDTO rechercherParDateEtTypeEtCategorie(LocalDate dateDebut, LocalDate dateFin, boolean inclureMotos, boolean inclureVoitures, Type type);
 }
