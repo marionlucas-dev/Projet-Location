@@ -181,9 +181,7 @@ public class VehiculeServiceImpl implements VehiculeService {
     @Override
     public VehiculeDTO rechercherParDateEtTypeEtCategorie(LocalDate dateDebut, LocalDate dateFin, boolean inclureMotos, boolean inclureVoitures, Type type) {
         List<Vehicule> listeTousLesVehicules = rechercherParDate(dateDebut, dateFin);
-
         listeTousLesVehicules = filtrerParType(type, listeTousLesVehicules);
-
         return convertirToVehiculeDTO(listeTousLesVehicules, inclureMotos, inclureVoitures);
     }
 

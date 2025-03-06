@@ -285,7 +285,7 @@ public class VoitureServiceImplTest {
     @DisplayName("Lancer une exception EntityNotFoundException si l'ID n'existe pas")
     @Test
     void modifierSiIdNonPresent() {
-        EntityNotFoundException ex = assertThrows(EntityNotFoundException.class, () ->
+        EntityNotFoundException ex =  assertThrows(EntityNotFoundException.class, () ->
                 service.modifier(1, voitureRequestDTO()));
         assertEquals("ID incorrect", ex.getMessage());
     }

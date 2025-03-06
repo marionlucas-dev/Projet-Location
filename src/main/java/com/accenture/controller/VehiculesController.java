@@ -120,7 +120,7 @@ public class VehiculesController {
             @RequestParam LocalDate dateDebut,
             @RequestParam LocalDate dateFin,
             @RequestParam(required = false, defaultValue = "true") Boolean inclureMotos,
-            @RequestParam(required = false, defaultValue = "true") boolean inclureVoitures,
+            @RequestParam(required = false, defaultValue = "true") Boolean inclureVoitures,
             @RequestParam(required = false) Type type) {
         VehiculeDTO parDatesEtCategorieEtType = vehiculeService.rechercherParDateEtTypeEtCategorie(dateDebut, dateFin, inclureMotos, inclureVoitures, type);
         log.info("Recherche de véhicules par dates et catégories : {} ", parDatesEtCategorieEtType);
