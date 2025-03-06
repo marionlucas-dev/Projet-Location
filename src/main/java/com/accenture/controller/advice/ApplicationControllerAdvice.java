@@ -1,6 +1,7 @@
 package com.accenture.controller.advice;
 import com.accenture.exception.MotoException;
 import com.accenture.exception.VoitureException;
+import com.accenture.repository.entity.vehicules.Moto;
 import com.accenture.shared.ErreurReponse;
 import com.accenture.exception.AdministrateurException;
 import com.accenture.exception.ClientException;
@@ -17,9 +18,11 @@ import java.time.LocalDateTime;
 @RestControllerAdvice
 public class ApplicationControllerAdvice {
 
+    public static final String ERREUR_FONCTIONNELLE = "Erreur fonctionnelle ";
+
     @ExceptionHandler(ClientException.class)
     public ResponseEntity<ErreurReponse> gestionClientException(ClientException ex) {
-        ErreurReponse er = new ErreurReponse(LocalDateTime.now(), "Erreur fonctionnelle ", ex.getMessage());
+        ErreurReponse er = new ErreurReponse(LocalDateTime.now(), ERREUR_FONCTIONNELLE, ex.getMessage());
         log.error(er.message());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(er);
     }
@@ -33,21 +36,21 @@ public class ApplicationControllerAdvice {
 
     @ExceptionHandler(AdministrateurException.class)
     public ResponseEntity<ErreurReponse> gestionAdminException(AdministrateurException ex) {
-        ErreurReponse er = new ErreurReponse(LocalDateTime.now(), "Erreur fonctionnelle ", ex.getMessage());
+        ErreurReponse er = new ErreurReponse(LocalDateTime.now(), ERREUR_FONCTIONNELLE, ex.getMessage());
         log.error(er.message());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(er);
     }
 
     @ExceptionHandler(VoitureException.class)
     public ResponseEntity<ErreurReponse> gestionVoitureException(VoitureException ex) {
-        ErreurReponse er = new ErreurReponse(LocalDateTime.now(), "Erreur fonctionnelle ", ex.getMessage());
+        ErreurReponse er = new ErreurReponse(LocalDateTime.now(), ERREUR_FONCTIONNELLE, ex.getMessage());
         log.error(er.message());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(er);
     }
 
     @ExceptionHandler (MotoException.class)
-    public ResponseEntity<ErreurReponse> gestionMotoException(VoitureException ex) {
-        ErreurReponse er = new ErreurReponse(LocalDateTime.now(), "Erreur fonctionnelle ", ex.getMessage());
+    public ResponseEntity<ErreurReponse> gestionMotoException(MotoException ex) {
+        ErreurReponse er = new ErreurReponse(LocalDateTime.now(), ERREUR_FONCTIONNELLE, ex.getMessage());
         log.error(er.message());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(er);
     }

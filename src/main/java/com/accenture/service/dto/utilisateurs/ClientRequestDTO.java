@@ -1,6 +1,6 @@
 package com.accenture.service.dto.utilisateurs;
 
-import com.accenture.shared.Permis;
+import com.accenture.shared.enumerations.Permis;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;

@@ -6,14 +6,20 @@ import com.accenture.repository.entity.vehicules.Voiture;
 import com.accenture.service.dto.vehicules.VoitureRequestDTO;
 import com.accenture.service.dto.vehicules.VoitureResponseDTO;
 import com.accenture.service.mapper.VoitureMapper;
-import com.accenture.shared.Filtre;
-import com.accenture.shared.NombrePortes;
-import com.accenture.shared.Permis;
+import com.accenture.shared.enumerations.Filtre;
+import com.accenture.shared.enumerations.NombrePortes;
+import com.accenture.shared.enumerations.Permis;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
+
+/**
+ * Implémentation du service de gestion des voitures.
+ * Cette classe fournit des méthodes permettant d'effectuer diverses opérations sur les voitures,
+ * telles que l'ajout, la modification, la suppression, la récupération et le filtrage des véhicules.
+ * Elle utilise un DAO pour l'accès aux données et un mapper pour la conversion des entités en DTOs.
+ */
 
 @Service
 public class VoitureServiceImpl implements VoitureService {
@@ -28,10 +34,11 @@ public class VoitureServiceImpl implements VoitureService {
     }
 
     /**
-     * Récupère la liste de toutes les voitures et les converties en objet VoitureResponseDTO
+     * Récupère la liste de toutes les voitures et les convertit en objets {@link VoitureResponseDTO}.
      *
-     * @return une liste d'objet (@link VoitureResponseDTO) représentant toutes les voitures
+     * @return une liste d'objets {@link VoitureResponseDTO} représentant toutes les voitures.
      */
+
 
     @Override
     public List<VoitureResponseDTO> trouverTous() {
@@ -42,16 +49,17 @@ public class VoitureServiceImpl implements VoitureService {
 
 
     /**
-     * Rechercher une voiture par son modèle et le convertit en objet VoitureResponseDTO
+     * Recherche une voiture par son identifiant et la convertit en objet {@link VoitureResponseDTO}.
      *
-     * @param modele : le modèle de la voiture
-     * @return un objet (@link VoitureResponseDTO) représentant la voiture trouvé
-     * @throws EntityNotFoundException: si aucune voiture n'a été trouvée avec cet ID
+     * @param id l'identifiant de la voiture.
+     * @return un objet {@link VoitureResponseDTO} représentant la voiture trouvée.
+     * @throws EntityNotFoundException si aucune voiture n'a été trouvée avec cet identifiant.
      */
 
+
     @Override
-    public VoitureResponseDTO trouver(String modele) throws EntityNotFoundException {
-        Optional<Voiture> optVoiture = voitureDAO.findByModele(modele);
+    public VoitureResponseDTO trouver(long id) throws EntityNotFoundException {
+        Optional<Voiture> optVoiture = voitureDAO.findById(id);
         if (optVoiture.isEmpty())
             throw new EntityNotFoundException("Voiture non trouvé");
         Voiture voiture = optVoiture.get();
@@ -60,29 +68,31 @@ public class VoitureServiceImpl implements VoitureService {
 
 
     /**
-     * Ajoute une voiture et le converti en un objet VoitureResponseDTO en respectant les paramètres
+     * Ajoute une voiture et la convertit en un objet {@link VoitureResponseDTO} en respectant les paramètres fournis.
      *
-     * @param voitureRequestDTO : objet contenant les informations de la voiture à enregistrer
-     * @return : un objet (@link VoitureResponseDTO) représentant la moto ajouté
-     * @throws VoitureException : si un des paramètres n'es pas correct.
+     * @param voitureRequestDTO objet contenant les informations de la voiture à enregistrer.
+     * @return un objet {@link VoitureResponseDTO} représentant la voiture ajoutée.
+     * @throws VoitureException si l'un des paramètres n'est pas correct.
      */
+
 
     @Override
     public VoitureResponseDTO ajouter(VoitureRequestDTO voitureRequestDTO) throws VoitureException {
         verifierVoiture(voitureRequestDTO);
         Voiture voiture = voitureMapper.toVoiture(voitureRequestDTO);
-        PermisParNbrPlaces(voitureRequestDTO, voiture);
+        assignerPermisParNbrPlaces(voitureRequestDTO, voiture);
         Voiture voitureEnreg = voitureDAO.save(voiture);
         return voitureMapper.toVoitureResponseDTO(voitureEnreg);
     }
 
     /**
-     * Une voiture peut être supprimée si les informations sont correctes
+     * Supprime une voiture si elle est trouvée en base de données.
      *
-     * @param id : identifiant de la voiture
-     * @return un {@Link VoitureResponseDTO} contenannt les infos de la voiture si l'authentification réussit.
-     * @throws EntityNotFoundException: si aucune voiture ne correspond aux informations demandées.
+     * @param id l'identifiant de la voiture à supprimer.
+     * @return un objet {@link VoitureResponseDTO} contenant les informations de la voiture supprimée.
+     * @throws EntityNotFoundException si aucune voiture ne correspond à l'identifiant fourni.
      */
+
 
     @Override
     public VoitureResponseDTO supprimer(long id) throws EntityNotFoundException {
@@ -92,9 +102,21 @@ public class VoitureServiceImpl implements VoitureService {
         return voitureMapper.toVoitureResponseDTO(voiture);
     }
 
+
+    /**
+     * Modifie complètement ou partiellement une voiture.
+     *
+     * @param id l'identifiant de la voiture à modifier
+     * @param voitureRequestDTO les nouvelles données de la voiture à mettre à jour
+     * @return un objet {@link VoitureResponseDTO} représentant la voiture mise à jour
+     * @throws EntityNotFoundException si la voiture avec l'identifiant donné n'existe pas
+     * @throws VoitureException si la voiture est retirée du parc et ne peut être modifiée
+     */
+
+
     @Override
     public VoitureResponseDTO modifier(long id, VoitureRequestDTO voitureRequestDTO) throws EntityNotFoundException, VoitureException {
-        Voiture voitureExistant = verifVoiture(id);
+        Voiture voitureExistant = trouverVoitureParID(id);
         Voiture nouveau = voitureMapper.toVoiture(voitureRequestDTO);
         if (voitureExistant.getRetireDuParc())
             throw new VoitureException("Une voiture retirée du parc ne peut pas être modifier");
@@ -104,6 +126,15 @@ public class VoitureServiceImpl implements VoitureService {
         Voiture voitureEnr = voitureDAO.save(voitureExistant);
         return voitureMapper.toVoitureResponseDTO(voitureEnr);
     }
+
+
+    /**
+     * Filtre les voitures en fonction de leur statut : actif, inactif, dans le parc ou hors du parc.
+     *
+     * @param filtre une valeur de l'énumération {@link Filtre} définissant le critère de filtrage
+     * @return une liste de {@link VoitureResponseDTO} contenant les voitures correspondant au filtre appliqué
+     * @throws IllegalArgumentException si le filtre spécifié n'est pas reconnu
+     */
 
     @Override
     public List<VoitureResponseDTO> filtrer(Filtre filtre){
@@ -143,7 +174,7 @@ public class VoitureServiceImpl implements VoitureService {
 //                                                      METHODES PRIVEE
 //************************************************************************************************************************
 
-    private Voiture verifVoiture(long id) {
+    private Voiture trouverVoitureParID(long id) {
         Optional<Voiture> optVoiture = voitureDAO.findById(id);
         if (optVoiture.isEmpty())
             throw new EntityNotFoundException("ID incorrect");
@@ -187,7 +218,7 @@ public class VoitureServiceImpl implements VoitureService {
             throw new VoitureException("Le modèle est obligatoire");
         if (voitureRequestDTO.couleur() == null || voitureRequestDTO.couleur().isBlank())
             throw new VoitureException("La couleur du véhicule est obligatoire");
-        if (voitureRequestDTO.nbrPortes() != NombrePortes.Trois && voitureRequestDTO.nbrPortes() != NombrePortes.Cinq)
+        if (voitureRequestDTO.nbrPortes() != NombrePortes.TROIS && voitureRequestDTO.nbrPortes() != NombrePortes.CINQ)
             throw new VoitureException("Le nombre de portes (3 ou 5) est obligatoire");
         if (voitureRequestDTO.carburant() == null)
             throw new VoitureException("Le carburant est obligatoire");
@@ -205,7 +236,7 @@ public class VoitureServiceImpl implements VoitureService {
     }
 
 
-    private static void PermisParNbrPlaces(VoitureRequestDTO voitureRequestDTO, Voiture voiture) {
+    private static void assignerPermisParNbrPlaces(VoitureRequestDTO voitureRequestDTO, Voiture voiture) {
         if (voitureRequestDTO.nbrPlaces() > 0 && voitureRequestDTO.nbrPlaces() <= 9) {
             voiture.setPermis(Permis.B);
         } else {
@@ -213,17 +244,6 @@ public class VoitureServiceImpl implements VoitureService {
         }
     }
 
-//    private Voiture verifVoiture(String marque, String modele, int id) {
-//        Optional<Voiture> optVoiture = voitureDAO.findByModele(modele);
-//        if (optVoiture.isEmpty())
-//            throw new EntityNotFoundException("Erreur dans le modèle de la voiture");
-//        Voiture voiture = optVoiture.get();
-//        if (!voiture.getMarque().equals(marque))
-//            throw new EntityNotFoundException("Erreur dans la marque de la voiture");
-//        if (!(voiture.getId() == id))
-//            throw new EntityNotFoundException("Erreur dans l'id de la voiture");
-//        return voiture;
-//    }
 
 
 }

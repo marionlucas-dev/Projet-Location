@@ -4,7 +4,6 @@ import com.accenture.repository.AdministrateurDAO;
 import com.accenture.repository.entity.utilisateurs.Administrateur;
 import com.accenture.service.dto.utilisateurs.AdministrateurRequestDTO;
 import com.accenture.service.dto.utilisateurs.AdministrateurResponseDTO;
-import com.accenture.service.dto.utilisateurs.ClientResponseDTO;
 import com.accenture.service.mapper.AdministrateurMapper;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -15,10 +14,13 @@ import java.util.Optional;
 
 /**
  * Implémentation du service de gestion des administrateurs.
- * Cette classe fournit les fonctionnalités suivantes :
- * Récupérer liste de tous les administrateurs / d'un administrateur par son identifiant / ajout et vérification des infos d'un client/
- * supprimer un administrateur s'il n'a pas de location en cours.
+ * Cette classe fournit les fonctionnalités suivantes :
+ * - Récupérer la liste de tous les administrateurs.
+ * - Récupérer un administrateur par son identifiant.
+ * - Ajouter un administrateur et vérifier les informations d'un administrateur.
+ * - Supprimer un administrateur si ce dernier n'a pas de location en cours.
  */
+
 
 @Slf4j
 @Service
@@ -35,10 +37,11 @@ public class AdministrateurServiceImpl implements AdministrateurService {
     }
 
     /**
-     * Recupère la liste de tous les admins et les convertit en object AdminRespondeDTO
+     * Récupère la liste de tous les administrateurs et les convertit en objets {@link AdministrateurResponseDTO}.
      *
-     * @return une liste d'objet (@link AdminResponseDTO) représentant tous les clients
+     * @return une liste d'objets {@link AdministrateurResponseDTO} représentant tous les administrateurs.
      */
+
 
     @Override
     public List<AdministrateurResponseDTO> trouverTous() {
@@ -48,12 +51,13 @@ public class AdministrateurServiceImpl implements AdministrateurService {
     }
 
     /**
-     * Rechercher un admin par son Id et le convertit en un objet AdminResponseDTO
+     * Recherche un administrateur par son identifiant et le convertit en un objet {@link AdministrateurResponseDTO}.
      *
-     * @param id est l'identifiant du client à rechercher
-     * @return un objet (@Link AdminResponseDTO) représentant le client trouvé.
-     * @throws EntityNotFoundException si aucun admin n'a été trouver avec cet ID
+     * @param id l'identifiant de l'administrateur à rechercher.
+     * @return un objet {@link AdministrateurResponseDTO} représentant l'administrateur trouvé.
+     * @throws EntityNotFoundException si aucun administrateur n'a été trouvé avec cet identifiant.
      */
+
 
     @Override
     public AdministrateurResponseDTO trouver(long id) throws EntityNotFoundException {
@@ -67,11 +71,12 @@ public class AdministrateurServiceImpl implements AdministrateurService {
     }
 
     /**
-     * Ajoute un admin et le convertit en un objet AdminResponseDTO
+     * Ajoute un administrateur et le convertit en un objet {@link AdministrateurResponseDTO}.
      *
-     * @param adminRequestDTO : objet contenant les informations de l'admin à enregistrer.
-     * @return un objet (@link AdministrateurResponseDTO) représentant l'admin ajouté
+     * @param adminRequestDTO l'objet contenant les informations de l'administrateur à enregistrer.
+     * @return un objet {@link AdministrateurResponseDTO} représentant l'administrateur ajouté.
      */
+
 
     @Override
     public AdministrateurResponseDTO ajouter(AdministrateurRequestDTO adminRequestDTO) {
@@ -83,47 +88,50 @@ public class AdministrateurServiceImpl implements AdministrateurService {
 
 
     /**
-     * Récupère les informations du compte d'un client en vérifiant ses identifiants
+     * Récupère les informations du compte d'un administrateur en vérifiant ses identifiants.
      *
-     * @param login    : adresse mail du client
-     * @param password : mot de passe du client
-     * @return un {@link ClientResponseDTO} contenant les informations du client si l'authentification réussit
-     * @throws EntityNotFoundException Si aucun client correspondant à l'email n'est trouvé ou si le mot de passe est incorrect.
+     * @param login    l'adresse mail de l'administrateur.
+     * @param password le mot de passe de l'administrateur.
+     * @return un {@link AdministrateurResponseDTO} contenant les informations de l'administrateur si l'authentification réussit.
+     * @throws EntityNotFoundException si aucun administrateur correspondant à l'email n'est trouvé ou si le mot de passe est incorrect.
      */
 
+
     @Override
-    public AdministrateurResponseDTO infosCompte(String login, String password) throws EntityNotFoundException {
+    public AdministrateurResponseDTO recupererinfosCompte(String login, String password) throws EntityNotFoundException {
         Administrateur admin = verifAdmin(login, password);
         return adminMapper.toAdminResponseDTO(admin);
     }
 
     /**
-     * Le client peut supprimer son compte si les informations sont correctes
+     * L'administrateur peut supprimer son compte si les informations sont correctes.
      *
-     * @param login    : mail du client
-     * @param password : mot de passe du client
-     * @return un {@link ClientResponseDTO} contenant les informations du client si l'authentification réussit
-     * @throws EntityNotFoundException si aucun client correspondant à l'email n'est trouvé ou si le mot de passe est incorrect.
+     * @param login    l'adresse mail de l'administrateur.
+     * @param password le mot de passe de l'administrateur.
+     * @return un {@link AdministrateurResponseDTO} contenant les informations de l'administrateur si l'authentification réussit.
+     * @throws EntityNotFoundException si aucun administrateur correspondant à l'email n'est trouvé ou si le mot de passe est incorrect.
      */
 
+
     @Override
-    public AdministrateurResponseDTO suppCompte(String login, String password) throws EntityNotFoundException {
+    public AdministrateurResponseDTO supprimer(String login, String password) throws EntityNotFoundException {
         Administrateur admin = verifAdmin(login, password);
         adminDAO.delete(admin);
         return adminMapper.toAdminResponseDTO(admin);
     }
 
     /**
-     * Modifie partiellement les informations d'un admin en mettant à jour uniquement les champs non nuls fournis
+     * Modifie partiellement les informations d'un administrateur en mettant à jour uniquement les champs non nuls fournis
      * dans {@code adminRequestDTO}.
      *
-     * @param login           Le login du client à modifier.
-     * @param password        Le mot de passe du client à modifier.
+     * @param login           Le login de l'administrateur à modifier.
+     * @param password        Le mot de passe de l'administrateur à modifier.
      * @param adminRequestDTO L'objet contenant les nouvelles valeurs des champs à mettre à jour.
-     * @return Un {@code ClientResponseDTO} contenant les informations mises à jour du client.
+     * @return Un {@code AdministrateurResponseDTO} contenant les informations mises à jour de l'administrateur.
      * @throws EntityNotFoundException Si le login ou le mot de passe est incorrect.
-     * @throws AdministrateurException Si une erreur spécifique liée au client survient.
+     * @throws AdministrateurException Si une erreur spécifique liée à l'administrateur survient.
      */
+
     @Override
     public AdministrateurResponseDTO modifPartielle(String login, String password, AdministrateurRequestDTO adminRequestDTO) {
         Administrateur adminExistant = verifAdmin(login, password);
@@ -140,13 +148,7 @@ public class AdministrateurServiceImpl implements AdministrateurService {
 //                                                      METHODES PRIVEES
 //**********************************************************************************************************************
 
-    /**
-     * Vérifie la validité des informations d'un admin avant son enregistrement.
-     * Cette méthode s'assure que toutes les informations requises sont bien renseignées
-     * et que le client respecte certaines règles (ex : mot de passe sécurisé).
-     *
-     * @param adminRequestDTO Les informations de l'admin à valider
-     */
+
 
     private static void verifierAdmin(AdministrateurRequestDTO adminRequestDTO) {
         if (adminRequestDTO == null) {

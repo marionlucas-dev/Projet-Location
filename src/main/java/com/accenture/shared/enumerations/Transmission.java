@@ -1,4 +1,4 @@
-package com.accenture.shared;
+package com.accenture.shared.enumerations;
 
 public enum Transmission {
 

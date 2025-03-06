@@ -1,6 +1,6 @@
 package com.accenture.service.dto.vehicules;
 
-import com.accenture.shared.*;
+import com.accenture.shared.enumerations.*;
 
 /**
  * Représente la réponse contentant les informations d'un client
@@ -33,8 +33,8 @@ public record VoitureResponseDTO(
         Transmission transmission,
         int bagages,
         Permis permis,
-       String tarifJournee,
-        String kilometrage,
+        int tarifJournee,
+        int kilometrage,
         Boolean actif,
         Boolean retireDuParc
 

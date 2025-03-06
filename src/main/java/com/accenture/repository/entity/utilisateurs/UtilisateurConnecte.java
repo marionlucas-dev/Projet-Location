@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 
 /**
  * Classe abstraite représentant un utilisateur connecté.
- * Cette entité utilise une stratégie d'héritage de type joined.
- * Permettant aux classes dérivées de stocker leurs propres attributs tout en partageant une clé primaire unique.
+ * Cette entité utilise la stratégie d'héritage de type {@code InheritanceType.JOINED},
+ * permettant aux classes dérivées de stocker leurs propres attributs tout en partageant une clé primaire unique.
  */
 
 

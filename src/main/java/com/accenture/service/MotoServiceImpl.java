@@ -1,18 +1,38 @@
 package com.accenture.service;
-
 import com.accenture.exception.MotoException;
 import com.accenture.repository.MotoDAO;
 import com.accenture.repository.entity.vehicules.Moto;
 import com.accenture.service.dto.vehicules.MotoRequestDTO;
 import com.accenture.service.dto.vehicules.MotoResponseDTO;
 import com.accenture.service.mapper.MotoMapper;
-import com.accenture.shared.Filtre;
-import com.accenture.shared.Permis;
+import com.accenture.shared.enumerations.Filtre;
+import com.accenture.shared.enumerations.Permis;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
+
+/**
+ * Implémentation du service {@link MotoService} permettant la gestion des motos.
+ * Cette classe fournit des fonctionnalités pour ajouter, modifier, supprimer, récupérer et filtrer les motos.
+ *
+ * Elle interagit avec {@link MotoDAO} pour l'accès aux données et utilise {@link MotoMapper} pour la conversion
+ * entre les entités et les DTOs.
+ *
+ * <p>Les principales fonctionnalités incluent :</p>
+ * <ul>
+ *     <li>Récupération de toutes les motos</li>
+ *     <li>Recherche d'une moto par son identifiant</li>
+ *     <li>Ajout, modification et suppression d'une moto</li>
+ *     <li>Filtrage des motos selon leur statut</li>
+ *     <li>Vérification et validation des données des motos</li>
+ * </ul>
+ *
+ * @see MotoService
+ * @see MotoDAO
+ * @see MotoMapper
+ */
+
 
 @Service
 public class MotoServiceImpl implements MotoService {
@@ -27,9 +47,8 @@ public class MotoServiceImpl implements MotoService {
     }
 
     /**
-     * Récupère la liste de toutes les motos et les convertis en objet MotoResponseDTO
-     *
-     * @return une liste d'objet (@link MotoResponseDTO) représentant toutes les motos
+     * Récupère la liste de toutes les motos et les convertit en objets MotoResponseDTO.
+     * @return une liste d'objets {@link MotoResponseDTO} représentant toutes les motos.
      */
 
     @Override
@@ -40,48 +59,45 @@ public class MotoServiceImpl implements MotoService {
     }
 
     /**
-     * Rechercher une moto par son modèle et le convertit en objet MotoResponseDTO
+     * Recherche une moto par son ID et la convertit en objet MotoResponseDTO.
      *
-     * @param modele : le modèle de la moto
-     * @return un objet (@link MotoResponseDTO) représentant la moto trouvé
-     * @throws EntityNotFoundException : si aucune moto n'a été trouvée avec cet ID
+     * @param id l'ID de la moto.
+     * @return un objet {@link MotoResponseDTO} représentant la moto trouvée.
+     * @throws EntityNotFoundException si aucune moto n'a été trouvée avec cet ID.
      */
-
     @Override
-    public MotoResponseDTO trouver(String modele) throws EntityNotFoundException {
-        Optional<Moto> optMoto = motoDAO.findByModele(modele);
+    public MotoResponseDTO trouver(long id) throws EntityNotFoundException {
+        Optional<Moto> optMoto = motoDAO.findById(id);
         if (optMoto.isEmpty())
-            throw new EntityNotFoundException("Voiture non trouvé");
+            throw new EntityNotFoundException("Moto non trouvée");
         Moto moto = optMoto.get();
         return motoMapper.toMotoResponseDTO(moto);
     }
 
-    /**
-     * Ajoute une moto et le converti en un objet MotoResponseDTO en respectant les paramètres
-     *
-     * @param motoRequestDTO : objet contenant les informations de la moto à enregistrer
-     * @return : un objet (@link MotoResponseDTO) représentant la moto ajouté
-     * @throws MotoException : si un des paramètres n'es pas correct.
-     */
 
+    /**
+     * Ajoute une moto et la convertit en un objet MotoResponseDTO en respectant les paramètres fournis.
+     *
+     * @param motoRequestDTO objet contenant les informations de la moto à enregistrer.
+     * @return un objet {@link MotoResponseDTO} représentant la moto ajoutée.
+     * @throws MotoException si un des paramètres n'est pas correct.
+     */
     @Override
     public MotoResponseDTO ajouter(MotoRequestDTO motoRequestDTO) throws MotoException {
         verifierMoto(motoRequestDTO);
         Moto moto = motoMapper.toMoto(motoRequestDTO);
-        PermisParCylindreeEtPuissance(motoRequestDTO, moto);
+        attribuerPermisParCylindreeEtPuissance(motoRequestDTO, moto);
         Moto motoEnreg = motoDAO.save(moto);
         return motoMapper.toMotoResponseDTO(motoEnreg);
     }
 
-
     /**
-     * Une moto peut être supprimée si les informations sont correctes
+     * Supprime une moto par son identifiant si elle existe.
      *
-     * @param id : identifiant de la moto
-     * @return un {@Link MotoResponseDTO} contenannt les infos de la voiture si l'authentification réussit.
-     * @throws EntityNotFoundException: si aucune voiture ne correspond aux informations demandées.
+     * @param id identifiant de la moto.
+     * @return un objet {@link MotoResponseDTO} contenant les informations de la moto supprimée.
+     * @throws EntityNotFoundException si aucune moto ne correspond à l'identifiant fourni.
      */
-
     @Override
     public MotoResponseDTO supprimer(long id) throws EntityNotFoundException {
         Moto moto = motoDAO.findById(id)
@@ -90,9 +106,21 @@ public class MotoServiceImpl implements MotoService {
         return motoMapper.toMotoResponseDTO(moto);
     }
 
+
+
+    /**
+     * Modifie une moto à partir de son identifiant.
+     *
+     * @param id identifiant de la moto à modifier.
+     * @param motoRequestDTO objet contenant les nouvelles informations à enregistrer.
+     * @return un objet {@link MotoResponseDTO} contenant les informations de la moto modifiée.
+     * @throws EntityNotFoundException si aucune moto ne correspond à l'identifiant fourni.
+     * @throws MotoException si un des paramètres n'est pas correct ou si la moto a été retirée du parc.
+     */
+
     @Override
     public MotoResponseDTO modifier(long id, MotoRequestDTO motoRequestDTO) throws EntityNotFoundException, MotoException {
-        Moto motoExistant = verifMoto(id);
+        Moto motoExistant = trouverMotoParID(id);
         Moto nouveau = motoMapper.toMoto(motoRequestDTO);
         if (motoExistant.getRetireDuParc())
             throw new MotoException("Une voiture retirée du parc ne peut pas être modifier");
@@ -103,6 +131,13 @@ public class MotoServiceImpl implements MotoService {
         return motoMapper.toMotoResponseDTO(motoEnr);
     }
 
+    /**
+     * Filtre les motos en fonction de leur statut : actif, inactif, dans le parc ou hors du parc.
+     *
+     * @param filtre une valeur de l'énumération {@link Filtre} définissant le critère de filtrage.
+     * @return une liste de {@link MotoResponseDTO} correspondant aux motos filtrées selon le statut fourni.
+     * @throws IllegalArgumentException si le filtre spécifié n'est pas reconnu.
+     */
     @Override
     public List<MotoResponseDTO> filtrer(Filtre filtre) {
         List<Moto> listeMoto = motoDAO.findAll();
@@ -123,16 +158,17 @@ public class MotoServiceImpl implements MotoService {
                     .filter(moto -> !moto.getRetireDuParc())
                     .map(motoMapper::toMotoResponseDTO)
                     .toList();
-            default -> throw new IllegalArgumentException(STR."Le filtre n'est pas disponible\{filtre}");
+            default -> throw new IllegalArgumentException(STR."Le filtre n'est pas disponible : \{filtre}");
         };
     }
+
 
 
 //************************************************************************************************************************
 //                                                      METHODES PRIVEE
 //************************************************************************************************************************
 
-    private Moto verifMoto(long id) {
+    private Moto trouverMotoParID(long id) {
         Optional<Moto> optMoto = motoDAO.findById(id);
         if (optMoto.isEmpty())
             throw new EntityNotFoundException("ID incorrect");
@@ -169,10 +205,10 @@ public class MotoServiceImpl implements MotoService {
     }
 
 
-    private static void PermisParCylindreeEtPuissance(MotoRequestDTO motoRequestDTO, Moto moto) {
-        if (motoRequestDTO.cylindree() <= 125 && motoRequestDTO.puissance() <= 11)
+    private void attribuerPermisParCylindreeEtPuissance(MotoRequestDTO motoRequestDTO, Moto moto) {
+        if ((motoRequestDTO.cylindree() >= 0 && motoRequestDTO.cylindree()<=125) && (motoRequestDTO.puissance() >=1 && motoRequestDTO.puissance() <= 11))
             moto.setPermis(Permis.A1);
-        else if (motoRequestDTO.puissance() <= 35)
+        else if ((motoRequestDTO.cylindree() > 125  &&  motoRequestDTO.puissance() <= 35))
             moto.setPermis(Permis.A2);
         else {
             moto.setPermis(Permis.A);

@@ -1,13 +1,18 @@
 package com.accenture.repository.entity.utilisateurs;
 
 import com.accenture.repository.entity.vehicules.Vehicule;
-import com.accenture.shared.EtatLocation;
+import com.accenture.shared.enumerations.EtatLocation;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+
+/**
+ *  Représente une location de véhicule effectuée par un client.
+ *  Cette entité est mappée à la table "LOCATION" dans la base de données.
+ */
 
 @Data
 @AllArgsConstructor

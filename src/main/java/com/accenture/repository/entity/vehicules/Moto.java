@@ -1,8 +1,7 @@
 package com.accenture.repository.entity.vehicules;
 
-import com.accenture.shared.Permis;
-import com.accenture.shared.Transmission;
-import com.accenture.shared.Type;
+import com.accenture.shared.enumerations.Permis;
+import com.accenture.shared.enumerations.Transmission;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;

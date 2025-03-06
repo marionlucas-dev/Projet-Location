@@ -9,9 +9,8 @@ import org.mapstruct.Mapping;
 /**
  * Mapper permettant la conversion entre les objets {@link Administrateur}, {@link AdministrateurRequestDTO}
  * et {@link AdministrateurResponseDTO}.
- * Ce mapper utilise MapStruct pour effectuer les transformations automatiquement.
+ *Ce mapper utilise MapStruct pour effectuer les transformations automatiquement.
  */
-
 @Mapper(componentModel = "spring")
 public interface AdministrateurMapper {
 
@@ -33,7 +32,14 @@ public interface AdministrateurMapper {
     @Mapping(source = "login", target = "email")
     AdministrateurResponseDTO toAdminResponseDTO(Administrateur admin);
 
+    /**
+     * Convertit une entité {@link Administrateur} en un {@link AdministrateurRequestDTO}.
+     *
+     * @param admin L'entité {@link Administrateur} à convertir.
+     * @return L'objet DTO contenant les informations de l'administrateur.
+     */
     @Mapping(source = "login", target = "email")
     AdministrateurRequestDTO toAdminRequestDTO(Administrateur admin);
 
 }
+

@@ -1,8 +1,7 @@
 package com.accenture.service.dto.vehicules;
 
-import com.accenture.shared.Permis;
-import com.accenture.shared.Transmission;
-import com.accenture.shared.Type;
+import com.accenture.shared.enumerations.Transmission;
+import com.accenture.shared.enumerations.Type;
 import jakarta.validation.constraints.NotBlank;
 
 public record MotoRequestDTO(
@@ -28,9 +27,9 @@ public record MotoRequestDTO(
         @NotBlank(message = "Le type est obligatoire")
         Type type,
         @NotBlank(message = "Le tarif à la journée est obligatoire")
-        String tarifJournee,
+        int tarifJournee,
         @NotBlank(message = "Le kilométrage à la journée est obligatoire")
-        String kilometrage,
+        int kilometrage,
         @NotBlank(message = "Le statut (location ou non) est obligatoire")
         Boolean actif,
         @NotBlank(message = "Le statut (véhicule supprimer ou non est obligatoire")

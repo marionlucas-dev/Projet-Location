@@ -2,11 +2,8 @@ package com.accenture.service;
 
 import com.accenture.repository.LocationDAO;
 import com.accenture.service.dto.LocationDTO;
-import com.accenture.service.dto.vehicules.VehiculeDTO;
 import com.accenture.service.mapper.LocationMapper;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -20,21 +17,17 @@ public class LocationServiceImpl {
         this.locationMapper = locationMapper;
     }
 
+    /**
+     * Récupère la liste de toutes les locations et les convertit en objets {@link LocationDTO}.
+     *
+     * @return une liste de {@link LocationDTO} représentant toutes les locations.
+     */
 
     public List<LocationDTO> trouverTous(){
         return locationDAO.findAll().stream()
                 .map(locationMapper::toLocationDTO)
                 .toList();
     }
-//
-//    public List<LocationDTO> rechercher(LocalDate dateDebut, LocalDate dateFin) {
-//        return trouverTous().stream()
-//                .filter(locationDTO ->
-//                        dateDebut.isBefore(locationDTO.getDateFin()) && dateFin.isAfter(locationDTO.getDateDebut())
-//                )
-//                .map(locationDTO ->locationDTO.))
-//                .toList();
-//    }
 
 
 

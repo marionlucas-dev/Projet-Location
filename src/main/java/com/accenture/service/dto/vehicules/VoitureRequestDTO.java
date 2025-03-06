@@ -1,6 +1,9 @@
 package com.accenture.service.dto.vehicules;
 
-import com.accenture.shared.*;
+import com.accenture.shared.enumerations.Carburant;
+import com.accenture.shared.enumerations.NombrePortes;
+import com.accenture.shared.enumerations.Transmission;
+import com.accenture.shared.enumerations.Type;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -54,10 +57,10 @@ public record VoitureRequestDTO(
         int bagages,
 
         @NotBlank(message = "Le tarif à la journée est obligatoire")
-        String tarifJournee,
+        int tarifJournee,
 
         @NotBlank(message = "Le kilométrage est obligatoire")
-        String kilometrage,
+        int kilometrage,
 
         @NotBlank(message = "Le statut (location ou non) de la voiture  est obligatoire")
         Boolean actif,

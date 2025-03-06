@@ -272,7 +272,7 @@ Caused by: java.lang.NoClassDefFoundError: com/accenture/shared/Filtre
 	at java.base/java.lang.Class.getDeclaredMethods(Class.java:2676)
 	at org.springframework.util.ReflectionUtils.getDeclaredMethods(ReflectionUtils.java:465)
 	... 26 common frames omitted
-Caused by: java.lang.ClassNotFoundException: com.accenture.shared.Filtre
+Caused by: java.lang.ClassNotFoundException: com.accenture.shared.enumerations.Filtre
 	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641)
 	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188)
 	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:526)

@@ -1,5 +1,5 @@
 package com.accenture.repository.entity.utilisateurs;
-import com.accenture.shared.Permis;
+import com.accenture.shared.enumerations.Permis;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

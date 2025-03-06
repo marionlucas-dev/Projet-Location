@@ -6,7 +6,7 @@ import com.accenture.repository.entity.utilisateurs.Adresse;
 import com.accenture.repository.entity.utilisateurs.Client;
 import com.accenture.service.dto.utilisateurs.AdresseDTO;
 import com.accenture.service.dto.utilisateurs.ClientRequestDTO;
-import com.accenture.shared.Permis;
+import com.accenture.shared.enumerations.Permis;
 import com.accenture.service.ClientServiceImpl;
 import com.accenture.service.dto.utilisateurs.ClientResponseDTO;
 import com.accenture.service.mapper.ClientMapper;
@@ -36,7 +36,7 @@ public class ClientServiceImplTest {
     ClientServiceImpl service;
 
     @DisplayName("""
-            Test de la méthode trouver (int id) qui doit renvoyer une exception lorsque le client n'existe pas en base
+            Test de la méthode trouver(int id) qui doit lever une exception lorsque le client n'existe pas en base.
             """)
     @Test
     void testTrouverExistePas() {
@@ -45,8 +45,9 @@ public class ClientServiceImplTest {
         assertEquals("ID non présent", ex.getMessage());
     }
 
+
     @DisplayName("""
-            Test de la méthode trouver (int id) qui doit renvoyer une ClientResponseDTO lorsque le client existe  en base
+            Test de la méthode trouver(int id) qui doit retourner un ClientResponseDTO lorsque le client existe en base.
             """)
     @Test
     void testTrouverExiste() {
@@ -59,8 +60,9 @@ public class ClientServiceImplTest {
     }
 
 
+
     @DisplayName("""
-            Test de la méthode trouverTous qui doit renvoyer une liste de clientsResponseDTO correspondant aux clients existants en base.
+            Test de la méthode trouverTous qui doit retourner une liste de ClientResponseDTO correspondant aux clients existants en base.
             """)
     @Test
     void testTrouverTous() {
@@ -80,19 +82,21 @@ public class ClientServiceImplTest {
     }
 
 
+
 //***********************************************************************************************************************
 //                               TOUTES LES METHODES POUR TESTER AJOUTER
 //                                            + VERIFIER CLIENTS
 //***********************************************************************************************************************
 
 
-    @DisplayName("Si ajouter(null), exception levée")
+    @DisplayName("Si l'objet ClientRequestDTO est null, une exception ClientException est levée")
     @Test
     void testAjouter() {
         assertThrows(ClientException.class, () -> service.ajouter(null));
     }
 
-    @DisplayName("Si ajouter nom null, exception levée")
+
+    @DisplayName("Si le nom est null, une exception ClientException est levée")
     @Test
     void testAjouterSansNom() {
         ClientRequestDTO dto = new ClientRequestDTO(null, "Marion", "moicmama@gmail.com", "azerty",
@@ -101,7 +105,8 @@ public class ClientServiceImplTest {
         assertThrows(ClientException.class, () -> service.ajouter(dto));
     }
 
-    @DisplayName("Si ajouter nom vide, exception levée")
+
+    @DisplayName("Si le nom est vide, une exception ClientException est levée")
     @Test
     void testAjouterAvecNomVide() {
         ClientRequestDTO dto = new ClientRequestDTO("\t", "Marion", "moicmama@gmail.com", "Azerty@44",
@@ -110,7 +115,8 @@ public class ClientServiceImplTest {
         assertThrows(ClientException.class, () -> service.ajouter(dto));
     }
 
-    @DisplayName("Si ajouter prenom null, exception levée")
+
+    @DisplayName("Si le prénom est null, une exception ClientException est levée")
     @Test
     void testAjouterSansPrenom() {
         ClientRequestDTO dto = new ClientRequestDTO("Lucas", null, "moicmama@gmail.com", "Azerty@44",
@@ -119,7 +125,8 @@ public class ClientServiceImplTest {
         assertThrows(ClientException.class, () -> service.ajouter(dto));
     }
 
-    @DisplayName("Si ajouter prenom vide, exception levée")
+
+    @DisplayName("Si le prénom est vide, une exception ClientException est levée")
     @Test
     void testAjouterAvecPrenomVide() {
         ClientRequestDTO dto = new ClientRequestDTO("Lucas", "\n", "moicmama@gmail.com", "Azerty@44",
@@ -128,7 +135,8 @@ public class ClientServiceImplTest {
         assertThrows(ClientException.class, () -> service.ajouter(dto));
     }
 
-    @DisplayName("Si ajouter dateNaissance null, exception levée")
+
+    @DisplayName("Si la date de naissance est null, une exception ClientException est levée")
     @Test
     void testAjouterAvecDateNaissanceNull() {
         ClientRequestDTO dto = new ClientRequestDTO("Lucas", "Marion", "moicmama@gmail.com", "Azerty@44",
@@ -137,7 +145,8 @@ public class ClientServiceImplTest {
         assertThrows(ClientException.class, () -> service.ajouter(dto));
     }
 
-    @DisplayName("Si ajouter dateNaissance - 18 ans , exception levée")
+
+    @DisplayName("Si la date de naissance indique moins de 18 ans, une exception IllegalArgumentException est levée")
     @Test
     void testAjouterAvecDateNaissanceMoins18ans() {
         ClientRequestDTO dto = new ClientRequestDTO("Lucas", "Marion", "moicmama@gmail.com", "Azerty@44",
@@ -146,7 +155,8 @@ public class ClientServiceImplTest {
         assertThrows(IllegalArgumentException.class, () -> service.ajouter(dto));
     }
 
-    @DisplayName("Si ajouter password null, exception levée")
+
+    @DisplayName("Si ajouter password null, une exception ClientException est levée")
     @Test
     void testAjouterAvecPasswordNull() {
         ClientRequestDTO dto = new ClientRequestDTO("Lucas", "Marion", "moicmama@gmail.com", null,
@@ -155,7 +165,8 @@ public class ClientServiceImplTest {
         assertThrows(ClientException.class, () -> service.ajouter(dto));
     }
 
-    @DisplayName("Si ajouter password vide, exception levée")
+
+    @DisplayName("Ajout d'un client avec un mot de passe vide : une exception est levée")
     @Test
     void testAjouterAvecPasswordVide() {
         ClientRequestDTO dto = new ClientRequestDTO("Lucas", "Marion", "moicmama@gmail.com", "\t",
@@ -164,7 +175,8 @@ public class ClientServiceImplTest {
         assertThrows(ClientException.class, () -> service.ajouter(dto));
     }
 
-    @DisplayName("Si ajouter password sans toutes les spécificités , exception levée")
+
+    @DisplayName("Ajout d'un client avec un mot de passe invalide (sans les spécificités) : une exception est levée")
     @Test
     void testAjouterAvecPasswordIncorect() {
         ClientRequestDTO dto = new ClientRequestDTO("Lucas", "Marion", "moicmama@gmail.com", "azerty",
@@ -173,7 +185,7 @@ public class ClientServiceImplTest {
         assertThrows(ClientException.class, () -> service.ajouter(dto));
     }
 
-    @DisplayName("Si ajouter email null, exception levée")
+    @DisplayName("Ajout d'un client avec un email null : une exception est levée")
     @Test
     void testAjouterAvecMailNull() {
         ClientRequestDTO dto = new ClientRequestDTO("Lucas", "Marion", null, "Azerty@44",
@@ -182,7 +194,8 @@ public class ClientServiceImplTest {
         assertThrows(ClientException.class, () -> service.ajouter(dto));
     }
 
-    @DisplayName("Si ajouter email vide, exception levée")
+
+    @DisplayName("Ajout d'un client avec un email vide : une exception est levée")
     @Test
     void testAjouterAvecMailVide() {
         ClientRequestDTO dto = new ClientRequestDTO("Lucas", "Marion", "\t", "Azerty@44",
@@ -191,7 +204,8 @@ public class ClientServiceImplTest {
         assertThrows(ClientException.class, () -> service.ajouter(dto));
     }
 
-    @DisplayName("Si ajouter email erroné, exception levée")
+
+    @DisplayName("Ajout d'un client avec un email erroné : une exception est levée")
     @Test
     void testAjouterAvecMailErreur() {
         ClientRequestDTO dto = new ClientRequestDTO("Lucas", "Marion", "moicm.com", "Azerty@44",
@@ -200,7 +214,9 @@ public class ClientServiceImplTest {
         assertThrows(ClientException.class, () -> service.ajouter(dto));
     }
 
-    @DisplayName("Si ajouter Adresse null, exception levée")
+
+
+    @DisplayName("Ajout d'un client avec adresse null : une exception est levée")
     @Test
     void testAjouterAvecAdresseNull() {
         ClientRequestDTO dto = new ClientRequestDTO("Lucas", "Marion", "moicmama@gmail.com", "Azerty@44",
@@ -209,11 +225,8 @@ public class ClientServiceImplTest {
     }
 
 
-    @DisplayName("""
-            Si ajouter (ClientRequestDTO OK)
-                Alors save est appeler
-                 et ClientRequestDTO renvoyer
-            """)
+
+    @DisplayName("Ajout d'un client réussi : save est appelé et ClientResponseDTO est renvoyé")
     @Test
     void testAjouterOK() {
         ClientRequestDTO requestDTO = creerClient1RequestDTO();
@@ -231,47 +244,44 @@ public class ClientServiceImplTest {
     }
 
 
+
 //***********************************************************************************************************************
 //                               TOUTES LES METHODES POUR TESTER InfosComptes
 //***********************************************************************************************************************
 
-    @DisplayName("""
-            Test qui vérifie que la méthode lève bien une exception lorsque le login fournis n'existe pas dans la basse de donnée
-            """)
+    @DisplayName("Vérification que la méthode lève une exception lorsque le login fourni n'existe pas dans la base de données")
     @Test
     void testInfosClientsMail() {
         Mockito.when(daoMock.findByLogin("moicmama@gmail.com")).thenReturn(Optional.empty());
-        EntityNotFoundException ex = assertThrows(EntityNotFoundException.class, () -> service.infosCompte("moicmama@gmail.com", "Azerty@96"));
+        EntityNotFoundException ex = assertThrows(EntityNotFoundException.class, () -> service.recupererinfosCompte("moicmama@gmail.com", "Azerty@96"));
         assertEquals("Erreur dans l'email ou le mot de passe", ex.getMessage());
         Mockito.verify(daoMock).findByLogin("moicmama@gmail.com");
     }
 
 
-    @DisplayName("""
-            Test qui vérifie que la méthode fonctionne quand le mot de passe est en base.
-            """)
+
+    @DisplayName("Vérification que la méthode fonctionne lorsque le mot de passe fourni est correct et présent dans la base de données")
     @Test
     void testInfosClientsPasswordPareil() {
         Client fakeClient = new Client();
         fakeClient.setPassword("Azerty@96");
         Mockito.when(daoMock.findByLogin("moicmama@gmail.com")).thenReturn(Optional.of(fakeClient));
-        assertDoesNotThrow(() -> service.infosCompte("moicmama@gmail.com", "Azerty@96"));
-
+        assertDoesNotThrow(() -> service.recupererinfosCompte("moicmama@gmail.com", "Azerty@96"));
     }
 
-    @DisplayName("""
-            Test qui vérifie que la méthode lève bien une exception lorsque le password fournis n'existe pas dans la basse de donnée
-            """)
+
+    @DisplayName("Vérification de l'exception levée lorsque le mot de passe fourni n'existe pas dans la base de données")
     @Test
     void testInfosClientsPassword() {
         Client fakeClient = new Client();
         fakeClient.setPassword("AutreMDP");
         Mockito.when(daoMock.findByLogin("moicmama@gmail.com")).thenReturn(Optional.of(fakeClient));
-        EntityNotFoundException ex = assertThrows(EntityNotFoundException.class, () -> service.infosCompte("moicmama@gmail.com", "Azerty@96"));
+        EntityNotFoundException ex = assertThrows(EntityNotFoundException.class, () -> service.recupererinfosCompte("moicmama@gmail.com", "Azerty@96"));
         assertEquals("Erreur dans l'email ou le mot de passe", ex.getMessage());
     }
 
-    @DisplayName("Test qui vérifie la totalité de la méthode infosCompte")
+
+    @DisplayName("Vérification complète du fonctionnement de la méthode infosCompte")
     @Test
     void testMethodeInfosCompte() {
         Client client = new Client();
@@ -281,18 +291,18 @@ public class ClientServiceImplTest {
         ClientResponseDTO responseDTO = creerClient1ResponseDTO();
         Mockito.when(mapperMock.toClientResponseDTO(client)).thenReturn(responseDTO);
 
-        ClientResponseDTO resultat = service.infosCompte("moicmama@gmail.com", "Azerty@96");
+        ClientResponseDTO resultat = service.recupererinfosCompte("moicmama@gmail.com", "Azerty@96");
         assertNotNull(resultat);
         Mockito.verify(mapperMock).toClientResponseDTO(client);
-
     }
+
 
 
 //***********************************************************************************************************************
 //                                                 METHODES SUPP Compte
 //***********************************************************************************************************************
 
-    @DisplayName("Supression d'un compte lorsque les infos sont confirmés par le client ")
+    @DisplayName("Suppression d'un compte après confirmation des informations par le client")
     @Test
     void testMethodeSuppCompte() {
         Client client = new Client();
@@ -303,30 +313,26 @@ public class ClientServiceImplTest {
         ClientResponseDTO responseDTO = creerClient1ResponseDTO();
         Mockito.when(mapperMock.toClientResponseDTO(client)).thenReturn(responseDTO);
 
-        ClientResponseDTO resultat = service.suppCompte("moicmama@gmail.com", "Azerty@96");
+        ClientResponseDTO resultat = service.suppprimer("moicmama@gmail.com", "Azerty@96");
         assertNotNull(resultat);
-      //  Mockito.verify(mapperMock).toClientResponseDTO(client);
-
-
     }
+
 
 //***********************************************************************************************************************
 //                                                 METHODES ModiffPartielle
 //***********************************************************************************************************************
 
-    @DisplayName("""
-            Id qui n'existe sinon renvoyer une exception
-            """)
+    @DisplayName("Tentative de modification avec un ID inexistant, exception levée")
     @Test
     void modifierSiIdNonPresent() {
-        //  Mockito.when(daoMock.existsByLogin("moicmama@gmail.com")).thenReturn(false);
         EntityNotFoundException ex = assertThrows(EntityNotFoundException.class, () ->
-                service.modifPartielle("moicmama@gmail.com", "Azerty@96", creerClient1RequestDTO()));
+                service.modifier("moicmama@gmail.com", "Azerty@96", creerClient1RequestDTO()));
         assertEquals("Erreur dans l'email ou le mot de passe", ex.getMessage());
     }
 
 
-    @DisplayName("Modification réussie d'un client existant")
+
+    @DisplayName("Modification réussie d'un client existant avec des informations mises à jour")
     @Test
     void modifierClientExistant() {
         String login = "moicmama@gmail.com";
@@ -348,9 +354,7 @@ public class ClientServiceImplTest {
         clientModifie.setPermis(Permis.B1);
         clientModifie.setDateInscription(LocalDate.now());
 
-
         ClientResponseDTO responseDTO = creerClient2ResponseDTO();
-
 
         Mockito.when(daoMock.findByLogin(login)).thenReturn(Optional.of(clientExistant));
         Mockito.when(mapperMock.toClient(clientRequestDTO)).thenReturn(clientModifie);
@@ -358,14 +362,15 @@ public class ClientServiceImplTest {
         Mockito.when(mapperMock.toClientRequestDTO(clientExistant)).thenReturn(clientRequestDTO);
         Mockito.when(mapperMock.toClientResponseDTO(clientExistant)).thenReturn(responseDTO);
 
-        ClientResponseDTO result = service.modifPartielle(login, password, clientRequestDTO);
+        ClientResponseDTO result = service.modifier(login, password, clientRequestDTO);
 
         assertNotNull(result);
         assertEquals("Marigonez", result.nom());
     }
 
 
-    @DisplayName("Modification réussie d'un client null")
+
+    @DisplayName("Échec de la modification d'un client avec des informations nulles pour certains paramètres")
     @Test
     void modifierClientNull() {
 
@@ -388,7 +393,6 @@ public class ClientServiceImplTest {
         clientModifie.setPermis(null);
         clientModifie.setDateInscription(null);
 
-
         ClientResponseDTO responseDTO = creerClient2ResponseDTO();
 
         Mockito.when(daoMock.findByLogin(login)).thenReturn(Optional.of(clientExistant));
@@ -397,15 +401,14 @@ public class ClientServiceImplTest {
         Mockito.when(mapperMock.toClientRequestDTO(clientExistant)).thenReturn(clientRequestDTO);
         Mockito.when(mapperMock.toClientResponseDTO(clientExistant)).thenReturn(responseDTO);
 
+        ClientResponseDTO result = service.modifier(login, password, clientRequestDTO);
 
-        ClientResponseDTO result = service.modifPartielle(login, password, clientRequestDTO);
-
-        assertThrows(EntityNotFoundException.class, () -> service.modifPartielle("melodie.marigonez@hotmail.com", "Erreur dans l'email ou le mot de passe", clientRequestDTO));
+        assertThrows(EntityNotFoundException.class, () -> service.modifier("melodie.marigonez@hotmail.com", "Erreur dans l'email ou le mot de passe", clientRequestDTO));
         assertEquals("Marigonez", result.nom());
     }
 
 
-    @DisplayName("Modification réussie d'un client existant avec quelques paramètres ")
+    @DisplayName("Modification réussie d'un client existant avec mise à jour de certains paramètres (login, adresse, date d'inscription)")
     @Test
     void modifierClientExistantQuelquesParametres() {
         String login = "moicmama@gmail.com";
@@ -432,7 +435,7 @@ public class ClientServiceImplTest {
         Mockito.when(mapperMock.toClientRequestDTO(clientExistant)).thenReturn(clientRequestDTO);
         Mockito.when(mapperMock.toClientResponseDTO(clientExistant)).thenReturn(responseDTO);
 
-        ClientResponseDTO result = service.modifPartielle(login, password, clientRequestDTO);
+        ClientResponseDTO result = service.modifier(login, password, clientRequestDTO);
 
         assertNotNull(result);
         assertEquals("Marigonez", result.nom());
@@ -442,14 +445,6 @@ public class ClientServiceImplTest {
 //***********************************************************************************************************************
 //                                                          METHODES PRIVEES
 //***********************************************************************************************************************
-
-    private static Client getClient() {
-        Client client = new Client();
-        client.setLogin("moicmama@gmail.com");
-        client.setPassword("Azerty@96");
-        return client;
-    }
-
 
     private static Client creeClient() {
         Client client = new Client();
@@ -499,11 +494,6 @@ public class ClientServiceImplTest {
                 LocalDate.of(1996, 7, 20), Permis.B1);
     }
 
-    private static ClientRequestDTO creerClient2RequestDTO() {
-        return new ClientRequestDTO("Marigonez", "Mélodie", "melodie.marigonez@hotmail.com", "Azerty@44",
-                new AdresseDTO("75 rue du moulin Soline", "44115", "Basse Goulaine"),
-                LocalDate.of(1999, 7, 27), Permis.B1);
-    }
 
 
 }
