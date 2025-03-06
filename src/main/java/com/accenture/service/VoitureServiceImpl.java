@@ -122,7 +122,6 @@ public class VoitureServiceImpl implements VoitureService {
             throw new VoitureException("Une voiture retirée du parc ne peut pas être modifier");
         remplacerExistantParNouveau(voitureExistant, nouveau);
         VoitureRequestDTO dto = voitureMapper.toVoitureRequestDTO(voitureExistant);
-        verifierVoiture(dto);
         Voiture voitureEnr = voitureDAO.save(voitureExistant);
         return voitureMapper.toVoitureResponseDTO(voitureEnr);
     }
@@ -237,7 +236,7 @@ public class VoitureServiceImpl implements VoitureService {
 
 
     private static void assignerPermisParNbrPlaces(VoitureRequestDTO voitureRequestDTO, Voiture voiture) {
-        if (voitureRequestDTO.nbrPlaces() > 0 && voitureRequestDTO.nbrPlaces() <= 9) {
+        if (voitureRequestDTO.nbrPlaces() > 0 && voitureRequestDTO.nbrPlaces() <10) {
             voiture.setPermis(Permis.B);
         } else {
             voiture.setPermis(Permis.D1);

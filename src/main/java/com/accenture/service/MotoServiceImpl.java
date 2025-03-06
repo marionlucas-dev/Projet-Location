@@ -126,7 +126,6 @@ public class MotoServiceImpl implements MotoService {
             throw new MotoException("Une voiture retirée du parc ne peut pas être modifier");
         remplacerExistantParNouveau(motoExistant, nouveau);
         MotoRequestDTO dto = motoMapper.toMotoRequestDTO(motoExistant);
-        verifierMoto(dto);
         Moto motoEnr = motoDAO.save(motoExistant);
         return motoMapper.toMotoResponseDTO(motoEnr);
     }
